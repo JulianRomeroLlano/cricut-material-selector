@@ -22,6 +22,20 @@
     "Infusible Ink":"badge-infusible","Smart Materials":"badge-smart",
     "Printable Materials":"badge-printable","Plastic":"badge-plastic",
   };
+  const CAT_COLOR = {
+    "Vinyl":               "#1eb487",
+    "Iron-On":             "#9333ea",
+    "Cardstock":           "#4faa3e",
+    "Paper":               "#8fbf3f",
+    "Fabric":              "#d05464",
+    "Leather":             "#b83232",
+    "Board/Cardboard":     "#c75001",
+    "Plastic":             "#3d6bb5",
+    "Infusible Ink":       "#1a8163",
+    "Smart Materials":     "#0c8487",
+    "Printable Materials": "#4a6fa5",
+    "Others":              "#6b7280",
+  };
   const THICKNESS_DEFAULTS = {
     "Paper":0.08,"Cardstock":0.22,"Iron-On":0.10,"Vinyl":0.08,
     "Smart Materials":0.10,"Printable Materials":0.12,"Infusible Ink":0.10,
@@ -201,33 +215,72 @@
     }
 
     const frag = document.createDocumentFragment();
-    list.forEach(m => {
-      const primary   = lang === "ja" ? m.name_jp : m.name_en;
-      const secondary = lang === "ja" ? m.name_en : m.name_jp;
-      const bladeDisp = lang === "ja" ? m.blade_jp : m.blade_en;
-      const catDisp   = tCat(m.category);
-      const badgeCls  = CAT_BADGE[m.category] || "badge-others";
 
-      const row = document.createElement("div");
-      row.className = "mat-row";
-      row.setAttribute("role", "listitem");
-      row.innerHTML =
-        '<div class="mat-name-wrap">' +
-          '<span class="mat-name">' + esc(primary) + '</span>' +
-          (secondary && secondary !== primary
-            ? '<span class="mat-name-alt">' + esc(secondary) + '</span>'
-            : '') +
-        '</div>' +
-        '<span class="mat-badge ' + badgeCls + '">' + esc(catDisp) + '</span>' +
-        '<div class="mat-specs">' +
-          '<span class="spec-item"><span class="spec-val">' + m.pressure + '</span></span>' +
-          '<span class="spec-sep">·</span>' +
-          '<span class="spec-item"><span class="spec-val">' + esc(bladeDisp) + '</span></span>' +
-          '<span class="spec-sep">·</span>' +
-          '<span class="spec-item"><span class="spec-val">' + esc(m.multicut) + '</span></span>' +
-        '</div>';
-      frag.appendChild(row);
+    const groups = {};
+    CATEGORIES.forEach(c => { groups[c] = []; });
+    list.forEach(m => { if (groups[m.category]) groups[m.category].push(m); });
+
+    CATEGORIES.forEach(cat => {
+      const items = groups[cat];
+      if (!items.length) return;
+
+      if (sortMode === "asc")  items.sort((a, b) => a.pressure - b.pressure);
+      if (sortMode === "desc") items.sort((a, b) => b.pressure - a.pressure);
+
+      const color = CAT_COLOR[cat] || "#6b7280";
+
+      const section = document.createElement("div");
+      section.className = "cat-section";
+      section.style.setProperty("--cat-color", color);
+
+      const header = document.createElement("div");
+      header.className = "cat-header";
+      header.textContent = tCat(cat);
+      section.appendChild(header);
+
+      const catCards = document.createElement("div");
+      catCards.className = "cat-cards";
+
+      items.forEach(m => {
+        const primary   = lang === "ja" ? m.name_jp : m.name_en;
+        const secondary = lang === "ja" ? m.name_en : m.name_jp;
+        const bladeDisp = lang === "ja" ? m.blade_jp : m.blade_en;
+        const catDisp   = tCat(m.category);
+
+        const card = document.createElement("div");
+        card.className = "mat-card";
+        card.setAttribute("role", "listitem");
+        card.innerHTML =
+          '<div class="mat-card-head">' +
+            '<div class="mat-name-wrap">' +
+              '<span class="mat-name">' + esc(primary) + '</span>' +
+              (secondary && secondary !== primary
+                ? '<span class="mat-name-alt">' + esc(secondary) + '</span>'
+                : '') +
+            '</div>' +
+            '<span class="mat-badge">' + esc(catDisp) + '</span>' +
+          '</div>' +
+          '<div class="mat-chips">' +
+            '<div class="mat-chip">' +
+              '<span class="chip-label">' + esc(t("pressure_label")) + '</span>' +
+              '<span class="chip-val">' + m.pressure + '</span>' +
+            '</div>' +
+            '<div class="mat-chip">' +
+              '<span class="chip-label">' + esc(t("multicut_label")) + '</span>' +
+              '<span class="chip-val">' + esc(m.multicut) + '</span>' +
+            '</div>' +
+            '<div class="mat-chip mat-chip-blade">' +
+              '<span class="chip-label">' + esc(t("blade_label")) + '</span>' +
+              '<span class="chip-val">' + esc(bladeDisp) + '</span>' +
+            '</div>' +
+          '</div>';
+        catCards.appendChild(card);
+      });
+
+      section.appendChild(catCards);
+      frag.appendChild(section);
     });
+
     $("matList").innerHTML = "";
     $("matList").appendChild(frag);
   }
