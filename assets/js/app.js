@@ -50,6 +50,7 @@
   let sortMode      = "none"; // none | asc | desc
   let searchQuery   = "";
   let searchTimer   = null;
+  let viewMode      = "list"; // "list" | "grid"
 
   const $ = id => document.getElementById(id);
 
@@ -61,6 +62,8 @@
     bindToolbar();
     bindModeNav();
     bindLangToggle();
+    bindViewToggle();
+    bindHeroButtons();
     bindPredictForm();
 
     try {
@@ -70,6 +73,7 @@
       $("matList").innerHTML = emptyHtml(t("err_model_load"), "");
       return;
     }
+    buildSidebar();
     render();
 
     // Warm the first machine's ONNX model in the background
@@ -117,6 +121,7 @@
         $("filterBlade").value    = "";
         updateSortBtn();
         buildMachineBar();
+        buildSidebar();
         render();
       });
     });
@@ -139,15 +144,18 @@
       clearTimeout(searchTimer);
       searchTimer = setTimeout(() => {
         searchQuery = e.target.value.trim().toLowerCase();
+        buildSidebar();
         render();
       }, 150);
     });
     $("filterCategory").addEventListener("change", e => {
       filterCat = e.target.value;
+      buildSidebar();
       render();
     });
     $("filterBlade").addEventListener("change", e => {
       filterBlade = e.target.value;
+      buildSidebar();
       render();
     });
     $("sortToggle").addEventListener("click", () => {
@@ -189,6 +197,7 @@
         populateFilterSelects();
         updateSortBtn();
         populatePredictForm();
+        buildSidebar();
         render();
       });
     });
@@ -243,7 +252,7 @@
       section.appendChild(header);
 
       const catCards = document.createElement("div");
-      catCards.className = "cat-cards";
+      catCards.className = "cat-cards" + (viewMode === "grid" ? " cat-cards-grid" : "");
 
       items.forEach(m => {
         const primary   = lang === "ja" ? m.name_jp : m.name_en;
@@ -252,7 +261,7 @@
         const catDisp   = tCat(m.category);
 
         const card = document.createElement("div");
-        card.className = "mat-card";
+        card.className = "mat-card" + (viewMode === "grid" ? " mat-card-grid" : "");
         card.setAttribute("role", "listitem");
         card.innerHTML =
           '<div class="mat-card-head">' +
@@ -287,6 +296,71 @@
 
     $("matList").innerHTML = "";
     $("matList").appendChild(frag);
+  }
+
+  /* ── Sidebar ────────────────────────────────────────────────────────────────── */
+  function buildSidebar() {
+    const machineMats = materials.filter(m => m.machine === activeMachine);
+    const counts = {};
+    CATEGORIES.forEach(c => { counts[c] = 0; });
+    machineMats.forEach(m => { if (counts[m.category] !== undefined) counts[m.category]++; });
+
+    let html =
+      '<button class="sidebar-item' + (!filterCat ? " active" : "") + '" data-cat="">' +
+      esc(t("sidebar_all")) + '<span class="sidebar-count">' + machineMats.length + '</span></button>';
+
+    CATEGORIES.forEach(cat => {
+      const count = counts[cat];
+      if (!count) return;
+      const color = CAT_COLOR[cat] || "#6b7280";
+      html +=
+        '<button class="sidebar-item' + (filterCat === cat ? " active" : "") +
+        '" data-cat="' + esc(cat) + '" style="--cat-color:' + color + '">' +
+        '<span class="sidebar-dot"></span>' +
+        esc(tCat(cat)) +
+        '<span class="sidebar-count">' + count + '</span></button>';
+    });
+
+    const list = $("sidebarList");
+    list.innerHTML = html;
+    list.querySelectorAll(".sidebar-item").forEach(btn => {
+      btn.addEventListener("click", () => {
+        filterCat = btn.dataset.cat;
+        $("filterCategory").value = filterCat;
+        buildSidebar();
+        render();
+      });
+    });
+  }
+
+  /* ── View toggle ────────────────────────────────────────────────────────────── */
+  function bindViewToggle() {
+    $("viewList").addEventListener("click", () => {
+      if (viewMode === "list") return;
+      viewMode = "list";
+      $("viewList").classList.add("active");
+      $("viewGrid").classList.remove("active");
+      render();
+    });
+    $("viewGrid").addEventListener("click", () => {
+      if (viewMode === "grid") return;
+      viewMode = "grid";
+      $("viewGrid").classList.add("active");
+      $("viewList").classList.remove("active");
+      render();
+    });
+  }
+
+  /* ── Hero buttons ───────────────────────────────────────────────────────────── */
+  function bindHeroButtons() {
+    $("heroBtnBrowse").addEventListener("click", () => {
+      switchMode("browse");
+      $("browsePanel").scrollIntoView({ behavior: "smooth" });
+    });
+    $("heroBtnPredict").addEventListener("click", () => {
+      switchMode("predict");
+      $("predictPanel").scrollIntoView({ behavior: "smooth" });
+    });
   }
 
   /* ── Predict form ───────────────────────────────────────────────────────────── */

@@ -4,12 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cricut Material Selector</title>
-  <meta name="description" content="Official cut settings for 1 039 Cricut materials, plus AI prediction for any unlisted material.">
+  <meta name="description" content="Official cut settings for 1,039+ Cricut materials, plus AI prediction for any unlisted material.">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-
-  <div class="accent-stripe"></div>
 
   <header class="header">
     <div class="brand">
@@ -23,6 +21,35 @@
     </div>
   </header>
 
+  <!-- ── Hero banner ─────────────────────────────────────────────────────────── -->
+  <div class="hero-banner">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-headline" data-i18n="hero_headline">Find the right settings for every material.</h1>
+      <p class="hero-sub" data-i18n="hero_sub">Official cut settings for 1,039+ Cricut materials. AI prediction for anything else.</p>
+      <div class="hero-ctas">
+        <button class="hero-btn-primary" id="heroBtnBrowse" data-i18n="hero_cta_browse">Browse Materials</button>
+        <button class="hero-btn-secondary" id="heroBtnPredict" data-i18n="hero_cta_predict">✦ AI Predict</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-num">1,039+</span>
+          <span class="hero-stat-label" data-i18n="hero_stat_materials">Materials</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">5</span>
+          <span class="hero-stat-label" data-i18n="hero_stat_machines">Machines</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">12</span>
+          <span class="hero-stat-label" data-i18n="hero_stat_categories">Categories</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <nav class="mode-nav" role="tablist" aria-label="App mode">
     <button class="mode-btn active" id="tabBrowse" role="tab"
             aria-selected="true" data-i18n="mode_browse">Browse Materials</button>
@@ -35,23 +62,54 @@
 
     <div class="machine-bar" id="machineBar" role="group" aria-label="Machine"></div>
 
-    <div class="toolbar" role="search">
-      <div class="search-field">
-        <span class="search-icon" aria-hidden="true">&#128269;</span>
-        <input type="search" id="searchInput"
-               placeholder="Search materials…"
-               data-i18n-placeholder="search_placeholder"
-               autocomplete="off" spellcheck="false">
-      </div>
-      <select class="filter-select" id="filterCategory" aria-label="Category"></select>
-      <select class="filter-select" id="filterBlade"    aria-label="Blade"></select>
-      <button class="sort-toggle" id="sortToggle" aria-label="Toggle sort by pressure"
-              data-i18n="sort_default">Sort</button>
-    </div>
+    <div class="browse-body">
 
-    <div class="result-count" id="resultCount"
-         aria-live="polite" aria-atomic="true"></div>
-    <div class="mat-list" id="matList" role="list"></div>
+      <!-- Left sidebar -->
+      <aside class="cat-sidebar" id="catSidebar" aria-label="Category filter">
+        <div class="sidebar-title" data-i18n="sidebar_title">Categories</div>
+        <div id="sidebarList" role="list"></div>
+      </aside>
+
+      <!-- Main content -->
+      <div class="browse-main">
+
+        <div class="toolbar" role="search">
+          <div class="search-field">
+            <span class="search-icon" aria-hidden="true">&#128269;</span>
+            <input type="search" id="searchInput"
+                   placeholder="Search materials…"
+                   data-i18n-placeholder="search_placeholder"
+                   autocomplete="off" spellcheck="false">
+          </div>
+          <select class="filter-select" id="filterCategory" aria-label="Category"></select>
+          <select class="filter-select" id="filterBlade"    aria-label="Blade"></select>
+          <button class="sort-toggle" id="sortToggle" aria-label="Toggle sort by pressure"
+                  data-i18n="sort_default">Sort</button>
+          <div class="view-toggle" role="group" aria-label="View mode">
+            <button class="view-btn active" id="viewList" title="List view">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+                <rect x="0" y="1"  width="14" height="2" rx="1"/>
+                <rect x="0" y="6"  width="14" height="2" rx="1"/>
+                <rect x="0" y="11" width="14" height="2" rx="1"/>
+              </svg>
+            </button>
+            <button class="view-btn" id="viewGrid" title="Grid view">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+                <rect x="0" y="0" width="6" height="6" rx="1"/>
+                <rect x="8" y="0" width="6" height="6" rx="1"/>
+                <rect x="0" y="8" width="6" height="6" rx="1"/>
+                <rect x="8" y="8" width="6" height="6" rx="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="result-count" id="resultCount"
+             aria-live="polite" aria-atomic="true"></div>
+        <div class="mat-list" id="matList" role="list"></div>
+
+      </div><!-- /browse-main -->
+    </div><!-- /browse-body -->
 
   </section>
 
