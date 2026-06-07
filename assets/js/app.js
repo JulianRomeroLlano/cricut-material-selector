@@ -60,7 +60,6 @@
     buildMachineBar();
     populateFilterSelects();
     bindToolbar();
-    bindModeNav();
     bindLangToggle();
     bindViewToggle();
     bindHeroButtons();
@@ -174,18 +173,10 @@
   }
 
   /* ── Mode nav ───────────────────────────────────────────────────────────────── */
-  function bindModeNav() {
-    $("tabBrowse").addEventListener("click",  () => switchMode("browse"));
-    $("tabPredict").addEventListener("click", () => switchMode("predict"));
-  }
   function switchMode(mode) {
     const b = mode === "browse";
     $("browsePanel").classList.toggle("hidden", !b);
     $("predictPanel").classList.toggle("hidden", b);
-    $("tabBrowse").classList.toggle("active", b);
-    $("tabBrowse").setAttribute("aria-selected", b);
-    $("tabPredict").classList.toggle("active", !b);
-    $("tabPredict").setAttribute("aria-selected", !b);
   }
 
   /* ── Language toggle ────────────────────────────────────────────────────────── */

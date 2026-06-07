@@ -518,7 +518,7 @@ select, input { font-family: inherit; }
   min-height: 280px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   overflow: hidden;
 }
 .hero-overlay {
@@ -609,13 +609,6 @@ select, input { font-family: inherit; }
   .hero-headline { font-size: 32px; }
   .hero-sub { font-size: 15px; }
   .hero-banner { min-height: 320px; }
-}
-
-/* ── Sticky mode nav ──────────────────────────────────────────────────────────── */
-.mode-nav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
 }
 
 /* ── Browse two-column layout ────────────────────────────────────────────────── */
