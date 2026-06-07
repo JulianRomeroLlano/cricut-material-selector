@@ -43,7 +43,7 @@
       cat_smart:      "Smart Materials",
       cat_vinyl:      "Vinyl",
       hero_headline:  "Find the right settings for every material.",
-      hero_sub:       "Official cut settings for 1,039+ Cricut materials. AI prediction for anything else.",
+      hero_sub:       "Various cut settings for 1,039+ Cricut materials. AI prediction for anything else.",
       hero_cta_browse:"Browse Materials",
       hero_cta_predict:"✦ AI Predict",
       hero_stat_materials: "Materials",
