@@ -33,12 +33,11 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 select, input { font-family: inherit; }
 
 /* ── Accent stripe (top of page) ────────────────────────────────────────────── */
-.accent-stripe { height: 4px; background: var(--green); width: 100%; }
+.accent-stripe { height: 0; }
 
 /* ── Header ─────────────────────────────────────────────────────────────────── */
 .header {
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
+  background: var(--green);
   padding: 0 16px;
   height: 56px;
   display: flex;
@@ -46,17 +45,41 @@ select, input { font-family: inherit; }
   justify-content: space-between;
 }
 .brand { display: flex; align-items: baseline; gap: 6px; }
-.brand-spark { color: var(--green); font-size: 18px; line-height: 1; }
+.brand-spark { color: rgba(255,255,255,0.9); font-size: 18px; line-height: 1; }
 .brand-title {
   font-size: 17px;
   font-weight: 600;
-  color: var(--text);
+  color: var(--white);
   letter-spacing: -0.03em;
 }
 .brand-sub {
   font-size: 12px;
-  color: var(--text-muted);
+  color: rgba(255,255,255,0.75);
   font-weight: 400;
+}
+.lang-seg {
+  display: flex;
+  background: rgba(0,0,0,0.15);
+  border-radius: var(--radius);
+  padding: 3px;
+  gap: 2px;
+}
+.lang-opt {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.75);
+  border-radius: calc(var(--radius) - 2px);
+  padding: 4px 10px;
+  letter-spacing: 0.05em;
+  transition: background 0.15s, color 0.15s;
+}
+.lang-opt.active {
+  background: var(--white);
+  color: var(--green-dark);
+}
+.lang-opt:hover:not(.active) {
+  background: rgba(255,255,255,0.15);
+  color: var(--white);
 }
 .lang-btn {
   font-size: 12px;

@@ -92,7 +92,9 @@
     document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
       el.placeholder = t(el.dataset.i18nPlaceholder);
     });
-    $("langToggle").textContent = currentLang() === "ja" ? "EN" : "JP";
+    const lang = currentLang();
+    $("langEN").classList.toggle("active", lang === "en");
+    $("langJP").classList.toggle("active", lang === "ja");
   }
 
   /* ── Machine bar ────────────────────────────────────────────────────────────── */
@@ -180,13 +182,15 @@
 
   /* ── Language toggle ────────────────────────────────────────────────────────── */
   function bindLangToggle() {
-    $("langToggle").addEventListener("click", () => {
-      setLang(currentLang() === "ja" ? "en" : "ja");
-      applyI18n();
-      populateFilterSelects();
-      updateSortBtn();
-      populatePredictForm();
-      render();
+    ["langEN", "langJP"].forEach(id => {
+      $(id).addEventListener("click", () => {
+        setLang(id === "langJP" ? "ja" : "en");
+        applyI18n();
+        populateFilterSelects();
+        updateSortBtn();
+        populatePredictForm();
+        render();
+      });
     });
   }
 
