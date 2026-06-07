@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ONNX Model Integration Tests</title>
+  <base href="../">
+  <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.20.0.css">
+  <style>
+    body { font-family: system-ui, sans-serif; }
+    #qunit-banner { background: #1eb487 !important; }
+    #qunit-banner.qunit-pass { background: #1a8163 !important; }
+  </style>
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/dist/ort.min.js"></script>
+  <script>
+    window.i18n = { t: k => k, tCat: c => c, tBlade: b => b,
+                    currentLang: () => "en", setLang: () => {} };
+  </script>
+  <script src="../assets/js/predict.js"></script>
+  <script src="https://code.jquery.com/qunit/qunit-2.20.0.js"></script>
+
+  <script>
+  const { predict, loadPreprocessor } = window.CricutPredict;
+
+  const MACHINES = ["Cricut Joy","Cricut Joy 2","Cricut Joy Xtra","Explore 3","Maker 3"];
+  const SLUGS = {
+    "Cricut Joy": "cricut_joy", "Cricut Joy 2": "cricut_joy2",
+    "Cricut Joy Xtra": "cricut_joy_xtra", "Explore 3": "explore3", "Maker 3": "maker3",
+  };
+  const BLADES_EN = ["Fine-Point Blade","Deep-Point Blade","Rotary Blade","Bonded Fabric Blade","Knife Blade"];
+
+  // ── M: ONNX model loading ────────────────────────────────────────────────────
+  QUnit.module("M — ONNX Model Loading", () => {
+
+    QUnit.test("M-01: preprocessor.json loads and has required fields", async assert => {
+      const pp = await loadPreprocessor();
+      assert.ok("version"            in pp, "version");
+      assert.ok(Array.isArray(pp.categories), "categories");
+      assert.equal(pp.categories.length, 12, "12 categories");
+      assert.ok(Array.isArray(pp.blade_types_en), "blade_types_en");
+      assert.ok(typeof pp.pressure_log_mean === "number", "pressure_log_mean");
+      assert.ok(typeof pp.pressure_log_std  === "number", "pressure_log_std");
+      assert.equal(pp.feature_dim, 20, "feature_dim = 20");
+    });
+
+    MACHINES.forEach(machine => {
+      QUnit.test(`M-02: ${machine} ONNX model loads`, async assert => {
+        assert.timeout(15000);
+        const slug = SLUGS[machine];
+        const sess = await ort.InferenceSession.create(
+          `assets/model/material_predictor_${slug}.onnx`,
+          { executionProviders: ["wasm"] }
+        );
+        assert.ok(sess, "session created");
+      });
+    });
+
+    QUnit.test("M-03: Model accepts 20-feature input without error", async assert => {
+      assert.timeout(15000);
+      const pp = await loadPreprocessor();
+      const features = new Float32Array(20);
+      features[8] = 1.0; // "Plastic" one-hot (index 8 in sorted list)
+      features[11] = 0.5; // thickness
+      const tensor = new ort.Tensor("float32", features, [1, 20]);
+      const sess = await ort.InferenceSession.create(
+        "assets/model/material_predictor_explore3.onnx",
+        { executionProviders: ["wasm"] }
+      );
+      const out = await sess.run({ features: tensor });
+      assert.ok(out, "run() returned output");
+    });
+
+    QUnit.test("M-04: All 3 output tensors present", async assert => {
+      assert.timeout(15000);
+      const features = new Float32Array(20);
+      const tensor = new ort.Tensor("float32", features, [1, 20]);
+      const sess = await ort.InferenceSession.create(
+        "assets/model/material_predictor_explore3.onnx",
+        { executionProviders: ["wasm"] }
+      );
+      const out = await sess.run({ features: tensor });
+      assert.ok("pressure_norm"   in out, "pressure_norm");
+      assert.ok("blade_logits"    in out, "blade_logits");
+      assert.ok("multicut_logits" in out, "multicut_logits");
+    });
+
+    QUnit.test("M-05: Output shapes correct", async assert => {
+      assert.timeout(15000);
+      const features = new Float32Array(20);
+      const tensor = new ort.Tensor("float32", features, [1, 20]);
+      const sess = await ort.InferenceSession.create(
+        "assets/model/material_predictor_explore3.onnx",
+        { executionProviders: ["wasm"] }
+      );
+      const out = await sess.run({ features: tensor });
+      assert.equal(out.pressure_norm.data.length,   1, "pressure_norm: 1 value");
+      assert.equal(out.blade_logits.data.length,    5, "blade_logits: 5 values");
+      assert.equal(out.multicut_logits.data.length, 6, "multicut_logits: 6 values");
+    });
+
+    QUnit.test("M-07: Blade argmax in [0,4]", async assert => {
+      assert.timeout(10000);
+      const features = new Float32Array(20);
+      const tensor = new ort.Tensor("float32", features, [1, 20]);
+      const sess = await ort.InferenceSession.create(
+        "assets/model/material_predictor_maker3.onnx",
+        { executionProviders: ["wasm"] }
+      );
+      const out = await sess.run({ features: tensor });
+      const logits = Array.from(out.blade_logits.data);
+      const argmax = logits.indexOf(Math.max(...logits));
+      assert.ok(argmax >= 0 && argmax <= 4, `argmax=${argmax} in [0,4]`);
+    });
+
+    QUnit.test("M-08: Multicut argmax in [0,5]", async assert => {
+      assert.timeout(10000);
+      const features = new Float32Array(20);
+      const tensor = new ort.Tensor("float32", features, [1, 20]);
+      const sess = await ort.InferenceSession.create(
+        "assets/model/material_predictor_maker3.onnx",
+        { executionProviders: ["wasm"] }
+      );
+      const out = await sess.run({ features: tensor });
+      const logits = Array.from(out.multicut_logits.data);
+      const argmax = logits.indexOf(Math.max(...logits));
+      assert.ok(argmax >= 0 && argmax <= 5, `argmax=${argmax} in [0,5]`);
+    });
+  });
+
+  // ── P: Prediction happy-path & constraints ───────────────────────────────────
+  QUnit.module("P — Prediction API", () => {
+
+    QUnit.test("P-06: Explore 3 + Cardstock → valid result", async assert => {
+      assert.timeout(15000);
+      const r = await predict({ machine: "Explore 3", category: "Cardstock", thicknessMm: 0.25 });
+      assert.ok(r.pressure > 0 && isFinite(r.pressure), `pressure=${r.pressure}`);
+      assert.ok(BLADES_EN.includes(r.bladeEn), `blade="${r.bladeEn}"`);
+      assert.ok(typeof r.multicut === "string" && r.multicut.length > 0, `multicut="${r.multicut}"`);
+      assert.ok(r.bladeJp, "bladeJp present");
+    });
+
+    QUnit.test("P-08: Pressure result in sane Cricut range [60, 4000]", async assert => {
+      assert.timeout(15000);
+      const tests = [
+        { machine:"Cricut Joy",   category:"Vinyl",     thicknessMm:0.08 },
+        { machine:"Explore 3",    category:"Cardstock", thicknessMm:0.25 },
+        { machine:"Maker 3",      category:"Leather",   thicknessMm:1.6  },
+        { machine:"Maker 3",      category:"Plastic",   thicknessMm:0.10 },
+      ];
+      for (const t of tests) {
+        const r = await predict(t);
+        assert.ok(r.pressure >= 60 && r.pressure <= 4000,
+          `${t.machine}/${t.category}: pressure=${r.pressure} in [60,4000]`);
+      }
+    });
+
+    QUnit.test("P-09: Blade result is a named string", async assert => {
+      assert.timeout(10000);
+      const r = await predict({ machine: "Explore 3", category: "Vinyl", thicknessMm: 0.08 });
+      assert.ok(BLADES_EN.includes(r.bladeEn), `blade="${r.bladeEn}" is named`);
+    });
+
+    QUnit.test("P-12: Cricut Joy always predicts Fine-Point Blade", async assert => {
+      assert.timeout(20000);
+      const categories = ["Vinyl","Iron-On","Cardstock","Paper","Fabric"];
+      for (const cat of categories) {
+        const r = await predict({ machine: "Cricut Joy", category: cat, thicknessMm: 0.1 });
+        assert.equal(r.bladeEn, "Fine-Point Blade", `Joy/${cat}: "${r.bladeEn}"`);
+      }
+    });
+
+    QUnit.test("P-13: Joy never predicts Rotary or Knife Blade", async assert => {
+      assert.timeout(10000);
+      const r = await predict({ machine: "Cricut Joy", category: "Fabric", thicknessMm: 0.5 });
+      assert.notEqual(r.bladeEn, "Rotary Blade",  "not Rotary");
+      assert.notEqual(r.bladeEn, "Knife Blade",   "not Knife");
+    });
+
+    QUnit.test("P-10: Multi-cut result is labelled (not raw index)", async assert => {
+      assert.timeout(10000);
+      const r = await predict({ machine: "Explore 3", category: "Fabric", thicknessMm: 0.5 });
+      const MC_LABELS = ["1×","2×","3×","4–5×","6–8×","10+×"];
+      assert.ok(MC_LABELS.includes(r.multicut), `multicut="${r.multicut}"`);
+    });
+  });
+
+  // ── Regression vectors (Section 6 of test plan) ────────────────────────────────
+  QUnit.module("Regression — Known Vectors", () => {
+    // Ranges calibrated to v6 model predictions ±40%; update after any retrain
+    const VECTORS = [
+      { machine:"Explore 3",    category:"Vinyl",     thicknessMm:0.08, blade:"Fine-Point Blade", pMin:120, pMax:290 },
+      { machine:"Explore 3",    category:"Cardstock", thicknessMm:0.22, blade:"Fine-Point Blade", pMin:150, pMax:360 },
+      { machine:"Cricut Joy",   category:"Iron-On",   thicknessMm:0.10, blade:"Fine-Point Blade", pMin:120, pMax:290 },
+      { machine:"Maker 3",      category:"Leather",   thicknessMm:1.6,  blade:null,               pMin:80,  pMax:320 },
+    ];
+
+    VECTORS.forEach(v => {
+      QUnit.test(`${v.machine} / ${v.category} @ ${v.thicknessMm}mm`, async assert => {
+        assert.timeout(15000);
+        const r = await predict({ machine: v.machine, category: v.category, thicknessMm: v.thicknessMm });
+        assert.ok(r.pressure >= v.pMin && r.pressure <= v.pMax,
+          `pressure ${r.pressure} in [${v.pMin},${v.pMax}]`);
+        if (v.blade) assert.equal(r.bladeEn, v.blade, `blade="${r.bladeEn}"`);
+      });
+    });
+  });
+  </script>
+</body>
+</html>

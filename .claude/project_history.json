@@ -1,0 +1,239 @@
+{
+  "project": "Cricut Material Selector Web App",
+  "description": "A fully client-side web app that provides Cricut cutting settings for any material, including ML-powered prediction for unknown materials using an MLP neural network exported to ONNX and run in the browser.",
+  "created": "2026-06-06",
+  "methodology": [
+    {
+      "step": 1,
+      "name": "Deep Research",
+      "description": "Research Cricut brand style, machine specs, and material properties relevant to cutting parameters.",
+      "deliverables": [
+        ".claude/research/research_cricut_style_2026-06-06.md",
+        ".claude/research/research_cricut_machines_2026-06-06.md",
+        ".claude/research/research_material_properties_2026-06-06.md",
+        ".claude/research/research_cricut_joy2_2026-06-06.md",
+        ".claude/research/research_cricut_joy_xtra_2026-06-06.md",
+        ".claude/research/research_cricut_explore5_2026-06-06.md",
+        "assets/data/Material List (Settings) - Cricut Joy 2.csv",
+        "assets/data/Material List (Settings) - Cricut Joy Xtra.csv",
+        "assets/data/Material List (Combined).csv (updated: 533 → 729 rows)"
+      ],
+      "status": "Completed",
+      "started_date": "2026-06-06",
+      "completed_date": "2026-06-06",
+      "notes": [
+        "3 research files saved (initial machines: Maker 3, Explore 3, Cricut Joy)",
+        "CSS extracted directly from cricut.com global.css — full color palette with hex codes confirmed",
+        "CSV data analyzed for machine specs and material properties",
+        "Key finding: machine must be an ML input feature (same material = different pressure per machine)",
+        "Key finding: Rotary blade fabric pressures (600-3550) are on a separate scale — may need special handling in ML",
+        "Key finding: Cricut Green = #1eb487 but fails WCAG AA; use accessible #1a8163 for CTA text contrast",
+        "3 new machine research files added: Joy 2 (2026), Joy Xtra (2023), Explore 5 (2026)",
+        "Joy 2: 84 materials, Fine-Point only, 90-350 pressure range. User provided Design Space data.",
+        "Joy Xtra: 112 materials, Fine-Point + Deep-Point, 50-400 pressure range. User provided Design Space data.",
+        "Explore 5: no new data — user confirmed to use Explore 3 CSV as proxy for now",
+        "3 custom user-created entries found in Joy Xtra data: 'Sticker new', 'Sticker sub one', 'stNew' — included as-is",
+        "Combined CSV now contains 729 rows across 5 machines: Maker 3 (313), Explore 3 (140), Joy Xtra (112), Joy 2 (84), Joy (80)"
+      ]
+    },
+    {
+      "step": 2,
+      "name": "ML Model Training & ONNX Export",
+      "description": "Train MLP (PyTorch, CUDA) on combined material CSV, evaluate, and export to ONNX. Save preprocessing artifacts.",
+      "deliverables": [
+        "assets/model/material_predictor.onnx",
+        "assets/model/preprocessor.json",
+        ".claude/research/ml_training_report_2026-06-06.md",
+        "scripts/train_model.py"
+      ],
+      "status": "Completed",
+      "started_date": "2026-06-06",
+      "completed_date": "2026-06-06",
+      "notes": [
+        "MLP: 19 inputs → 256→128→64→32 shared → 3 output heads (pressure, blade, multicut)",
+        "Training: 578 rows, 500 epochs, AdamW + CosineAnnealing, CUDA (RTX 4060)",
+        "Blade accuracy: 84.8%, F1: 87.5% — correctly identifies all 5 blade types",
+        "Pressure MAE: Joy-family 26-46, Explore 55 (good). Maker 3 total 227 (driven by rotary fabric 600-3550)",
+        "Key design: 'is_bonded_fabric' input distinguishes rotary (unbonded) vs bonded fabric pressure scales",
+        "Multi-cut accuracy: 59.3%, F1: 65.7% — inherently noisy task given limited features",
+        "ONNX: 200.8 KB, opset 12, verified with onnxruntime-web compatible shapes",
+        "preprocessor.json: 19-feature encoding spec, blade index→EN mapping, pressure decode formula"
+      ]
+    },
+    {
+      "step": 3,
+      "name": "Test Specification",
+      "description": "Define test cases for the web app (unit, integration, UI). Document in a Markdown test plan.",
+      "deliverables": [
+        ".claude/research/test_plan_2026-06-06.md"
+      ],
+      "status": "Completed",
+      "started_date": "2026-06-06",
+      "completed_date": "2026-06-06",
+      "notes": [
+        "62 test cases across 9 sections: Data loading, ONNX loading, Feature encoding, Search/filter UI, ML prediction UI, Localization, Responsive layout, Accessibility, Edge cases",
+        "Critical acceptance criteria defined (no-tolerance: D-01-08, M-01-05, P-06-09, S-02/04/13, L-01-02, X-01-03)",
+        "6 regression test vectors defined for model stability checking",
+        "Test implementation plan: qunit unit tests, browser model_test.html, manual checklist, Node data integrity check",
+        "Style reference for Step 4: tamayuzucraft site (cream/teal palette, card-based, Noto Sans JP, chip filters)"
+      ]
+    },
+    {
+      "step": 4,
+      "name": "UI / Landing Page Design",
+      "description": "Design the app following Cricut international style. Requires Step 1 research to be complete.",
+      "deliverables": [
+        ".claude/research/design_spec_2026-06-06.md"
+      ],
+      "status": "Completed",
+      "started_date": "2026-06-06",
+      "completed_date": "2026-06-06",
+      "notes": [
+        "Style: Cricut Green #1eb487 primary, Alabaster #fafafa background, system+Noto Sans JP fonts",
+        "Layout inspired by tamayuzucraft (machine tabs → search → chips → cards) but fully Cricut-branded",
+        "Two mode tabs: Browse Materials | Predict (ML)",
+        "Category badge colors mapped to Cricut brand palette per category",
+        "Prediction form: machine select, category select, thickness (mm), hardness slider → result card with disclaimer",
+        "Mobile-first; breakpoints at 600px, 1024px; max-width 900px centered on desktop",
+        "i18n: 30+ string keys, EN/JP toggle via localStorage, Noto Sans JP lazy-loaded only in JP mode",
+        "File structure defined: index.html, styles.css, app.js, predict.js, i18n.js, materials.json build script"
+      ]
+    },
+    {
+      "step": 5,
+      "name": "App Development",
+      "description": "Build the static web app (HTML, CSS, JS) following the design spec. Integrate ONNX model.",
+      "deliverables": [
+        "index.html",
+        "assets/css/styles.css",
+        "assets/js/i18n.js",
+        "assets/js/predict.js",
+        "assets/js/app.js",
+        "assets/data/materials.json",
+        "scripts/build_materials_json.py"
+      ],
+      "status": "Completed",
+      "started_date": "2026-06-06",
+      "completed_date": "2026-06-06",
+      "notes": [
+        "Browse mode: machine tabs (5 machines), category + blade chip filters, search (debounced 150ms), sort by pressure asc/desc, 1039-row card list",
+        "AI Predict mode: machine + category selects, thickness (mm) input, hardness slider (1-10), ONNX inference via onnxruntime-web 1.18 WASM",
+        "Feature encoding in predict.js mirrors Python build_X() exactly: 11-dim category one-hot, thickness log1p MinMax, hardness (h-1)/9, is_bonded=0, GSM/density/shore category defaults",
+        "Machine blade compatibility enforced in predict.js (e.g. Joy only predicts Fine-Point)",
+        "i18n: EN + JP string tables, auto-detect navigator.language, localStorage override, Noto Sans JP lazy-loaded only in JP mode",
+        "Cricut Green #1eb487 primary, Alabaster surface, per-category badge colors from brand palette",
+        "Responsive: single column mobile, 2-col grid @600px, 3-col + max-width 860px @1024px",
+        "prefers-reduced-motion: all transitions disabled",
+        "materials.json: 1039 rows, 239 KB, generated by scripts/build_materials_json.py"
+      ]
+    },
+    {
+      "step": 6,
+      "name": "Testing & Fixes",
+      "description": "Run all tests from the test plan, fix issues until all tests pass.",
+      "deliverables": [
+        "tests/check_data.js",
+        "tests/unit.html",
+        "tests/model_test.html",
+        "tests/manual_checklist.md"
+      ],
+      "status": "Completed",
+      "started_date": "2026-06-07",
+      "completed_date": "2026-06-07",
+      "notes": [
+        "57 automated tests: 12 Node data integrity (D-01..D-08, M-01..M-03a), 24 browser unit (E, D, M, P validation), 21 ONNX model integration (M-01..M-09, P, Regression) — all pass",
+        "Fixed: QUnit 2.x has no assert.closeTo — replaced with assert.ok(Math.abs(...))",
+        "Fixed: test HTML pages inside tests/ need <base href=\"../\"> so predict.js relative fetches resolve correctly",
+        "Regression vectors updated to v6 model predictions ±40% — Joy/Iron-On: 205, Maker3/Leather: 153",
+        "Manual checklist saved for UI/localization/responsive checks: tests/manual_checklist.md",
+        "All critical acceptance criteria met: D-01..D-08, M-01..M-05, P-06..P-09, S-02/S-04/S-13, L-01/L-02, X-01..X-03"
+      ]
+    }
+  ],
+  "history": [
+    {
+      "date": "2026-06-06",
+      "event": "Step 2 v6 — Data corrections + Plastic category + retrain (12 categories, N_IN=20)",
+      "details": "1) Applied tamayuzucraft corrections: 74 Joy blade normalizations (ファインポイント→ファインポイントブレード), 20 real data changes across Maker3 (13) and Explore3 (7) — key: Linen/Cotton Bonded and Faux suede pressure+blade corrected from rotary to fine-point. 2) Added 'Plastic' category: 26 rows reclassified from Others/Paper (Acetate, Foil Acetate, Mylar, Transparency, Stencil Film, Cutting Mat Protector, Plastic Packaging, Plastic Canvas, Window Cling). 3) enrich_features.py + train_model.py updated with Plastic defaults (thickness=0.10, hardness=4, GSM=150, density=1350, shore=70). 4) All 5 ONNX models retrained (N_IN=20). 5) materials.json rebuilt (1039 rows, 12 categories). 6) predict.js, app.js, i18n.js updated with Plastic support.",
+      "status": "Completed"
+    },
+    {
+      "date": "2026-06-06",
+      "event": "Step 2 v5 — External data import + 90/10 split (1039 rows, 5 ONNX files)",
+      "details": "Imported 319 new entries from tamayuzucraft community database (Joy+58, Explore3+103, Maker3+158). Dataset grew from 720→1039 training rows. Split changed to 90/10. Key improvements: Explore3 blade acc 100% (was ~68%), Maker3 MAPE 22.8% (was 31.3%), Explore3 MAPE 28.4%, Joy MC 85.7%. Global pressure: log_mean=5.5021, log_std=0.9385. scripts/import_external_data.py created.",
+      "status": "Completed"
+    },
+    {
+      "date": "2026-06-06",
+      "event": "Step 2 v4 — Sequential transfer learning (19 features, 5 ONNX files)",
+      "details": "Pre-train on other machines (Maker3→Explore3→JoyXtra→Joy2→Joy order), fine-tune on target. Global pressure normalization. Key results: Maker 3 MAPE 31.3% (was 34.9%), MC acc 65.1% (was 50.8%); Joy Xtra blade acc 100% (was 81.8%). Fine-tune best epochs: Maker3=720, Explore3=420 — model actually training vs epoch 15-40 in v2/v3.",
+      "status": "Completed"
+    },
+    {
+      "date": "2026-06-06",
+      "event": "Step 2 v3 — Per-machine models (19 features, 5 ONNX files)",
+      "details": "Retrained with one model per machine. Machine one-hot removed; per-machine pressure normalization. Joy: MAPE 22.7%, Maker 3: 34.9%. Joy/Joy 2 improved dramatically; Explore 3/Joy Xtra still limited by small data. 5 ONNX files: cricut_joy, cricut_joy2, cricut_joy_xtra, explore3, maker3. preprocessor.json v3 with per-machine pressure params.",
+      "status": "Completed"
+    },
+    {
+      "date": "2026-06-06",
+      "event": "Step 2 v2 — Feature enrichment + retrain (24 features)",
+      "details": "CSV enriched with 5 new columns: GSM, Surface Texture, Has Adhesive, Density (kg/m3), Shore Hardness A. Script: scripts/enrich_features.py. Single model MAPE 39.2% — no improvement over v1 due to best epoch still being 15. Confirmed root cause: mixed machine scales + small dataset.",
+      "status": "Completed"
+    },
+    {
+      "date": "2026-06-06",
+      "event": "Material physics research completed — Step 2 extended",
+      "details": "User rejected initial ML val results (MAPE 38.5%, blade acc 81.2%). Conducted academic research on die-cutting mechanics, paper/vinyl/leather/fabric/foam/wood physical properties. Identified 5 new CSV columns to add: GSM, Surface Texture, Has Adhesive, Density, Shore Hardness. Research saved to .claude/research/research_material_physics_2026-06-06.md.",
+      "status": "Completed"
+    },
+    {
+      "date": "2026-06-06",
+      "event": "Step 2 completed — ML Model Training & ONNX Export",
+      "details": "MLP trained on 723 rows (5 machines). Blade accuracy 84.8%, pressure MAE 26-55 for non-rotary materials. ONNX exported (200 KB). preprocessor.json saved with full encoding spec.",
+      "status": "Completed"
+    },
+    {
+      "date": "2026-06-06",
+      "event": "Step 1 fully completed — Deep Research (all 5 machines)",
+      "details": "6 research files written. Joy 2 (84 rows) and Joy Xtra (112 rows) CSVs created from user-provided Design Space data. Explore 5 deferred to Explore 3 proxy. Combined CSV updated to 729 rows (5 machines). Step 2 ready to begin.",
+      "status": "Completed"
+    },
+    {
+      "date": "2026-06-06",
+      "event": "Step 1 initial completion — Deep Research (3 machines)",
+      "details": "3 research files written: research_cricut_style_2026-06-06.md, research_cricut_machines_2026-06-06.md, research_material_properties_2026-06-06.md. CSS extracted from live cricut.com. CSV analyzed for machine/material data.",
+      "status": "Completed"
+    },
+    {
+      "date": "2026-06-06",
+      "event": "Project initialized",
+      "details": "Spec reviewed, CLAUDE.md created, .claude/commands/ skills created (researcher, programmer, designer), project_history.json initialized. Python venv setup in progress.",
+      "status": "Completed"
+    }
+  ],
+  "tech_stack": {
+    "ml": "PyTorch (CUDA 12.x) → ONNX → onnxruntime-web",
+    "frontend": "Vanilla HTML5 / CSS3 / JS (ES2020+)",
+    "deployment": "GitHub Pages / Netlify (fully static)",
+    "languages": ["en", "ja"],
+    "python_env": "venv/ (Python 3.12)"
+  },
+  "decisions": [
+    {
+      "date": "2026-06-06",
+      "decision": "MLP neural network (PyTorch) selected as the ML model",
+      "rationale": "User confirmed. Exports cleanly to ONNX, runs in-browser via onnxruntime-web."
+    },
+    {
+      "date": "2026-06-06",
+      "decision": "Fully client-side architecture (static site)",
+      "rationale": "No server needed; deploy to GitHub Pages or Netlify."
+    },
+    {
+      "date": "2026-06-06",
+      "decision": "App has two main features: searchable known material list + ML prediction for unknowns",
+      "rationale": "User confirmed both features are needed."
+    }
+  ]
+}

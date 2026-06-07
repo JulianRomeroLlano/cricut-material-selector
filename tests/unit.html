@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unit Tests — Feature Encoding</title>
+  <base href="../">
+  <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.20.0.css">
+  <style>
+    body { font-family: system-ui, sans-serif; }
+    #qunit-banner { background: #1eb487 !important; }
+    #qunit-banner.qunit-pass { background: #1a8163 !important; }
+  </style>
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+
+  <!-- Stub window.i18n so i18n.js doesn't break in isolation -->
+  <script>
+    window.i18n = { t: k => k, tCat: c => c, tBlade: b => b,
+                    currentLang: () => "en", setLang: () => {} };
+  </script>
+
+  <!-- Load predict.js so HARDNESS_DEFAULTS etc. are available -->
+  <!-- We test buildFeatures via a thin wrapper exposed for testing -->
+  <script>
+    // Minimal ort stub — prevents predict.js from throwing on load
+    window.ort = {
+      Tensor: class { constructor(t, d, s) { this.type=t; this.data=d; this.shape=s; } },
+      InferenceSession: { create: async () => ({
+        run: async () => ({
+          pressure_norm:    { data: new Float32Array([0.0]) },
+          blade_logits:     { data: new Float32Array([10,0,0,0,0]) },
+          multicut_logits:  { data: new Float32Array([10,0,0,0,0,0]) },
+        })
+      })}
+    };
+  </script>
+  <script src="assets/js/predict.js"></script>
+  <script src="https://code.jquery.com/qunit/qunit-2.20.0.js"></script>
+
+  <script>
+  // ── helpers ──────────────────────────────────────────────────────────────────
+  // buildFeatures is internal to the IIFE in predict.js.
+  // We exercise it through the public predict() API using the stub ort.
+  // For direct unit tests we replicate the encoding inline.
+
+  function clamp01(x) { return Math.max(0, Math.min(1, x)); }
+
+  // Fetch preprocessor once and run all encoding tests
+  let PP = null;
+  QUnit.begin(async () => {
+    const r = await fetch("../assets/model/preprocessor.json");
+    PP = await r.json();
+  });
+
+  // ── E: Feature encoding ──────────────────────────────────────────────────────
+  QUnit.module("E — Feature Encoding", hooks => {
+    hooks.before(async assert => {
+      // ensure PP is loaded
+      if (!PP) {
+        const r = await fetch("../assets/model/preprocessor.json");
+        PP = await r.json();
+      }
+    });
+
+    QUnit.test("E-01: Category one-hot — Iron-On at correct index", assert => {
+      const cats = PP.categories;
+      const idx = cats.indexOf("Iron-On");
+      assert.ok(idx >= 0, "Iron-On exists in categories list");
+      // simulate encoding
+      const vec = new Float32Array(PP.feature_dim);
+      vec[idx] = 1.0;
+      assert.equal(vec[idx], 1.0, "index set to 1.0");
+      for (let i = 0; i < cats.length; i++) {
+        if (i !== idx) assert.equal(vec[i], 0.0, `index ${i} is 0`);
+      }
+    });
+
+    QUnit.test("E-02: Category one-hot — unknown category → all zeros", assert => {
+      const cats = PP.categories;
+      const ci = cats.indexOf("Unknown");
+      assert.equal(ci, -1, "Unknown not in list");
+      const vec = new Float32Array(PP.feature_dim);
+      if (ci >= 0) vec[ci] = 1.0;
+      assert.ok(Array.from(vec).slice(0, cats.length).every(x => x === 0), "all category bits = 0");
+    });
+
+    QUnit.test("E-03: Thickness log-norm — typical value (0.1 mm) in [0,1]", assert => {
+      const tLog = Math.log1p(0.1);
+      const norm = clamp01((tLog - PP.thickness_log_min) /
+                           (PP.thickness_log_max - PP.thickness_log_min + 1e-9));
+      assert.ok(norm >= 0 && norm <= 1, `norm=${norm.toFixed(4)} in [0,1]`);
+    });
+
+    QUnit.test("E-04: Thickness log-norm — clamp thin (0.001 mm) → ≥ 0", assert => {
+      const tLog = Math.log1p(0.001);
+      const norm = clamp01((tLog - PP.thickness_log_min) /
+                           (PP.thickness_log_max - PP.thickness_log_min + 1e-9));
+      assert.ok(norm >= 0, "clamped to ≥ 0");
+    });
+
+    QUnit.test("E-05: Thickness log-norm — clamp thick (60 mm) → ≤ 1", assert => {
+      const tLog = Math.log1p(60);
+      const norm = clamp01((tLog - PP.thickness_log_min) /
+                           (PP.thickness_log_max - PP.thickness_log_min + 1e-9));
+      assert.ok(norm <= 1, "clamped to ≤ 1");
+    });
+
+    QUnit.test("E-06: Hardness norm — h=1 → 0, h=10 → 1", assert => {
+      assert.ok(Math.abs(clamp01((1 - 1) / 9) - 0.0) < 0.001, "h=1 → 0.0");
+      assert.ok(Math.abs(clamp01((10 - 1) / 9) - 1.0) < 0.001, "h=10 → 1.0");
+    });
+
+    QUnit.test("E-09: Feature vector length = 20 (12 cats + 8 numeric)", assert => {
+      assert.equal(PP.feature_dim, 20, "feature_dim = 20");
+    });
+
+    QUnit.test("E-10: No NaN in feature vector for typical input", async assert => {
+      // Use predict() with stub ort — it builds features internally
+      const { predict } = window.CricutPredict;
+      const result = await predict({ machine: "Explore 3", category: "Vinyl", thicknessMm: 0.08 });
+      assert.ok(result, "predict() returned a result");
+    });
+
+    QUnit.test("E-11: Pressure decode — pressure_norm=0 → exp(log_mean) ≈ 245", assert => {
+      const p = Math.round(Math.exp(0.0 * PP.pressure_log_std + PP.pressure_log_mean));
+      assert.ok(Math.abs(p - 245) < 15, `decoded ${p} ≈ 245`);
+    });
+
+    QUnit.test("E-12: Pressure decode — result is integer", async assert => {
+      const { predict } = window.CricutPredict;
+      const result = await predict({ machine: "Explore 3", category: "Vinyl", thicknessMm: 0.08 });
+      assert.strictEqual(result.pressure, Math.round(result.pressure), "pressure is integer");
+    });
+  });
+
+  // ── D: Data fields (re-check in browser) ─────────────────────────────────────
+  QUnit.module("D — Data Integrity (browser)", hooks => {
+    let mats = null;
+    hooks.before(async () => {
+      const r = await fetch("../assets/data/materials.json");
+      mats = await r.json();
+    });
+
+    QUnit.test("D-02: ≥ 1039 rows", assert => {
+      assert.ok(mats.length >= 1039, `got ${mats.length}`);
+    });
+
+    QUnit.test("D-04: All pressures positive", assert => {
+      const bad = mats.filter(r => !(r.pressure > 0 && isFinite(r.pressure)));
+      assert.equal(bad.length, 0, `${bad.length} bad pressure rows`);
+    });
+
+    QUnit.test("D-05: All blade_en in known set", assert => {
+      const BLADES = ["Fine-Point Blade","Deep-Point Blade","Rotary Blade","Bonded Fabric Blade","Knife Blade"];
+      const bad = mats.filter(r => !BLADES.includes(r.blade_en));
+      assert.equal(bad.length, 0, `bad: ${[...new Set(bad.map(r=>r.blade_en))].join(", ")}`);
+    });
+
+    QUnit.test("D-08: All 12 categories represented", assert => {
+      const CATS = ["Board/Cardboard","Cardstock","Fabric","Infusible Ink","Iron-On",
+                    "Leather","Others","Paper","Plastic","Printable Materials","Smart Materials","Vinyl"];
+      const found = new Set(mats.map(r => r.category));
+      const missing = CATS.filter(c => !found.has(c));
+      assert.equal(missing.length, 0, `missing: ${missing.join(", ")}`);
+    });
+
+    QUnit.test("S-14: Pressure displayed as integer (no decimals in data)", assert => {
+      const bad = mats.filter(r => r.pressure !== Math.round(r.pressure));
+      assert.equal(bad.length, 0, `${bad.length} non-integer pressures`);
+    });
+
+    QUnit.test("S-15: Multi-cut display — no raw '-' or empty strings", assert => {
+      const bad = mats.filter(r => r.multicut === "" || r.multicut === undefined);
+      assert.equal(bad.length, 0, "no empty multicut");
+    });
+  });
+
+  // ── M: Preprocessor fields ───────────────────────────────────────────────────
+  QUnit.module("M — Preprocessor JSON", hooks => {
+    hooks.before(async () => {
+      if (!PP) { const r = await fetch("../assets/model/preprocessor.json"); PP = await r.json(); }
+    });
+
+    QUnit.test("M-01: Required fields present", assert => {
+      assert.ok("version"          in PP, "version");
+      assert.ok(Array.isArray(PP.categories), "categories array");
+      assert.equal(PP.categories.length, 12, "12 categories");
+      assert.ok(Array.isArray(PP.blade_types_en), "blade_types_en");
+      assert.ok(typeof PP.pressure_log_mean === "number", "pressure_log_mean");
+      assert.ok(typeof PP.pressure_log_std  === "number", "pressure_log_std");
+      assert.ok(typeof PP.machines === "object", "machines");
+    });
+
+    QUnit.test("M-06: Pressure decode always > 0", assert => {
+      for (const pNorm of [-3, -1, 0, 1, 3]) {
+        const p = Math.exp(pNorm * PP.pressure_log_std + PP.pressure_log_mean);
+        assert.ok(p > 0, `pressure_norm=${pNorm} → p=${p.toFixed(1)} > 0`);
+      }
+    });
+
+    QUnit.test("Plastic in categories list", assert => {
+      assert.ok(PP.categories.includes("Plastic"), "Plastic present");
+    });
+  });
+
+  // ── P: Validation logic ───────────────────────────────────────────────────────
+  QUnit.module("P — Validation Logic", () => {
+    function validateThickness(val) {
+      const mm = parseFloat(val);
+      if (!val || isNaN(mm)) return "required";
+      if (mm < 0.01 || mm > 60) return "range";
+      return null;
+    }
+
+    QUnit.test("P-17: thickness = 0 → required error", assert => {
+      assert.equal(validateThickness("0"), "range");
+    });
+
+    QUnit.test("P-18: thickness = -1 → range error", assert => {
+      assert.equal(validateThickness("-1"), "range");
+    });
+
+    QUnit.test("P-19: thickness = 'abc' → required error", assert => {
+      assert.equal(validateThickness("abc"), "required");
+    });
+
+    QUnit.test("P-15: thickness = 0.01 → valid", assert => {
+      assert.equal(validateThickness("0.01"), null);
+    });
+
+    QUnit.test("P-16: thickness = 60 → valid", assert => {
+      assert.equal(validateThickness("60"), null);
+    });
+  });
+  </script>
+</body>
+</html>

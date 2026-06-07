@@ -1,0 +1,348 @@
+/* app.js — browse, filter, predict */
+(function () {
+  const { t, tCat, tBlade, currentLang, setLang } = window.i18n;
+  const { predict, loadPreprocessor }              = window.CricutPredict;
+
+  const MACHINES = ["Cricut Joy", "Cricut Joy 2", "Cricut Joy Xtra", "Explore 3", "Maker 3"];
+  const MACHINE_SHORT = {
+    "Cricut Joy": "Joy", "Cricut Joy 2": "Joy 2", "Cricut Joy Xtra": "Joy Xtra",
+    "Explore 3": "Explore 3", "Maker 3": "Maker 3",
+  };
+  const CATEGORIES = [
+    "Board/Cardboard","Cardstock","Fabric","Infusible Ink","Iron-On",
+    "Leather","Others","Paper","Plastic","Printable Materials","Smart Materials","Vinyl",
+  ];
+  const BLADES_EN = [
+    "Fine-Point Blade","Deep-Point Blade","Rotary Blade","Bonded Fabric Blade","Knife Blade",
+  ];
+  const CAT_BADGE = {
+    "Vinyl":"badge-vinyl","Iron-On":"badge-ironon","Cardstock":"badge-cardstock",
+    "Paper":"badge-paper","Fabric":"badge-fabric","Leather":"badge-leather",
+    "Board/Cardboard":"badge-board","Others":"badge-others",
+    "Infusible Ink":"badge-infusible","Smart Materials":"badge-smart",
+    "Printable Materials":"badge-printable","Plastic":"badge-plastic",
+  };
+  const THICKNESS_DEFAULTS = {
+    "Paper":0.08,"Cardstock":0.22,"Iron-On":0.10,"Vinyl":0.08,
+    "Smart Materials":0.10,"Printable Materials":0.12,"Infusible Ink":0.10,
+    "Board/Cardboard":1.0,"Leather":1.6,"Fabric":0.50,"Plastic":0.10,"Others":2.0,
+  };
+
+  /* ── State ──────────────────────────────────────────────────────────────────── */
+  let materials     = [];
+  let activeMachine = MACHINES[0];
+  let filterCat     = "";
+  let filterBlade   = "";
+  let sortMode      = "none"; // none | asc | desc
+  let searchQuery   = "";
+  let searchTimer   = null;
+
+  const $ = id => document.getElementById(id);
+
+  /* ── Init ───────────────────────────────────────────────────────────────────── */
+  async function init() {
+    applyI18n();
+    buildMachineBar();
+    populateFilterSelects();
+    bindToolbar();
+    bindModeNav();
+    bindLangToggle();
+    bindPredictForm();
+
+    try {
+      const r = await fetch("assets/data/materials.json");
+      materials = await r.json();
+    } catch {
+      $("matList").innerHTML = emptyHtml(t("err_model_load"), "");
+      return;
+    }
+    render();
+
+    // Warm the first machine's ONNX model in the background
+    loadPreprocessor().then(pp => {
+      const info = pp.machines[activeMachine];
+      if (info && window.ort) {
+        ort.InferenceSession.create(
+          "assets/model/material_predictor_" + info.slug + ".onnx",
+          { executionProviders: ["wasm"] }
+        ).catch(() => {});
+      }
+    }).catch(() => {});
+  }
+
+  /* ── i18n ───────────────────────────────────────────────────────────────────── */
+  function applyI18n() {
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      el.textContent = t(el.dataset.i18n);
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+      el.placeholder = t(el.dataset.i18nPlaceholder);
+    });
+    $("langToggle").textContent = currentLang() === "ja" ? "EN" : "JP";
+  }
+
+  /* ── Machine bar ────────────────────────────────────────────────────────────── */
+  function buildMachineBar() {
+    const bar = $("machineBar");
+    bar.innerHTML = MACHINES.map(m =>
+      '<button class="machine-tab' + (m === activeMachine ? " active" : "") +
+      '" data-machine="' + esc(m) + '" role="tab" aria-selected="' +
+      (m === activeMachine) + '">' + esc(MACHINE_SHORT[m]) + '</button>'
+    ).join("");
+    bar.querySelectorAll(".machine-tab").forEach(btn => {
+      btn.addEventListener("click", () => {
+        activeMachine = btn.dataset.machine;
+        filterCat     = "";
+        filterBlade   = "";
+        sortMode      = "none";
+        searchQuery   = "";
+        $("searchInput").value = "";
+        $("filterCategory").value = "";
+        $("filterBlade").value    = "";
+        updateSortBtn();
+        buildMachineBar();
+        render();
+      });
+    });
+  }
+
+  /* ── Filter selects ─────────────────────────────────────────────────────────── */
+  function populateFilterSelects() {
+    const cSel = $("filterCategory");
+    cSel.innerHTML = '<option value="">' + esc(t("filter_all_categories")) + '</option>' +
+      CATEGORIES.map(c => '<option value="' + esc(c) + '">' + esc(tCat(c)) + '</option>').join("");
+
+    const bSel = $("filterBlade");
+    bSel.innerHTML = '<option value="">' + esc(t("filter_all_blades")) + '</option>' +
+      BLADES_EN.map(b => '<option value="' + esc(b) + '">' + esc(tBlade(b)) + '</option>').join("");
+  }
+
+  /* ── Toolbar ────────────────────────────────────────────────────────────────── */
+  function bindToolbar() {
+    $("searchInput").addEventListener("input", e => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => {
+        searchQuery = e.target.value.trim().toLowerCase();
+        render();
+      }, 150);
+    });
+    $("filterCategory").addEventListener("change", e => {
+      filterCat = e.target.value;
+      render();
+    });
+    $("filterBlade").addEventListener("change", e => {
+      filterBlade = e.target.value;
+      render();
+    });
+    $("sortToggle").addEventListener("click", () => {
+      sortMode = sortMode === "asc" ? "desc" : sortMode === "desc" ? "none" : "asc";
+      updateSortBtn();
+      render();
+    });
+  }
+
+  function updateSortBtn() {
+    const btn = $("sortToggle");
+    btn.textContent = t(
+      sortMode === "asc" ? "sort_asc" : sortMode === "desc" ? "sort_desc" : "sort_default"
+    );
+    btn.classList.toggle("active-sort", sortMode !== "none");
+  }
+
+  /* ── Mode nav ───────────────────────────────────────────────────────────────── */
+  function bindModeNav() {
+    $("tabBrowse").addEventListener("click",  () => switchMode("browse"));
+    $("tabPredict").addEventListener("click", () => switchMode("predict"));
+  }
+  function switchMode(mode) {
+    const b = mode === "browse";
+    $("browsePanel").classList.toggle("hidden", !b);
+    $("predictPanel").classList.toggle("hidden", b);
+    $("tabBrowse").classList.toggle("active", b);
+    $("tabBrowse").setAttribute("aria-selected", b);
+    $("tabPredict").classList.toggle("active", !b);
+    $("tabPredict").setAttribute("aria-selected", !b);
+  }
+
+  /* ── Language toggle ────────────────────────────────────────────────────────── */
+  function bindLangToggle() {
+    $("langToggle").addEventListener("click", () => {
+      setLang(currentLang() === "ja" ? "en" : "ja");
+      applyI18n();
+      populateFilterSelects();
+      updateSortBtn();
+      populatePredictForm();
+      render();
+    });
+  }
+
+  /* ── Render browse list ─────────────────────────────────────────────────────── */
+  function getFiltered() {
+    let list = materials.filter(m => m.machine === activeMachine);
+    if (filterCat)    list = list.filter(m => m.category === filterCat);
+    if (filterBlade)  list = list.filter(m => m.blade_en === filterBlade);
+    if (searchQuery)  list = list.filter(m =>
+      m.name_en.toLowerCase().includes(searchQuery) ||
+      m.name_jp.toLowerCase().includes(searchQuery)
+    );
+    if (sortMode === "asc")  list = [...list].sort((a, b) => a.pressure - b.pressure);
+    if (sortMode === "desc") list = [...list].sort((a, b) => b.pressure - a.pressure);
+    return list;
+  }
+
+  function render() {
+    const list = getFiltered();
+    const lang = currentLang();
+    $("resultCount").textContent = t("result_count", list.length);
+
+    if (!list.length) {
+      $("matList").innerHTML = emptyHtml(t("empty_title"), t("empty_sub"));
+      return;
+    }
+
+    const frag = document.createDocumentFragment();
+    list.forEach(m => {
+      const primary   = lang === "ja" ? m.name_jp : m.name_en;
+      const secondary = lang === "ja" ? m.name_en : m.name_jp;
+      const bladeDisp = lang === "ja" ? m.blade_jp : m.blade_en;
+      const catDisp   = tCat(m.category);
+      const badgeCls  = CAT_BADGE[m.category] || "badge-others";
+
+      const row = document.createElement("div");
+      row.className = "mat-row";
+      row.setAttribute("role", "listitem");
+      row.innerHTML =
+        '<div class="mat-name-wrap">' +
+          '<span class="mat-name">' + esc(primary) + '</span>' +
+          (secondary && secondary !== primary
+            ? '<span class="mat-name-alt">' + esc(secondary) + '</span>'
+            : '') +
+        '</div>' +
+        '<span class="mat-badge ' + badgeCls + '">' + esc(catDisp) + '</span>' +
+        '<div class="mat-specs">' +
+          '<span class="spec-item"><span class="spec-val">' + m.pressure + '</span></span>' +
+          '<span class="spec-sep">·</span>' +
+          '<span class="spec-item"><span class="spec-val">' + esc(bladeDisp) + '</span></span>' +
+          '<span class="spec-sep">·</span>' +
+          '<span class="spec-item"><span class="spec-val">' + esc(m.multicut) + '</span></span>' +
+        '</div>';
+      frag.appendChild(row);
+    });
+    $("matList").innerHTML = "";
+    $("matList").appendChild(frag);
+  }
+
+  /* ── Predict form ───────────────────────────────────────────────────────────── */
+  function bindPredictForm() {
+    populatePredictForm();
+    $("pCategory").addEventListener("change", () => {
+      const cat = $("pCategory").value;
+      $("pThickness").value = THICKNESS_DEFAULTS[cat] || 0.5;
+    });
+    $("btnPredict").addEventListener("click", runPredict);
+  }
+
+  function populatePredictForm() {
+    const mSel = $("pMachine");
+    const mVal = mSel.value || activeMachine;
+    mSel.innerHTML = MACHINES.map(m =>
+      '<option value="' + esc(m) + '"' + (m === mVal ? " selected" : "") + '>' + esc(m) + '</option>'
+    ).join("");
+
+    const cSel = $("pCategory");
+    const cVal = cSel.value || "Vinyl";
+    cSel.innerHTML = CATEGORIES.map(c =>
+      '<option value="' + esc(c) + '"' + (c === cVal ? " selected" : "") + '>' +
+      esc(tCat(c)) + '</option>'
+    ).join("");
+
+    if (!$("pThickness").value) {
+      $("pThickness").value = THICKNESS_DEFAULTS[cVal] || 0.5;
+    }
+  }
+
+  async function runPredict() {
+    const errEl = $("errThickness");
+    errEl.classList.add("hidden");
+
+    const raw = $("pThickness").value;
+    const mm  = parseFloat(raw);
+    if (!raw || isNaN(mm)) {
+      errEl.textContent = t("err_thickness_required");
+      errEl.classList.remove("hidden");
+      return;
+    }
+    if (mm < 0.01 || mm > 60) {
+      errEl.textContent = t("err_thickness_range");
+      errEl.classList.remove("hidden");
+      return;
+    }
+
+    const machine  = $("pMachine").value;
+    const category = $("pCategory").value;
+    const btn      = $("btnPredict");
+
+    btn.disabled    = true;
+    btn.textContent = t("btn_predicting");
+    $("predictResult").classList.add("hidden");
+
+    try {
+      const result = await predict({ machine, category, thicknessMm: mm });
+      showResult(result, machine, category);
+    } catch {
+      $("predictResult").innerHTML =
+        '<div class="result-box result-error">' +
+        '<div class="result-header"><span class="result-header-title">Error</span></div>' +
+        '<div class="result-body">' + t("err_model_load") + '</div></div>';
+      $("predictResult").classList.remove("hidden");
+    } finally {
+      btn.disabled    = false;
+      btn.textContent = t("btn_predict");
+    }
+  }
+
+  function showResult(r, machine, category) {
+    const lang      = currentLang();
+    const bladeDisp = lang === "ja" ? r.bladeJp : r.bladeEn;
+    $("predictResult").innerHTML =
+      '<div class="result-box">' +
+        '<div class="result-header">' +
+          '<span class="result-header-title">' + t("result_title") + '</span>' +
+          '<span class="result-header-sub">' + esc(machine) + ' · ' + esc(tCat(category)) + '</span>' +
+        '</div>' +
+        '<div class="result-body">' +
+          '<div class="result-specs">' +
+            resultSpec(t("pressure_label"), r.pressure, false) +
+            resultSpec(t("blade_label"),    bladeDisp,  true) +
+            resultSpec(t("multicut_label"), r.multicut, false) +
+          '</div>' +
+          '<p class="result-disclaimer">' + t("disclaimer") + '</p>' +
+        '</div>' +
+      '</div>';
+    $("predictResult").classList.remove("hidden");
+  }
+
+  function resultSpec(label, value, small) {
+    return '<div class="result-spec">' +
+      '<span class="result-spec-label">' + esc(label) + '</span>' +
+      '<span class="result-spec-val' + (small ? ' small' : '') + '">' + esc(String(value)) + '</span>' +
+      '</div>';
+  }
+
+  /* ── Helpers ────────────────────────────────────────────────────────────────── */
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function emptyHtml(title, sub) {
+    return '<div class="empty-state" role="status">' +
+      '<div class="empty-icon">✦</div>' +
+      '<p class="empty-title">' + esc(title) + '</p>' +
+      (sub ? '<p class="empty-sub">' + esc(sub) + '</p>' : '') +
+      '</div>';
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+})();

@@ -1,0 +1,187 @@
+{
+  "version": "4.0",
+  "feature_dim": 20,
+  "machine_aliases": {
+    "Cricut Explore 5": "Explore 3",
+    "Cricut Maker 4": "Maker 3"
+  },
+  "categories": [
+    "Board/Cardboard",
+    "Cardstock",
+    "Fabric",
+    "Infusible Ink",
+    "Iron-On",
+    "Leather",
+    "Others",
+    "Paper",
+    "Plastic",
+    "Printable Materials",
+    "Smart Materials",
+    "Vinyl"
+  ],
+  "blade_types_jp": [
+    "ディープポイントブレード",
+    "ナイフの刃",
+    "ファインポイントブレード",
+    "ボンデッドファブリックブレード",
+    "ロータリーブレード"
+  ],
+  "blade_types_en": [
+    "Deep-Point Blade",
+    "Knife Blade",
+    "Fine-Point Blade",
+    "Bonded Fabric Blade",
+    "Rotary Blade"
+  ],
+  "multicut_bucket_labels": [
+    0,
+    2,
+    3,
+    4,
+    6,
+    10
+  ],
+  "multicut_bucket_display": [
+    "Off",
+    "2×",
+    "3×",
+    "4–5×",
+    "6–8×",
+    "10+×"
+  ],
+  "pressure_log_mean": 5.496357578129997,
+  "pressure_log_std": 0.9318767110054483,
+  "thickness_log_min": 0.058268908123975775,
+  "thickness_log_max": 1.2237754316221157,
+  "gsm_log_min": 4.330733340286331,
+  "gsm_log_max": 7.6783263565068856,
+  "density_log_min": 4.61512051684126,
+  "density_log_max": 8.160803920954665,
+  "machines": {
+    "Cricut Joy": {
+      "slug": "cricut_joy",
+      "onnx_file": "material_predictor_cricut_joy.onnx",
+      "n_training_rows": 118,
+      "finetune_best_epoch": 1735,
+      "val_pressure_mape": 30.33,
+      "val_pressure_mae": 48.4,
+      "val_blade_acc": 1.0,
+      "val_mcut_acc": 0.8571
+    },
+    "Cricut Joy 2": {
+      "slug": "cricut_joy2",
+      "onnx_file": "material_predictor_cricut_joy2.onnx",
+      "n_training_rows": 75,
+      "finetune_best_epoch": 135,
+      "val_pressure_mape": 24.3,
+      "val_pressure_mae": 37.0,
+      "val_blade_acc": 1.0,
+      "val_mcut_acc": 0.8889
+    },
+    "Cricut Joy Xtra": {
+      "slug": "cricut_joy_xtra",
+      "onnx_file": "material_predictor_cricut_joy_xtra.onnx",
+      "n_training_rows": 98,
+      "finetune_best_epoch": 410,
+      "val_pressure_mape": 44.49,
+      "val_pressure_mae": 69.0,
+      "val_blade_acc": 1.0,
+      "val_mcut_acc": 0.7273
+    },
+    "Explore 3": {
+      "slug": "explore3",
+      "onnx_file": "material_predictor_explore3.onnx",
+      "n_training_rows": 218,
+      "finetune_best_epoch": 5,
+      "val_pressure_mape": 30.12,
+      "val_pressure_mae": 50.7,
+      "val_blade_acc": 1.0,
+      "val_mcut_acc": 0.64
+    },
+    "Maker 3": {
+      "slug": "maker3",
+      "onnx_file": "material_predictor_maker3.onnx",
+      "n_training_rows": 423,
+      "finetune_best_epoch": 325,
+      "val_pressure_mape": 22.13,
+      "val_pressure_mae": 141.7,
+      "val_blade_acc": 0.8542,
+      "val_mcut_acc": 0.7708
+    }
+  },
+  "thickness_defaults_mm": {
+    "Paper": 0.08,
+    "Cardstock": 0.22,
+    "Iron-On": 0.1,
+    "Vinyl": 0.08,
+    "Smart Materials": 0.1,
+    "Printable Materials": 0.12,
+    "Infusible Ink": 0.1,
+    "Board/Cardboard": 1.0,
+    "Leather": 1.6,
+    "Fabric": 0.5,
+    "Plastic": 0.1,
+    "Others": 2.0
+  },
+  "hardness_defaults": {
+    "Paper": 2,
+    "Cardstock": 4,
+    "Iron-On": 3,
+    "Vinyl": 3,
+    "Smart Materials": 3,
+    "Printable Materials": 3,
+    "Infusible Ink": 3,
+    "Board/Cardboard": 7,
+    "Leather": 6,
+    "Fabric": 3,
+    "Plastic": 4,
+    "Others": 5
+  },
+  "surface_texture_map": {
+    "plain": 0.0,
+    "matte": 0.1,
+    "glossy": 0.15,
+    "satin": 0.1,
+    "shimmer": 0.2,
+    "pearl": 0.15,
+    "holographic": 0.25,
+    "iridescent": 0.25,
+    "foil": 0.3,
+    "metallic": 0.3,
+    "textured": 0.35,
+    "flock": 0.45,
+    "glitter": 0.5
+  },
+  "feature_order": "category_onehot (11) + thickness_lognorm (1) + hardness_norm (1) + is_bonded_fabric (1) + gsm_lognorm (1) + surface_texture_norm (1) + has_adhesive (1) + density_lognorm (1) + shore_norm (1)",
+  "notes": {
+    "pressure_decode": "exp(pressure_norm × pressure_log_std + pressure_log_mean)",
+    "blade_decode": "argmax(blade_logits) → blade_types_en[index]",
+    "multicut_decode": "argmax(multicut_logits) → multicut_bucket_labels[index]",
+    "surface_norm": "surface_texture_map[label] / 0.5",
+    "training_method": "Sequential transfer learning: pre-train on other machines (Maker3→Explore3→JoyXtra→Joy2→Joy), fine-tune on target",
+    "compatible_blades": {
+      "Cricut Joy": [
+        "Fine-Point Blade"
+      ],
+      "Cricut Joy 2": [
+        "Fine-Point Blade"
+      ],
+      "Cricut Joy Xtra": [
+        "Fine-Point Blade",
+        "Deep-Point Blade"
+      ],
+      "Explore 3": [
+        "Fine-Point Blade",
+        "Deep-Point Blade",
+        "Bonded Fabric Blade"
+      ],
+      "Maker 3": [
+        "Fine-Point Blade",
+        "Deep-Point Blade",
+        "Bonded Fabric Blade",
+        "Knife Blade",
+        "Rotary Blade"
+      ]
+    }
+  }
+}

@@ -1,0 +1,110 @@
+﻿Category,Material Name (JP),Material Name (EN),Cutting Pressure,Multi-Cut,Blade Type,GSM,Surface Texture,Has Adhesive,Density (kg/m3),Shore Hardness A
+Iron-On,,3D Iron-On,100,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0
+Others,アセテート,Acetate,290,2倍,ファインポイントブレード,200.0,plain,0,1300.0,75.0
+Vinyl,接着箔,Adhesive Foil,90,-,ファインポイントブレード,120.0,foil,1,1365.0,75.0
+Vinyl,粘着箔、マット,"Adhesive Foil, Matte",90,-,ファインポイントブレード,120.0,foil,1,1365.0,75.0
+Others,アルミ箔,Aluminum Foil,70,2倍,ファインポイントブレード,200.0,foil,0,2835.0,50.0
+Paper,ブッチャーペーパー,Butcher Paper,100,-,ファインポイントブレード,80.0,plain,0,750.0,15.0
+Paper,キャリブレーションペーパー,Calibration Paper,90,-,ファインポイントブレード,80.0,plain,0,750.0,15.0
+Cardstock,,Cardstock (H),182,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0
+Cardstock,,"Cardstock, Adhesive-Backed",200,2倍,ファインポイントブレード,216.0,plain,1,800.0,30.0
+Vinyl,黒板ビニール,Chalkboard Vinyl,160,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
+Iron-On,,Chameleon Iron-On,130,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0
+Iron-On,,Color Pop Iron-On,250,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0
+Paper,建設用紙,Construction Paper,150,-,ファインポイントブレード,80.0,plain,0,750.0,15.0
+Paper,,Copy Paper,90,-,ファインポイントブレード,80.0,plain,0,750.0,15.0
+Paper,,Copy Paper - 24 lb (90 gsm),90,-,ファインポイントブレード,90.0,plain,0,750.0,15.0
+Paper,,Copy Paper - 32 lb (120 gsm),90,-,ファインポイントブレード,120.0,plain,0,750.0,15.0
+Board/Cardboard,段ボール,Corrugated Cardboard,320,-,ディープポイントブレード,850.0,plain,0,850.0,55.0
+Others,クラフトフォーム,Craft Foam,80,10倍,ディープポイントブレード,200.0,plain,0,100.0,42.0
+Cardstock,,Cutaway Card + Backer,165,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0
+Fabric,デニム、接着,"Denim, Bonded",320,3倍,ファインポイントブレード,150.0,plain,0,280.0,10.0
+Vinyl,,Dry Erase Vinyl,120,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
+Others,EVAフォーム,EVA Foam,150,-,ディープポイントブレード,200.0,plain,0,100.0,42.0
+Iron-On,エブリデイアイロン接着タイプ,Everyday Iron-On,90,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0
+Leather,フェイクレザー（ペーパーシン）,Faux Leather (Paper Thin),150,2倍,ファインポイントブレード,1440.0,plain,0,900.0,55.0
+Leather,フェイクスエード,Faux Suede,90,3倍,ファインポイントブレード,1440.0,plain,0,900.0,55.0
+Others,フェルト,Felt,160,2倍,ファインポイントブレード,200.0,plain,0,300.0,20.0
+Fabric,,"Felt, Wool Bonded",90,3倍,ファインポイントブレード,150.0,plain,0,300.0,20.0
+Others,フェルト、ウール生地,"Felt, Wool Fabric",320,6倍,ファインポイントブレード,200.0,plain,0,300.0,20.0
+Board/Cardboard,フラットダンボール,Flat Cardboard,320,-,ファインポイントブレード,850.0,plain,0,850.0,65.0
+Iron-On,,Flocked Iron-On,120,-,ファインポイントブレード,100.0,flock,0,1102.5,59.0
+Paper,,Flocked Paper,250,3倍,ファインポイントブレード,80.0,flock,0,787.5,29.0
+Iron-On,ホイルアイロン接着タイプ,Foil Iron-On,90,-,ファインポイントブレード,100.0,foil,0,1050.0,55.0
+Board/Cardboard,ホイルポスターボード,Foil Poster Board,330,2倍,ファインポイントブレード,850.0,foil,0,892.5,75.0
+Cardstock,グリッターカードストック,Glitter Cardstock,280,2倍,ファインポイントブレード,216.0,glitter,0,920.0,48.0
+Iron-On,グリッターアイロン接着タイプ,Glitter Iron-On,180,-,ファインポイントブレード,100.0,glitter,0,1176.0,63.0
+Iron-On,,Glow in the Dark Iron-On,90,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0
+Vinyl,,Glow in the Dark Vinyl,110,2倍,ファインポイントブレード,120.0,plain,0,1300.0,65.0
+Vinyl,,Heat/Cold Activated Color Changing Vinyl,130,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
+Cardstock,,Heavy Cardstock - 100 lb (270 gsm),270,2倍,ファインポイントブレード,270.0,plain,0,800.0,30.0
+Paper,,Heavy Watercolor Paper - 140 lbs (300 gsm),220,2倍,ファインポイントブレード,300.0,plain,0,750.0,15.0
+Iron-On,ホログラフィックアイロン接着タイプ,Holographic Iron-On,90,-,ファインポイントブレード,100.0,holographic,0,1102.5,53.0
+Vinyl,ホログラフィックビニール,Holographic Vinyl,90,-,ファインポイントブレード,120.0,holographic,0,1365.0,73.0
+Infusible Ink,インフュージブルインク転写シート,Infusible Ink Transfer Sheet,230,-,ファインポイントブレード,75.0,plain,0,800.0,20.0
+Cardstock,,Insert Card - Cardstock,180,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0
+Iron-On,,Iron-On Patches,130,3倍,ファインポイントブレード,100.0,plain,0,1050.0,45.0
+Board/Cardboard,クラフトボード,Kraft Board,330,3倍,ファインポイントブレード,850.0,plain,0,900.0,65.0
+Cardstock,クラフトカードストック,Kraft Cardstock,300,-,ファインポイントブレード,216.0,plain,0,800.0,30.0
+Printable Materials,,"Laminated Printable Sticker Paper, White",250,2倍,ファインポイントブレード,100.0,plain,1,900.0,25.0
+Paper,レーザーコピー用紙,Laser Copy Paper,90,-,ファインポイントブレード,80.0,plain,0,750.0,15.0
+Cardstock,,Light Cardstock - 65 lb (176 gsm),140,2倍,ファインポイントブレード,176.0,plain,0,800.0,30.0
+Board/Cardboard,,Light Chipboard - 0.37 mm,320,2倍,ファインポイントブレード,314.5,plain,0,850.0,55.5
+Others,,Magnetic Sheet - 0.5 mm,400,5倍,ファインポイントブレード,200.0,plain,0,3500.0,90.0
+Others,,Magnetic Sheet - 1.0 mm,350,8倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0
+Board/Cardboard,,Matboard (1.5 mm),350,6倍,ディープポイントブレード,1275.0,plain,0,850.0,72.5
+Cardstock,,Medium Cardstock - 80 lb (216 gsm),180,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0
+Cardstock,,"Medium Cardstock - 80 lb (Basic Cuts, Single Pass)",270,-,ファインポイントブレード,300.79999999999995,plain,0,800.0,30.0
+Fabric,,"Medium Fabrics (like Cotton), Bonded",90,3倍,ファインポイントブレード,150.0,plain,0,280.0,10.0
+Iron-On,,Metallic Puff Iron-On,120,-,ファインポイントブレード,100.0,metallic,0,1102.5,55.0
+Others,天然木ベニヤ,Natural Wood Veneer,310,4倍,ディープポイントブレード,200.0,plain,0,350.0,85.0
+Paper,,Photo Paper - 48 lb,200,-,ファインポイントブレード,180.48,plain,0,750.0,15.0
+Vinyl,プレミアムビニール,Premium Vinyl,100,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
+Vinyl,,Premium Vinyl - Frosted Opaque,130,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
+Vinyl,,Premium Vinyl - Textured Metallic,150,-,ファインポイントブレード,120.0,metallic,0,1365.0,75.0
+Vinyl,,Premium Vinyl - True Brushed,240,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
+Iron-On,,Printable Iron-On Glitter Kit,240,2倍,ファインポイントブレード,100.0,glitter,0,1176.0,61.0
+Iron-On,,Printable Iron-On Glow in the Dark Kit,160,2倍,ファインポイントブレード,100.0,plain,0,1050.0,45.0
+Iron-On,,Printable Iron-On Holographic Kit,160,2倍,ファインポイントブレード,100.0,holographic,0,1102.5,53.0
+Iron-On,印刷可能なアイロン接着タイプ、ダーク,"Printable Iron-On, Dark",100,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0
+Iron-On,印刷可能なアイロン接着タイプ、ライト,"Printable Iron-On, Light",70,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0
+Iron-On,,"Printable Iron-On, Sublimation",100,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0
+Printable Materials,,Printable Magnetic Sheet,300,-,ファインポイントブレード,100.0,plain,0,3500.0,90.0
+Printable Materials,,"Printable Sticker Paper, White",80,2倍,ファインポイントブレード,100.0,plain,1,900.0,25.0
+Printable Materials,,Printable Temporary Tattoo Paper,280,2倍,ファインポイントブレード,100.0,plain,0,900.0,25.0
+Printable Materials,,"Printable Vinyl, Specialty (Gold/Silver)",110,-,ファインポイントブレード,100.0,plain,0,900.0,25.0
+Printable Materials,,"Printable Vinyl, Transparent",100,-,ファインポイントブレード,100.0,plain,0,900.0,25.0
+Printable Materials,,"Printable Vinyl, White (Green Liner Printing)",60,-,ファインポイントブレード,100.0,plain,0,900.0,25.0
+Printable Materials,,Printable Waterproof Sticker Set - Transparent,230,2倍,ファインポイントブレード,100.0,plain,1,900.0,25.0
+Printable Materials,,Printable Waterproof Sticker Set - Transparent Holographic,230,2倍,ファインポイントブレード,100.0,holographic,1,945.0,33.0
+Printable Materials,,Printable Waterproof Sticker Set - White,200,2倍,ファインポイントブレード,100.0,plain,1,900.0,25.0
+Printable Materials,,Printable Waterproof Sticker Set - White Holographic,200,2倍,ファインポイントブレード,100.0,holographic,1,945.0,33.0
+Iron-On,,Puff Iron-On,100,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0
+Iron-On,リフレクティブアイロン接着タイプ,Reflective Iron-On,100,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0
+Others,,Rubber (1.0 mm),180,2倍,ディープポイントブレード,200.0,plain,0,1200.0,50.0
+Smart Materials,,Smart Iron-On Glitter Matless Heat Transfer Vinyl,170,-,ファインポイントブレード,120.0,glitter,0,1456.0,81.0
+Smart Materials,,Smart Iron-On Holographic Matless Heat Transfer Vinyl,180,-,ファインポイントブレード,120.0,holographic,0,1365.0,73.0
+Smart Materials,,Smart Iron-On Matless Heat Transfer Vinyl,100,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
+Smart Materials,,Smart Label Dissolvable Matless Writable Paper,100,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
+Smart Materials,,Smart Label Matless Writable Vinyl,100,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
+Smart Materials,,Smart Paper Matless Sticker Cardstock,180,-,ファインポイントブレード,120.0,plain,1,1300.0,65.0
+Smart Materials,,Smart Stencil Matless Flexible Stencil Film,100,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
+Smart Materials,,Smart Vinyl Matless Permanent Vinyl,120,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
+Smart Materials,,Smart Vinyl Matless Removable Vinyl,120,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
+Smart Materials,,Smart Vinyl Matte Metallic Matless Permanent Vinyl,110,-,ファインポイントブレード,120.0,metallic,0,1365.0,75.0
+Smart Materials,,Smart Vinyl Shimmer Matless Permanent Vinyl,150,-,ファインポイントブレード,120.0,shimmer,0,1339.0,71.0
+Iron-On,SportFlexアイロン接着タイプ,SportFlex Iron-On,100,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0
+Paper,,Sublimation Paper,100,-,ファインポイントブレード,80.0,plain,0,750.0,15.0
+Others,透明性,Transparency,230,-,ファインポイントブレード,200.0,plain,0,1300.0,75.0
+Iron-On,,UV Activated Color Changing Iron-On,120,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0
+Iron-On,,UV-Activated Color-Changing Printable Iron-On Kit,180,2倍,ファインポイントブレード,100.0,plain,0,1050.0,45.0
+Cardstock,,Value Cardstock - 65 lb (176gsm),160,2倍,ファインポイントブレード,176.0,plain,0,800.0,30.0
+Cardstock,,"Value Cardstock - 65 lb (Basic Cuts, Single Pass)",240,-,ファインポイントブレード,244.39999999999998,plain,0,800.0,30.0
+Iron-On,,Value Glitter Iron-On,150,-,ファインポイントブレード,100.0,glitter,0,1176.0,63.0
+Iron-On,,Value Iron-On,100,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0
+Vinyl,,Value Vinyl,100,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
+Paper,ヴェラム,Vellum,130,-,ファインポイントブレード,80.0,plain,0,750.0,12.0
+Others,,Washi Tape - 0.06 mm,50,-,ファインポイントブレード,200.0,plain,0,150.0,10.0
+Cardstock,水彩カード,Watercolor Cards,200,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0
+Paper,ワックス紙,Wax Paper,160,-,ファインポイントブレード,80.0,plain,0,750.0,15.0
+Paper,ラッピングペーパー,Wrapping Paper,100,-,ファインポイントブレード,80.0,plain,0,750.0,15.0
