@@ -608,7 +608,7 @@ select, input { font-family: inherit; }
 @media (min-width: 640px) {
   .hero-headline { font-size: 32px; }
   .hero-sub { font-size: 15px; }
-  .hero-banner { min-height: 540px; }
+  .hero-banner { min-height: 600px; }
 }
 
 /* ── Browse two-column layout ────────────────────────────────────────────────── */
