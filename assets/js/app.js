@@ -1,7 +1,7 @@
 /* app.js — browse, filter, predict */
 (function () {
   const { t, tCat, tBlade, currentLang, setLang } = window.i18n;
-  const { predict, loadPreprocessor }              = window.CricutPredict;
+  const { predict, loadPreprocessor, getMaterialProps, getKnownNames } = window.CricutPredict;
 
   const MACHINES = ["Cricut Joy", "Cricut Joy 2", "Cricut Joy Xtra", "Explore 3", "Maker 3"];
   const MACHINE_SHORT = {
@@ -75,8 +75,9 @@
     buildSidebar();
     render();
 
-    // Warm the first machine's ONNX model in the background
+    // Warm preprocessor + first machine model; populate material name datalist
     loadPreprocessor().then(pp => {
+      populateMaterialNameList();
       const info = pp.machines[activeMachine];
       if (info && window.ort) {
         ort.InferenceSession.create(
@@ -361,7 +362,36 @@
       const cat = $("pCategory").value;
       $("pThickness").value = THICKNESS_DEFAULTS[cat] || 0.5;
     });
+    $("pMaterialName").addEventListener("input", onMaterialNameInput);
+    $("pMaterialName").addEventListener("change", onMaterialNameInput);
     $("btnPredict").addEventListener("click", runPredict);
+  }
+
+  /* Populate <datalist> once preprocessor is loaded */
+  function populateMaterialNameList() {
+    const names = getKnownNames ? getKnownNames() : [];
+    const dl    = $("materialNameList");
+    if (!dl || !names.length) return;
+    dl.innerHTML = names.map(n => '<option value="' + esc(n) + '">').join("");
+  }
+
+  /* Auto-fill thickness + category when a known material is selected */
+  function onMaterialNameInput() {
+    const name  = $("pMaterialName").value.trim();
+    if (!name || !getMaterialProps) return;
+    const props = getMaterialProps(name);
+    if (!props) return;
+    /* auto-fill category */
+    if (props.category) {
+      const cSel = $("pCategory");
+      for (let i = 0; i < cSel.options.length; i++) {
+        if (cSel.options[i].value === props.category) { cSel.selectedIndex = i; break; }
+      }
+    }
+    /* auto-fill thickness */
+    if (props.thickness_mm && props.thickness_mm > 0) {
+      $("pThickness").value = props.thickness_mm.toFixed(2);
+    }
   }
 
   function populatePredictForm() {
@@ -400,17 +430,18 @@
       return;
     }
 
-    const machine  = $("pMachine").value;
-    const category = $("pCategory").value;
-    const btn      = $("btnPredict");
+    const machine      = $("pMachine").value;
+    const category     = $("pCategory").value;
+    const materialName = $("pMaterialName") ? $("pMaterialName").value.trim() : "";
+    const btn          = $("btnPredict");
 
     btn.disabled    = true;
     btn.textContent = t("btn_predicting");
     $("predictResult").classList.add("hidden");
 
     try {
-      const result = await predict({ machine, category, thicknessMm: mm });
-      showResult(result, machine, category);
+      const result = await predict({ machine, materialName, category, thicknessMm: mm });
+      showResult(result, machine, materialName || category);
     } catch {
       $("predictResult").innerHTML =
         '<div class="result-box result-error">' +
@@ -423,14 +454,19 @@
     }
   }
 
-  function showResult(r, machine, category) {
+  function showResult(r, machine, materialOrCat) {
     const lang      = currentLang();
     const bladeDisp = lang === "ja" ? r.bladeJp : r.bladeEn;
+    /* Show material name if typed, else fall back to resolved category */
+    const catLabel  = r.resolvedCategory ? tCat(r.resolvedCategory) : tCat(materialOrCat);
+    const subLabel  = materialOrCat && materialOrCat !== r.resolvedCategory
+      ? esc(materialOrCat) + ' · ' + esc(catLabel)
+      : esc(catLabel);
     $("predictResult").innerHTML =
       '<div class="result-box">' +
         '<div class="result-header">' +
           '<span class="result-header-title">' + t("result_title") + '</span>' +
-          '<span class="result-header-sub">' + esc(machine) + ' · ' + esc(tCat(category)) + '</span>' +
+          '<span class="result-header-sub">' + esc(machine) + ' · ' + subLabel + '</span>' +
         '</div>' +
         '<div class="result-body">' +
           '<div class="result-specs">' +

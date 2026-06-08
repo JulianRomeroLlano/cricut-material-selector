@@ -398,6 +398,9 @@ select, input { font-family: inherit; }
 .input-unit { font-size: 13px; color: var(--text-muted); font-weight: 500; white-space: nowrap; }
 .field-error { font-size: 12px; color: var(--error); font-weight: 500; }
 .field-error.hidden { display: none; }
+.form-hint { display: block; font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.4; }
+.predict-name-field { width: 100%; flex: none; min-width: unset; }
+.predict-name-field input { padding-left: 34px; }
 .btn-cta {
   width: 100%;
   padding: 13px;
