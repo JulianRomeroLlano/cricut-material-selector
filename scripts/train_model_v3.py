@@ -56,9 +56,9 @@ class NpEncoder(json.JSONEncoder):
 
 # ─── Hyperparameters ──────────────────────────────────────────────────────────
 EMB_DIM    = 16
-N_FAMILIES = 3
+N_FAMILIES = 5
 N_PHYSICS  = 7
-FEATURE_DIM = EMB_DIM + N_PHYSICS + N_FAMILIES   # 26
+FEATURE_DIM = EMB_DIM + N_PHYSICS + N_FAMILIES   # 28
 
 LR          = 1e-3
 MAX_EPOCHS  = 3000
@@ -75,13 +75,13 @@ AUG_JITTER   = 0.05   # ±5%
 
 MACHINE_FAMILIES = {
     "Cricut Joy":      0,
-    "Cricut Joy 2":    0,
-    "Cricut Joy Xtra": 0,
-    "Explore 3":       1,
-    "Explore 5":       1,   # same materials as Explore 3
-    "Maker 3":         2,
+    "Cricut Joy 2":    1,
+    "Cricut Joy Xtra": 2,
+    "Explore 3":       3,
+    "Explore 5":       3,   # same materials as Explore 3
+    "Maker 3":         4,
 }
-FAMILY_NAMES = {0: "Joy", 1: "Explore", 2: "Maker"}
+FAMILY_NAMES = {0: "Joy", 1: "Joy2", 2: "JoyXtra", 3: "Explore", 4: "Maker"}
 
 BLADE_JP_TO_EN = {
     "ディープポイントブレード":      "Deep-Point Blade",
@@ -283,7 +283,7 @@ class MaterialDataset(Dataset):
         s_n = clamp01(shore / 100.0)
 
         physics   = [g_n, t_n, r["bonded"], r["texture"], r["adhesive"], d_n, s_n]
-        family_oh = [0.0, 0.0, 0.0]; family_oh[r["family"]] = 1.0
+        family_oh = [0.0] * N_FAMILIES; family_oh[r["family"]] = 1.0
         p_norm    = (p_log - n["p_log_mean"]) / (n["p_log_std"] + 1e-9)
 
         return (

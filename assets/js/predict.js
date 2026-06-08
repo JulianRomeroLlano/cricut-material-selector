@@ -113,13 +113,12 @@
     /* 22: Shore A / 100 */
     features[22] = clamp01(props.shore / 100);
 
-    /* 23–25: machine family one-hot (v3 only — feature_dim === 26) */
-    if (pp.feature_dim === 26 && machine) {
-      const info = pp.machines[machine];
-      const fam  = info !== undefined ? info.family : 2;  /* default: Maker */
-      features[23] = fam === 0 ? 1 : 0;
-      features[24] = fam === 1 ? 1 : 0;
-      features[25] = fam === 2 ? 1 : 0;
+    /* dims 23+: machine family one-hot (v3 only) */
+    if (pp.n_families && machine) {
+      const info   = pp.machines[machine];
+      const fam    = info !== undefined ? info.family : (pp.n_families - 1);
+      const offset = pp.emb_dim + pp.n_physics;
+      for (let f = 0; f < pp.n_families; f++) features[offset + f] = fam === f ? 1 : 0;
     }
 
     return features;
