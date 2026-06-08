@@ -154,8 +154,13 @@ p_tgt  = ((np.log(df_all["Cutting Pressure"].values) - G_P_MEAN) / (G_P_STD + 1e
 b_tgt  = np.array([blade_idx.get(b, 0) for b in df_all["Blade Type"]], dtype=np.int64)
 mc_tgt = df_all["mc_bucket"].values.astype(np.int64)
 
-idx = np.arange(len(df_all))
-tr_idx, va_idx = train_test_split(idx, test_size=0.10, random_state=SEED)
+# Group-split by material name: no name appears in both train and val
+unique_names_g = np.array(sorted(df_all["Material Name Base"].unique()))
+tr_names_g, va_names_g = train_test_split(unique_names_g, test_size=0.10, random_state=SEED)
+name_col_g = df_all["Material Name Base"].values
+tr_idx = np.where(np.isin(name_col_g, tr_names_g))[0]
+va_idx = np.where(np.isin(name_col_g, va_names_g))[0]
+print(f"Group split: {len(tr_names_g)} train names / {len(va_names_g)} val names")
 
 # ─── Phase 1 Model ────────────────────────────────────────────────────────────
 

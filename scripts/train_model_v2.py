@@ -298,6 +298,8 @@ print("\n" + "═"*70)
 print("PHASE 1 — Global Embedding Training (all machines)")
 print("═"*70)
 
+# Phase 1 trains on ALL rows so every name gets a well-trained embedding.
+# Generalization to unseen names is tested in Phase 2 (group split there).
 df_p1 = df_all.copy()
 physics_all = build_physics(df_p1)
 name_idx_all = df_p1["name_idx"].values.astype(np.int64)
@@ -307,29 +309,18 @@ for i, m in enumerate(df_p1["Machine"]):
 p_tgt  = build_pressure_target(df_p1)
 b_tgt  = build_blade_target(df_p1)
 mc_tgt = build_mcut_target(df_p1)
-
-idx = np.arange(len(df_p1))
-tr_idx, va_idx = train_test_split(idx, test_size=0.10, random_state=SEED)
+print(f"  Training on all {len(df_p1)} rows ({N_NAMES} unique names)")
 
 def make_phase1_loaders(batch=512):
-    tr = TensorDataset(
-        torch.from_numpy(name_idx_all[tr_idx]),
-        torch.from_numpy(physics_all[tr_idx]),
-        torch.from_numpy(mach_oh_all[tr_idx]),
-        torch.from_numpy(p_tgt[tr_idx]),
-        torch.from_numpy(b_tgt[tr_idx]),
-        torch.from_numpy(mc_tgt[tr_idx]),
+    all_ds = TensorDataset(
+        torch.from_numpy(name_idx_all),
+        torch.from_numpy(physics_all),
+        torch.from_numpy(mach_oh_all),
+        torch.from_numpy(p_tgt),
+        torch.from_numpy(b_tgt),
+        torch.from_numpy(mc_tgt),
     )
-    va = TensorDataset(
-        torch.from_numpy(name_idx_all[va_idx]),
-        torch.from_numpy(physics_all[va_idx]),
-        torch.from_numpy(mach_oh_all[va_idx]),
-        torch.from_numpy(p_tgt[va_idx]),
-        torch.from_numpy(b_tgt[va_idx]),
-        torch.from_numpy(mc_tgt[va_idx]),
-    )
-    return (DataLoader(tr, batch_size=batch, shuffle=True),
-            DataLoader(va, batch_size=batch*2))
+    return (DataLoader(all_ds, batch_size=batch, shuffle=True), None)
 
 p1_hidden  = [256, 128, 64]
 p1_dropout = [0.30, 0.25, 0.15]
@@ -339,12 +330,9 @@ n_params = sum(p.numel() for p in p1_model.parameters() if p.requires_grad)
 print(f"Phase 1 model: {N_NAMES} names × {EMB_DIM} emb + {N_PHYSICS} physics + {N_MACH} mach = {EMB_DIM+N_PHYSICS+N_MACH} in")
 print(f"  Architecture: {'→'.join(str(h) for h in p1_hidden)}→heads  ({n_params:,} params)")
 
-tr_loader, va_loader = make_phase1_loaders()
+tr_loader, _ = make_phase1_loaders()
 optimizer = torch.optim.AdamW(p1_model.parameters(), lr=LR_PHASE1, weight_decay=1e-4)
 scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=MAX_EPOCHS_PHASE1)
-
-best_val, best_epoch, no_improve = float("inf"), 0, 0
-best_state = None
 
 for epoch in range(1, MAX_EPOCHS_PHASE1 + 1):
     p1_model.train()
@@ -358,32 +346,19 @@ for epoch in range(1, MAX_EPOCHS_PHASE1 + 1):
         optimizer.step()
     scheduler.step()
 
-    if epoch % EVAL_EVERY == 0:
+    if epoch % 100 == 0:
         p1_model.eval()
-        val_loss = 0.0
+        train_loss = 0.0
         with torch.no_grad():
-            for nidx, ph, moh, pt, bt, mt in va_loader:
+            for nidx, ph, moh, pt, bt, mt in tr_loader:
                 nidx, ph, moh = nidx.to(DEVICE), ph.to(DEVICE), moh.to(DEVICE)
                 pt, bt, mt = pt.to(DEVICE), bt.to(DEVICE), mt.to(DEVICE)
                 pp, pb, pm = p1_model(nidx, ph, moh)
-                val_loss += loss_fn(pp, pb, pm, pt, bt, mt).item()
-        val_loss /= len(va_loader)
+                train_loss += loss_fn(pp, pb, pm, pt, bt, mt).item()
+        train_loss /= len(tr_loader)
+        print(f"  ep {epoch:4d}  train_loss={train_loss:.5f}")
 
-        if val_loss < best_val:
-            best_val, best_epoch, no_improve = val_loss, epoch, 0
-            best_state = copy.deepcopy(p1_model.state_dict())
-        else:
-            no_improve += EVAL_EVERY
-
-        if epoch % 100 == 0:
-            print(f"  ep {epoch:4d}  val_loss={val_loss:.5f}  best={best_val:.5f}@ep{best_epoch}")
-
-        if no_improve >= PATIENCE_PHASE1:
-            print(f"  Early stop at epoch {epoch}")
-            break
-
-p1_model.load_state_dict(best_state)
-print(f"Phase 1 complete — best val_loss={best_val:.5f} at epoch {best_epoch}")
+print(f"Phase 1 complete — {MAX_EPOCHS_PHASE1} epochs, all {N_NAMES} name embeddings trained")
 
 # Extract and checkpoint embedding matrix
 EMB_MATRIX = p1_model.embedding.weight.detach().cpu().numpy()  # (N_NAMES, EMB_DIM)
@@ -413,9 +388,14 @@ def train_machine(machine_name, cfg):
     b_mach  = b_tgt[mask]
     mc_mach = mc_tgt[mask]
 
-    idx_m = np.arange(len(X_mach))
-    tr_m, va_m = train_test_split(idx_m, test_size=0.10, random_state=SEED)
-    print(f"  train={len(tr_m)}  val={len(va_m)}")
+    # Group-split by material name: no name in both train and val
+    mach_names     = df_all[mask]["Material Name Base"].values
+    unique_m_names = np.array(sorted(set(mach_names)))
+    tr_names_m, va_names_m = train_test_split(unique_m_names, test_size=0.10, random_state=SEED)
+    tr_m = np.where(np.isin(mach_names, tr_names_m))[0]
+    va_m = np.where(np.isin(mach_names, va_names_m))[0]
+    print(f"  Group split: {len(tr_names_m)} train names ({len(tr_m)} rows) | "
+          f"{len(va_names_m)} val names ({len(va_m)} rows)")
 
     tr_ds = TensorDataset(torch.from_numpy(X_mach[tr_m]),
                           torch.from_numpy(p_mach[tr_m]),
