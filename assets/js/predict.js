@@ -74,14 +74,15 @@
     return { gsm, density, shore, texture, adhesive, bonded, thickness, cat };
   }
 
-  /* Build 23-dim float32 feature vector:
-     [emb(16)] + [gsm_lognorm, thickness_lognorm, is_bonded, surface_texture,
-                  has_adhesive, density_lognorm, shore_norm] */
-  function buildFeatures(pp, { materialName, category, thicknessMm }) {
+  /* Build feature vector (v2: 23-dim, v3: 26-dim).
+     v2: [emb(16)] + [gsm_lognorm, thickness_lognorm, is_bonded, surface_texture,
+                      has_adhesive, density_lognorm, shore_norm]
+     v3: same as v2 + [family_joy, family_explore, family_maker] */
+  function buildFeatures(pp, { materialName, category, thicknessMm, machine }) {
     const emb   = resolveEmbedding(pp, materialName, category);
     const props = resolveProps(pp, materialName, category, thicknessMm);
 
-    const features = new Float32Array(pp.feature_dim);  /* 23 */
+    const features = new Float32Array(pp.feature_dim);
 
     /* 0–15: name embedding */
     for (let i = 0; i < (pp.emb_dim || 16); i++) {
@@ -111,6 +112,15 @@
 
     /* 22: Shore A / 100 */
     features[22] = clamp01(props.shore / 100);
+
+    /* 23–25: machine family one-hot (v3 only — feature_dim === 26) */
+    if (pp.feature_dim === 26 && machine) {
+      const info = pp.machines[machine];
+      const fam  = info !== undefined ? info.family : 2;  /* default: Maker */
+      features[23] = fam === 0 ? 1 : 0;
+      features[24] = fam === 1 ? 1 : 0;
+      features[25] = fam === 2 ? 1 : 0;
+    }
 
     return features;
   }
@@ -174,8 +184,8 @@
     const sess = await getSession(info.slug);
 
     let features;
-    if (pp.version === "v2") {
-      features = buildFeatures(pp, { materialName: materialName || "", category, thicknessMm });
+    if (pp.version === "v3" || pp.version === "v2") {
+      features = buildFeatures(pp, { materialName: materialName || "", category, thicknessMm, machine });
     } else {
       features = buildFeaturesV1(pp, { category, thicknessMm });
     }
