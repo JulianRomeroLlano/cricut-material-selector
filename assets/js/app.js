@@ -278,6 +278,12 @@
               '<span class="chip-label">' + esc(t("blade_label")) + '</span>' +
               '<span class="chip-val">' + esc(bladeDisp) + '</span>' +
             '</div>' +
+            (m.thickness_mm
+              ? '<div class="mat-chip">' +
+                  '<span class="chip-label">' + esc(t("thickness_label")) + '</span>' +
+                  '<span class="chip-val">' + m.thickness_mm + ' mm</span>' +
+                '</div>'
+              : '') +
           '</div>';
         catCards.appendChild(card);
       });
