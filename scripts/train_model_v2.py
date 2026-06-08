@@ -104,14 +104,26 @@ TEXTURE_MAP = {
 MULTICUT_MAP = {
     "-": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5,
     "6": 6, "7": 7, "8": 8, "9": 9, "10": 10,
+    # Japanese "N倍" notation (previously silently mapped to 0)
+    "2倍": 2, "3倍": 3, "4倍": 4, "5倍": 5, "6倍": 6, "7倍": 7, "8倍": 8,
+    "10倍": 10, "12倍": 12, "14倍": 14, "16倍": 16, "17倍": 17, "18倍": 18, "24倍": 24,
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # 1. Load & Clean Augmented Data
 # ═══════════════════════════════════════════════════════════════════════════════
 
+_MEAS_PAREN = re.compile(
+    r'''\s*\(\s*
+        \d[\d\s./\-]*
+        (?:gsm|lbs?|oz\.?|mm|cm|inch(?:es)?|gauge)?
+        (?:\s*/\s*[\d\s./\-]+(?:gsm|lbs?|oz\.?|mm|cm|inch(?:es)?|gauge)?)?
+        \s*\)\s*$''',
+    re.IGNORECASE | re.VERBOSE,
+)
 def normalize_name(name: str) -> str:
-    cleaned = re.sub(r'\s*\([^)]*\)\s*$', '', name.strip()).strip()
+    """Strip measurement-only trailing parentheticals; keep descriptive ones."""
+    cleaned = _MEAS_PAREN.sub('', name.strip()).strip()
     return cleaned or name.strip()
 
 df_all = pd.read_csv(DATA_CSV, encoding="utf-8-sig")

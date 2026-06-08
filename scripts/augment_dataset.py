@@ -24,10 +24,26 @@ OUT_CSV = os.path.join(ROOT, "assets", "data", "Material List (Augmented).csv")
 AUG_FACTORS = [round(0.90 + i * 0.01, 2) for i in range(21)]  # 0.90 … 1.10
 
 
+# Only strip parentheticals that are purely measurement/weight info (digits + units).
+# Descriptive parentheticals like "(Mosaic)", "(Green Liner)", "(Intricate Cuts)" are kept.
+_MEAS_PAREN = re.compile(
+    r'''\s*\(\s*
+        \d                                     # must start with a digit
+        [\d\s./\-]*                            # more digits / separators
+        (?:gsm|lbs?|oz\.?|mm|cm|              # optional primary unit
+           inch(?:es)?|gauge)?
+        (?:\s*/\s*                             # optional second measurement
+           [\d\s./\-]+
+           (?:gsm|lbs?|oz\.?|mm|cm|
+              inch(?:es)?|gauge)?
+        )?
+        \s*\)\s*$''',
+    re.IGNORECASE | re.VERBOSE,
+)
+
 def normalize_name(name: str) -> str:
-    """Strip trailing parenthetical weight/gsm/mode info from a material name."""
-    # Strip one or more trailing (...) blocks  e.g. "(176gsm)", "(20lb/75gsm)", "(Basic Cuts, Single Pass)"
-    cleaned = re.sub(r'\s*\([^)]*\)\s*$', '', name.strip()).strip()
+    """Strip trailing measurement-only parentheticals, keep descriptive ones."""
+    cleaned = _MEAS_PAREN.sub('', name.strip()).strip()
     return cleaned or name.strip()
 
 

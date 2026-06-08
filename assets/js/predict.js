@@ -24,9 +24,13 @@
 
   function clamp01(x) { return Math.max(0, Math.min(1, x)); }
 
-  /* Normalize material name the same way the Python training script does */
+  /* Normalize material name the same way the Python training script does.
+     Only strips measurement-only parentheticals (digits + units).
+     Descriptive ones like "(Mosaic)" or "(Green Liner)" are kept. */
+  const MEAS_PAREN = /\s*\(\s*\d[\d\s./\-]*(?:gsm|lbs?|oz\.?|mm|cm|inch(?:es)?|gauge)?(?:\s*\/\s*[\d\s./\-]+(?:gsm|lbs?|oz\.?|mm|cm|inch(?:es)?|gauge)?)?\s*\)\s*$/i;
   function normalizeName(name) {
-    return name.trim().replace(/\s*\([^)]*\)\s*$/, '').trim() || name.trim();
+    const cleaned = name.trim().replace(MEAS_PAREN, '').trim();
+    return cleaned || name.trim();
   }
 
   /* Resolve embedding vector for a material name (or fall back to category average) */
