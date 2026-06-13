@@ -1,4 +1,4 @@
-Machine,Category,Material Name (JP),Material Name (EN),Cutting Pressure,Multi-Cut,Blade Type,GSM,Surface Texture,Has Adhesive,Density (kg/m3),Shore Hardness A
+﻿Machine,Category,Material Name (JP),Material Name (EN),Cutting Pressure,Multi-Cut,Blade Type,GSM,Surface Texture,Has Adhesive,Density (kg/m3),Shore Hardness A
 Maker 3,Iron-On,模様入りアイロン接着タイプ,Patterned Iron-On,80.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0
 Maker 3,Iron-On,エブリデイアイロン接着タイプ（メッシュ）,Everyday Iron-On (Mesh),100.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0
 Maker 3,Iron-On,エクスプレスアイロン接着タイプ,Express Iron-On,102.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0
@@ -1015,3 +1015,4 @@ Maker 3,Others,バルサ - 1／16インチ（1.6mm）,"Balsa - 1/16"" (1.6 mm)",
 Maker 3,Others,バルサ - 3／32インチ（2.4mm）,"Balsa - 3/32"" (2.4 mm)",300.0,7倍,ナイフの刃,200.0,plain,0,150.0,60.0
 Maker 3,Others,バスウッド - 1／16インチ（1.6mm）,"Basswood - 1/16"" (1.6 mm)",750.0,14倍,ナイフの刃,200.0,plain,0,400.0,97.0
 Maker 3,Others,バスウッド - 1／32インチ（0.8mm）,"Basswood - 1/32"" (0.8 mm)",381.0,18倍,ナイフの刃,200.0,plain,0,400.0,97.0
+Maker 3,Leather,本革 (1.8mm),Genuine Leather (1.8 mm),270.0,3倍,ディープポイントブレード,1440.0,plain,0,900.0,55.0
