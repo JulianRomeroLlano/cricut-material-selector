@@ -66,7 +66,7 @@ def mc_label(n: int) -> str:
 
 def load_csv():
     rows = []
-    with open(CSV_PATH, newline='', encoding='utf-8') as f:
+    with open(CSV_PATH, newline='', encoding='utf-8-sig') as f:
         for r in csv.DictReader(f):
             machine = r["Machine"].strip()
             if machine not in MACHINE_MAP:
