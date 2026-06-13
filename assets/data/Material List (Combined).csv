@@ -298,7 +298,7 @@ Maker 3,Plastic,ステンシルフィルム,Stencil Film,300.0,-,ファインポ
 Maker 3,Plastic,透明性,Transparency,308.0,-,ファインポイントブレード,150.0,plain,0,1300.0,75.0,
 Maker 3,Plastic,カッティングマットプロテクター,Cutting Mat Protector,310.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0,
 Maker 3,Others,塗料チップ,Paint Chips,310.0,-,ファインポイントブレード,200.0,plain,0,150.0,40.0,
-Maker 3,Others,磁気シート,Magnetic Sheet,320.0,4倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0,0.5
+Maker 3,Others,磁気シート,Magnetic Sheet,320.0,4倍,ディープポイントブレード,1750.0,plain,0,3500.0,90.0,0.5
 Maker 3,Others,接着シート両面,Double-Sided Adhesive Sheet,325.0,2倍,ファインポイントブレード,200.0,plain,1,150.0,40.0,
 Maker 3,Others,ネオプレン,Neoprene,330.0,2倍,ディープポイントブレード,200.0,plain,0,150.0,40.0,
 Maker 3,Others,ジェルシート,Gel Sheet,335.0,4倍,ディープポイントブレード,200.0,plain,0,150.0,40.0,
@@ -309,7 +309,7 @@ Maker 3,Others,天然木ベニヤ,Natural Wood Veneer,345.0,4倍,ディープポ
 Maker 3,Others,シラカバ、永久接着剤,"Birch, Permanent Adhesive",350.0,-,ファインポイントブレード,200.0,plain,1,150.0,40.0,
 Maker 3,Others,フェルト、ウールボンディング,"Felt, Wool Bonding",350.0,2倍,ファインポイントブレード,200.0,plain,0,300.0,20.0,
 Maker 3,Others,フェルト、ウール生地,"Felt, Wool Fabric",350.0,6倍,ファインポイントブレード,200.0,plain,0,300.0,20.0,
-Maker 3,Others,磁気シート,Magnetic Sheet,350.0,7倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0,1.0
+Maker 3,Others,磁気シート,Magnetic Sheet,350.0,7倍,ディープポイントブレード,3500.0,plain,0,3500.0,90.0,1.0
 Explore 3,Iron-On,模様入りアイロン接着タイプ,Patterned Iron-On,80.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Explore 3,Iron-On,エブリデイアイロン接着タイプ（メッシュ）,Everyday Iron-On (Mesh),100.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Explore 3,Iron-On,エクスプレスアイロン接着タイプ,Express Iron-On,102.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
@@ -442,14 +442,14 @@ Explore 3,Others,フュージブルファブリック,Fusible Fabric,220.0,-,フ
 Explore 3,Others,パーティーホイル,Party Foil,275.0,-,ファインポイントブレード,200.0,foil,0,157.5,50.0,
 Explore 3,Plastic,マイラー,Mylar,292.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0,
 Explore 3,Plastic,ステンシルフィルム,Stencil Film,300.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0,0.4
-Explore 3,Others,磁気シート,Magnetic Sheet,300.0,4倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0,0.5
+Explore 3,Others,磁気シート,Magnetic Sheet,300.0,4倍,ディープポイントブレード,1750.0,plain,0,3500.0,90.0,0.5
 Explore 3,Plastic,透明性,Transparency,308.0,-,ファインポイントブレード,150.0,plain,0,1300.0,75.0,
 Explore 3,Plastic,カッティングマットプロテクター,Cutting Mat Protector,310.0,2倍,ファインポイントブレード,150.0,plain,0,1350.0,70.0,
 Explore 3,Others,塗料チップ,Paint Chips,310.0,-,ファインポイントブレード,200.0,plain,0,150.0,40.0,
 Explore 3,Others,天然木ベニヤ,Natural Wood Veneer,320.0,3倍,ディープポイントブレード,200.0,plain,0,350.0,85.0,
 Explore 3,Others,フェルト、ウール生地,Felt and Wool Fabric,328.0,6倍,ファインポイントブレード,200.0,plain,0,300.0,20.0,
 Explore 3,Others,フェルト、ウールボンディング,Felt and Wool Bonding,331.0,2倍,ファインポイントブレード,200.0,plain,0,300.0,20.0,
-Explore 3,Others,磁気シート,Magnetic Sheet,350.0,8倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0,1.0
+Explore 3,Others,磁気シート,Magnetic Sheet,350.0,8倍,ディープポイントブレード,3500.0,plain,0,3500.0,90.0,1.0
 Cricut Joy,Iron-On,エブリデイアイロン接着タイプ,Everyday Iron-On,95.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Cricut Joy,Iron-On,UVで色が変わるアイロン接着タイプ,UV-Color-Changing Iron-On,113.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Cricut Joy,Iron-On,リフレクティブアイロン接着タイプ,Reflective Iron-On,113.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
@@ -664,8 +664,8 @@ Cricut Joy Xtra,Printable Materials,ラミネート印刷可能なステッカ�
 Cricut Joy Xtra,Paper,レーザーコピー用紙,Laser Copy Paper,90.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Cricut Joy Xtra,Cardstock,ライトカードストック - 65ポンド,Light Cardstock,140.0,2倍,ファインポイントブレード,176.0,plain,0,800.0,30.0,0.176
 Cricut Joy Xtra,Board/Cardboard,軽チップボード,Light Chipboard,320.0,2倍,ファインポイントブレード,314.5,plain,0,850.0,55.5,0.37
-Cricut Joy Xtra,Others,磁気シート,Magnetic Sheet,400.0,5倍,ファインポイントブレード,200.0,plain,0,3500.0,90.0,0.5
-Cricut Joy Xtra,Others,磁気シート,Magnetic Sheet,350.0,8倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0,1.0
+Cricut Joy Xtra,Others,磁気シート,Magnetic Sheet,400.0,5倍,ファインポイントブレード,1750.0,plain,0,3500.0,90.0,0.5
+Cricut Joy Xtra,Others,磁気シート,Magnetic Sheet,350.0,8倍,ディープポイントブレード,3500.0,plain,0,3500.0,90.0,1.0
 Cricut Joy Xtra,Board/Cardboard,マットボード,Matboard,350.0,6倍,ディープポイントブレード,1275.0,plain,0,850.0,72.5,1.5
 Cricut Joy Xtra,Cardstock,ミディアムカードストック - 80ポンド,Medium Cardstock,180.0,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0,0.216
 Cricut Joy Xtra,Cardstock,ミディアムカードストック - 80ポンド（基本カット、シングルパス）,"Medium Cardstock - 80 lb (Basic Cuts, Single Pass)",270.0,-,ファインポイントブレード,300.79999999999995,plain,0,800.0,30.0,
@@ -998,5 +998,5 @@ Maker 3,Fabric,シャンタンサンタン,Shantung Santeen,1743.0,-,ロータ�
 Maker 3,Fabric,タフタ,Tafetta,1405.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
 Maker 3,Fabric,ボイル,Voile,1450.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
 Maker 3,Fabric,ジベリン,Ziberline,1900.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
-Maker 3,Leather,本革,Genuine Leather,270.0,3倍,ディープポイントブレード,1440.0,plain,0,900.0,55.0,1.8
-Maker 3,Paper,建設用紙,Construction Paper,169.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,0.18
+Maker 3,Leather,本革,Genuine Leather,270.0,3倍,ディープポイントブレード,1620.0,plain,0,900.0,55.0,1.8
+Maker 3,Paper,建設用紙,Construction Paper,169.0,-,ファインポイントブレード,135.0,plain,0,750.0,15.0,0.18
