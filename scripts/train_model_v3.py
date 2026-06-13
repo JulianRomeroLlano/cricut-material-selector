@@ -111,16 +111,12 @@ THICKNESS_DEFAULTS = {
 # 1. Name Normalisation
 # ═══════════════════════════════════════════════════════════════════════════════
 
-_MEAS_PAREN = re.compile(
-    r'''\s*\(\s*\d[\d\s./\-]*
-        (?:gsm|lbs?|oz\.?|mm|cm|inch(?:es)?|gauge)?
-        (?:\s*/\s*[\d\s./\-]+(?:gsm|lbs?|oz\.?|mm|cm|inch(?:es)?|gauge)?)?
-        \s*\)\s*$''',
-    re.IGNORECASE | re.VERBOSE,
-)
 def normalize_name(name: str) -> str:
-    cleaned = _MEAS_PAREN.sub('', name.strip()).strip()
-    return cleaned or name.strip()
+    # v3.1: keep the full name. Measurement parentheticals are NOT stripped —
+    # variants like "Touring Leather (2-3 oz. / 0.8 mm)" vs "(6-7 oz. / 2.4 mm)"
+    # are distinct materials with different pressure/blade/multi-cut and must get
+    # their own embedding and physics lookup entry.
+    return name.strip()
 
 def _lb_to_mm(lb):
     pts = [(60, 0.15), (65, 0.18), (80, 0.22), (100, 0.27), (140, 0.38)]
@@ -350,83 +346,80 @@ def loss_fn(p_pred, b_pred, mc_pred, p_true, b_true, mc_true):
     return W_PRESSURE * lp + W_BLADE * lb + W_MCUT * lmc
 
 
-model = GlobalModel(N_NAMES, EMB_DIM, FEATURE_DIM).to(DEVICE)
-
-# Warm-start embeddings from v2 preprocessor when names match
-if os.path.exists(PP_V2):
+def warm_start_embeddings(m):
+    """Initialise name embeddings from v2 preprocessor where names match."""
+    if not os.path.exists(PP_V2):
+        return
     pp_v2 = json.load(open(PP_V2))
     emb_v2 = pp_v2.get("name_embeddings", {})
     n_init = 0
     with torch.no_grad():
         for name, idx in name_to_idx.items():
             if name in emb_v2:
-                model.embedding.weight[idx] = torch.tensor(emb_v2[name], dtype=torch.float32)
+                m.embedding.weight[idx] = torch.tensor(emb_v2[name], dtype=torch.float32)
                 n_init += 1
     print(f"  Warm-started {n_init}/{N_NAMES} embeddings from preprocessor_v2.json")
+
+
+def train_loop(m, train_loader, eval_loader, label):
+    """Train with early stopping on eval_loader loss; returns best epoch."""
+    optimizer = torch.optim.AdamW(m.parameters(), lr=LR, weight_decay=1e-4)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=MAX_EPOCHS)
+    best_val, best_ep, no_imp, best_state = float("inf"), 0, 0, None
+
+    print(f"\n[{label}] Training up to {MAX_EPOCHS} epochs (patience={PATIENCE})…")
+    for epoch in range(1, MAX_EPOCHS + 1):
+        m.train()
+        for nidx, ph, foh, pt, bt, mt in train_loader:
+            nidx, ph, foh = nidx.to(DEVICE), ph.to(DEVICE), foh.to(DEVICE)
+            pt, bt, mt    = pt.to(DEVICE), bt.to(DEVICE), mt.to(DEVICE)
+            optimizer.zero_grad()
+            pp_, pb_, pm_ = m(nidx, ph, foh)
+            loss_fn(pp_, pb_, pm_, pt, bt, mt).backward()
+            nn.utils.clip_grad_norm_(m.parameters(), 1.0)
+            optimizer.step()
+        scheduler.step()
+
+        if epoch % EVAL_EVERY != 0:
+            continue
+
+        m.eval()
+        vl = 0.0
+        with torch.no_grad():
+            for nidx, ph, foh, pt, bt, mt in eval_loader:
+                nidx, ph, foh = nidx.to(DEVICE), ph.to(DEVICE), foh.to(DEVICE)
+                pt, bt, mt    = pt.to(DEVICE), bt.to(DEVICE), mt.to(DEVICE)
+                pp_, pb_, pm_ = m(nidx, ph, foh)
+                vl += loss_fn(pp_, pb_, pm_, pt, bt, mt).item()
+        vl /= len(eval_loader)
+
+        if vl < best_val:
+            best_val, best_ep, no_imp = vl, epoch, 0
+            best_state = copy.deepcopy(m.state_dict())
+        else:
+            no_imp += EVAL_EVERY
+
+        if epoch % 200 == 0:
+            print(f"  [{label}] ep {epoch:4d}  eval_loss={vl:.5f}")
+
+        if no_imp >= PATIENCE:
+            print(f"  [{label}] Early stop at epoch {epoch}  (best ep {best_ep}, loss {best_val:.5f})")
+            break
+
+    m.load_state_dict(best_state)
+    m.eval()
+    return best_ep
+
+
+model = GlobalModel(N_NAMES, EMB_DIM, FEATURE_DIM).to(DEVICE)
+warm_start_embeddings(model)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # 6. Training
 # ═══════════════════════════════════════════════════════════════════════════════
 
-optimizer = torch.optim.AdamW(model.parameters(), lr=LR, weight_decay=1e-4)
-scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=MAX_EPOCHS)
-
-best_val, best_ep, no_imp, best_state = float("inf"), 0, 0, None
-
-print(f"\nTraining {MAX_EPOCHS} epochs (patience={PATIENCE}, eval every {EVAL_EVERY})…")
-
-for epoch in range(1, MAX_EPOCHS + 1):
-    model.train()
-    for nidx, ph, foh, pt, bt, mt in tr_ld:
-        nidx, ph, foh = nidx.to(DEVICE), ph.to(DEVICE), foh.to(DEVICE)
-        pt, bt, mt    = pt.to(DEVICE), bt.to(DEVICE), mt.to(DEVICE)
-        optimizer.zero_grad()
-        pp_, pb_, pm_ = model(nidx, ph, foh)
-        loss_fn(pp_, pb_, pm_, pt, bt, mt).backward()
-        nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-        optimizer.step()
-    scheduler.step()
-
-    if epoch % EVAL_EVERY != 0:
-        continue
-
-    model.eval()
-    vl = 0.0
-    with torch.no_grad():
-        for nidx, ph, foh, pt, bt, mt in va_ld:
-            nidx, ph, foh = nidx.to(DEVICE), ph.to(DEVICE), foh.to(DEVICE)
-            pt, bt, mt    = pt.to(DEVICE), bt.to(DEVICE), mt.to(DEVICE)
-            pp_, pb_, pm_ = model(nidx, ph, foh)
-            vl += loss_fn(pp_, pb_, pm_, pt, bt, mt).item()
-    vl /= len(va_ld)
-
-    if vl < best_val:
-        best_val, best_ep, no_imp = vl, epoch, 0
-        best_state = copy.deepcopy(model.state_dict())
-    else:
-        no_imp += EVAL_EVERY
-
-    if epoch % 200 == 0:
-        # Quick pressure MAE on val
-        p_preds, p_trues = [], []
-        with torch.no_grad():
-            for nidx, ph, foh, pt, bt, mt in va_ld:
-                nidx, ph, foh = nidx.to(DEVICE), ph.to(DEVICE), foh.to(DEVICE)
-                pp_, _, _ = model(nidx, ph, foh)
-                p_preds.extend(pp_.cpu().numpy())
-                p_trues.extend(pt.numpy())
-        p_dec  = np.exp(np.array(p_preds) * G_P_STD + G_P_MEAN)
-        pt_dec = np.exp(np.array(p_trues) * G_P_STD + G_P_MEAN)
-        mae = mean_absolute_error(pt_dec, p_dec)
-        print(f"  ep {epoch:4d}  val_loss={vl:.5f}  p_MAE={mae:.1f}")
-
-    if no_imp >= PATIENCE:
-        print(f"  Early stop at epoch {epoch}  (best ep {best_ep}, val_loss {best_val:.5f})")
-        break
-
-model.load_state_dict(best_state)
-model.eval()
-print(f"Training complete — best epoch {best_ep}")
+best_ep = train_loop(model, tr_ld, va_ld, "split")
+print(f"Validation run complete — best epoch {best_ep}")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # 7. Final Validation Metrics (per machine family + overall)
@@ -474,6 +467,35 @@ all_va_recs = _make_records(va_df_no5)
 r_all = eval_subset(all_va_recs)
 print(f"  {'ALL':<10}  N={r_all['n']:4d}  MAE={r_all['mae']:6.1f}  MAPE={r_all['mape']:5.1f}%  "
       f"Blade={r_all['blade_acc']:.3f}  MC={r_all['mc_acc']:.3f}")
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 7.5 Final Fit — retrain on 100% of the data
+# ═══════════════════════════════════════════════════════════════════════════════
+# The split run above validated that the architecture generalizes. The deployed
+# model is a lookup-style predictor for known materials, so the final model is
+# trained on ALL rows (train+val). Early stopping monitors loss on the full
+# un-augmented data — i.e. it stops when the data is fit, not when a holdout
+# starts degrading.
+
+print("\n── Final fit on all data ───────────────────────────────────────────────")
+all_records = tr_records + va_records
+full_tr_ld = DataLoader(MaterialDataset(all_records, augment=True),
+                        batch_size=BATCH_SIZE, shuffle=True, num_workers=0)
+full_ev_ld = DataLoader(MaterialDataset(all_records, augment=False),
+                        batch_size=512, shuffle=False, num_workers=0)
+
+final_model = GlobalModel(N_NAMES, EMB_DIM, FEATURE_DIM).to(DEVICE)
+warm_start_embeddings(final_model)
+final_ep = train_loop(final_model, full_tr_ld, full_ev_ld, "final")
+print(f"Final fit complete — best epoch {final_ep}")
+
+model = final_model   # sections below export & evaluate the final model
+
+# Memorization check: the final model over every original row (no Explore 5 dup)
+df_no5 = df[df["Machine"] != "Explore 5"]
+r_mem = eval_subset(_make_records(df_no5))
+print(f"  Memorization (all {r_mem['n']} rows): MAE={r_mem['mae']:.1f}  "
+      f"MAPE={r_mem['mape']:.1f}%  Blade={r_mem['blade_acc']:.3f}  MC={r_mem['mc_acc']:.3f}")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # 8. ONNX Export (backbone only — 26-dim input)

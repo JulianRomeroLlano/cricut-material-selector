@@ -25,12 +25,12 @@
   function clamp01(x) { return Math.max(0, Math.min(1, x)); }
 
   /* Normalize material name the same way the Python training script does.
-     Only strips measurement-only parentheticals (digits + units).
-     Descriptive ones like "(Mosaic)" or "(Green Liner)" are kept. */
-  const MEAS_PAREN = /\s*\(\s*\d[\d\s./\-]*(?:gsm|lbs?|oz\.?|mm|cm|inch(?:es)?|gauge)?(?:\s*\/\s*[\d\s./\-]+(?:gsm|lbs?|oz\.?|mm|cm|inch(?:es)?|gauge)?)?\s*\)\s*$/i;
+     v3.1: full names are kept — measurement variants like
+     "Touring Leather (2-3 oz. / 0.8 mm)" are distinct materials with their
+     own embedding and physics. Partial matching below still handles inputs
+     typed without the parenthetical. */
   function normalizeName(name) {
-    const cleaned = name.trim().replace(MEAS_PAREN, '').trim();
-    return cleaned || name.trim();
+    return name.trim();
   }
 
   /* Resolve embedding vector for a material name (or fall back to category average) */
