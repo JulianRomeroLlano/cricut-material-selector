@@ -74,6 +74,23 @@
     try { localStorage.setItem(CUSTOM_KEY, JSON.stringify(arr)); } catch {}
   }
 
+  // Returns true if a custom material has been promoted to the official list.
+  // Matches on category + machine + thickness (±0.01mm) + name equality or
+  // official name starts with the custom name followed by " (" — the pattern
+  // used when a thickness variant is added, e.g. "Genuine Leather (1.8 mm)".
+  function isPromotedToOfficial(custom, officialList) {
+    const nameLc = custom.name_en.toLowerCase();
+    return officialList.some(m =>
+      m.category === custom.category &&
+      m.machine  === custom.machine &&
+      Math.abs((m.thickness_mm || 0) - (custom.thickness_mm || 0)) < 0.01 &&
+      (
+        m.name_en.toLowerCase() === nameLc ||
+        m.name_en.toLowerCase().startsWith(nameLc + " (")
+      )
+    );
+  }
+
   /* ── Init ───────────────────────────────────────────────────────────────────── */
   async function init() {
     applyI18n();
@@ -92,7 +109,13 @@
       $("matList").innerHTML = emptyHtml(t("err_model_load"), "");
       return;
     }
-    materials = materials.concat(loadCustomMaterials());
+    // Auto-promote: remove custom materials that now exist in the official list
+    const allCustoms = loadCustomMaterials();
+    const stillCustom = allCustoms.filter(c => !isPromotedToOfficial(c, materials));
+    if (stillCustom.length < allCustoms.length) {
+      saveCustomMaterials(stillCustom);
+    }
+    materials = materials.concat(stillCustom);
     buildSidebar();
     render();
 
@@ -352,7 +375,9 @@
       });
     });
 
-    // Export button — only shown when the user has saved custom materials
+    // EXPORT FOR TRAINING — admin-only feature, currently disabled.
+    // To re-enable: see docs/export-for-training.md
+    /*
     const sidebar = $("catSidebar");
     let exportEl = sidebar.querySelector(".sidebar-export");
     const customs = loadCustomMaterials();
@@ -369,8 +394,12 @@
     } else if (exportEl) {
       exportEl.remove();
     }
+    */
   }
 
+  // EXPORT FOR TRAINING — admin-only feature, currently disabled.
+  // To re-enable: see docs/export-for-training.md
+  /*
   function exportCustomMaterials() {
     const customs = loadCustomMaterials();
     if (!customs.length) return;
@@ -382,6 +411,7 @@
     a.click();
     URL.revokeObjectURL(url);
   }
+  */
 
   /* ── View toggle ────────────────────────────────────────────────────────────── */
   function bindViewToggle() {
