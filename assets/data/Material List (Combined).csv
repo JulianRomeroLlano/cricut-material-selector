@@ -35,23 +35,23 @@ Maker 3,Printable Materials,印刷可能なホイル,Printable Foil,293.0,-,フ�
 Maker 3,Infusible Ink,インフュージブルインク 転写シート,Infusible ink transfer sheet,226.0,-,ファインポイントブレード,75.0,plain,0,800.0,20.0,
 Maker 3,Cardstock,カットアウェイカード+バッカー,Cutaway Cards + Backers,200.0,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0,
 Maker 3,Cardstock,カードストック（複雑なカット用）,Cardstock (for intricate cuts),200.0,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0,
-Maker 3,Cardstock,軽量カードストック（60lb/163gsm）,Lightweight Cardstock (60lb/163gsm),214.0,-,ファインポイントブレード,163.0,plain,0,800.0,30.0,
+Maker 3,Cardstock,軽量カードストック,Lightweight Cardstock,214.0,-,ファインポイントブレード,163.0,plain,0,800.0,30.0,0.163
 Maker 3,Cardstock,グリッターカードストック,Glitter Cardstock,270.0,2倍,ファインポイントブレード,216.0,glitter,0,920.0,48.0,
 Maker 3,Cardstock,クラフトカードストック,Kraft Cardstock,275.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,
 Maker 3,Cardstock,ホログラフィックカードストック,Holographic Cardstock,275.0,2倍,ファインポイントブレード,216.0,holographic,0,840.0,38.0,
 Maker 3,Cardstock,パターンドグリッターカードストック,Patterned Glitter Cardstock,299.0,2倍,ファインポイントブレード,216.0,glitter,0,920.0,48.0,
 Maker 3,Cardstock,接着剤裏地付きカードストック,Cardstock with Adhesive Backing,300.0,-,ファインポイントブレード,216.0,plain,1,800.0,30.0,
-Maker 3,Cardstock,厚手カードストック（100lb/270gsm）,Heavyweight Cardstock (100lb/270gsm),310.0,2倍,ファインポイントブレード,270.0,plain,0,800.0,30.0,
-Maker 3,Cardstock,中サイズのカードストック（80lb/216gsm）,Medium Cardstock (80lb/216gsm),320.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,
+Maker 3,Cardstock,厚手カードストック,Heavyweight Cardstock,310.0,2倍,ファインポイントブレード,270.0,plain,0,800.0,30.0,0.27
+Maker 3,Cardstock,中サイズのカードストック,Medium Cardstock,320.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,0.216
 Maker 3,Paper,ライスペーパー,Rice Paper,70.0,-,ディープポイントブレード,80.0,plain,0,750.0,15.0,
-Maker 3,Paper,和紙テープ（0.06mm）,Washi Tape (0.06mm),70.0,-,ファインポイントブレード,80.0,plain,0,750.0,10.0,
+Maker 3,Paper,和紙テープ,Washi Tape,70.0,-,ファインポイントブレード,80.0,plain,0,750.0,10.0,0.06
 Maker 3,Paper,ブッチャーペーパー,Butcher Paper,80.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Maker 3,Paper,和紙,Washi Paper,85.0,-,ファインポイントブレード,80.0,plain,0,750.0,10.0,
 Maker 3,Paper,パーチメント紙,Parchment Paper,110.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Maker 3,Paper,ラッピングペーパー,Wrapping Paper,120.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
-Maker 3,Paper,コピー用紙（20lb/75gsm）,Copy Paper (20lb/75gsm),126.0,-,ファインポイントブレード,75.0,plain,0,750.0,15.0,
-Maker 3,Paper,コピー用紙（24lb/90gsm）,Copy Paper (24lb/90gsm),126.0,-,ファインポイントブレード,90.0,plain,0,750.0,15.0,
-Maker 3,Paper,コピー用紙（32lb/120gsm）,Copy Paper (32lb/120gsm),126.0,-,ファインポイントブレード,120.0,plain,0,750.0,15.0,
+Maker 3,Paper,コピー用紙,Copy Paper,126.0,-,ファインポイントブレード,75.0,plain,0,750.0,15.0,0.075
+Maker 3,Paper,コピー用紙,Copy Paper,126.0,-,ファインポイントブレード,90.0,plain,0,750.0,15.0,0.09
+Maker 3,Paper,コピー用紙,Copy Paper,126.0,-,ファインポイントブレード,120.0,plain,0,750.0,15.0,0.12
 Maker 3,Paper,レーザーコピー用紙,Laser Copy Paper,126.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Maker 3,Paper,冷凍用紙,Freezer Paper,128.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Maker 3,Paper,パールペーパー,Pearl Paper,138.0,2倍,ファインポイントブレード,80.0,shimmer,0,765.0,20.0,
@@ -64,7 +64,7 @@ Maker 3,Paper,スムースグリッターペーパー,Smooth Glitter Paper,175.0
 Maker 3,Paper,接着剤裏地紙,Adhesive-Backed Paper,240.0,-,ファインポイントブレード,80.0,plain,1,750.0,15.0,
 Maker 3,Paper,デラックスペーパー,Deluxe Paper,270.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Maker 3,Paper,デラックスペーパー、接着剤付き,Deluxe Paper with Adhesive,270.0,-,ファインポイントブレード,80.0,plain,1,750.0,15.0,
-Maker 3,Paper,ホイル紙（0.36mm）,Foil Paper (0.36mm),274.0,2倍,ファインポイントブレード,80.0,foil,0,787.5,25.0,
+Maker 3,Paper,ホイル紙,Foil Paper,274.0,2倍,ファインポイントブレード,80.0,foil,0,787.5,25.0,0.36
 Maker 3,Paper,厚手の柄紙,Heavy Patterned Paper,275.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Maker 3,Paper,スパークルペーパー,Sparkle Paper,285.0,2倍,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Maker 3,Paper,フロック紙,Flock Paper,299.0,3倍,ファインポイントブレード,80.0,flock,0,787.5,29.0,
@@ -72,7 +72,7 @@ Maker 3,Paper,デラックスペーパーホイルエンボス加工,Deluxe Foil
 Maker 3,Plastic,ホイルアセテート,Foil Acetate,321.0,2倍,ファインポイントブレード,150.0,foil,0,1365.0,85.0,
 Maker 3,Paper,トゥルーブラッシュドペーパー,True Brushed Paper,330.0,2倍,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Maker 3,Paper,シマーペーパー,Shimmer Paper,345.0,2倍,ファインポイントブレード,80.0,shimmer,0,772.5,21.0,
-Maker 3,Paper,ヘビーウォーターカラーペーパー（140lb/300gsm）,Heavy Watercolor Paper (140lb/300gsm),345.0,-,ファインポイントブレード,300.0,plain,0,750.0,15.0,
+Maker 3,Paper,ヘビーウォーターカラーペーパー,Heavy Watercolor Paper,345.0,-,ファインポイントブレード,300.0,plain,0,750.0,15.0,0.38
 Maker 3,Paper,写真用紙,Photo Paper,345.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Maker 3,Plastic,アセテート,Acetate,280.0,2倍,ファインポイントブレード,150.0,plain,0,1300.0,75.0,
 Maker 3,Smart Materials,スマートビニール（取り外し可能）,Smart Vinyl (Removable),106.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
@@ -113,21 +113,21 @@ Maker 3,Vinyl,プレミアムビニール（（テクスチャード））,Premi
 Maker 3,Vinyl,黒板ビニール,Chalkboard Vinyl,210.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
 Maker 3,Vinyl,非接着ビニール（16ゲージ）,Non-Adhesive Vinyl (16 Gauge),270.0,-,ファインポイントブレード,120.0,plain,1,1300.0,65.0,
 Maker 3,Vinyl,非接着ビニール（20ゲージ）,Non-Adhesive Vinyl (20 Gauge),300.0,2倍,ファインポイントブレード,120.0,plain,1,1300.0,65.0,
-Maker 3,Leather,薄型ガーメントレザー（2〜3オンス/0.8〜1.3mm）,Thin Garment Leather (2-3 oz. / 0.8-1.3 mm),180.0,3倍,ディープポイントブレード,1170.0,plain,0,900.0,58.0,
-Maker 3,Leather,ミディアムガーメントレザー（4〜5オンス/1.6mm）,Medium Garment Leather (4-5 oz. / 1.6 mm),200.0,6倍,ディープポイントブレード,1440.0,plain,0,900.0,61.0,
+Maker 3,Leather,薄型ガーメントレザー,Thin Garment Leather,180.0,3倍,ディープポイントブレード,1170.0,plain,0,900.0,58.0,0.8
+Maker 3,Leather,ミディアムガーメントレザー,Medium Garment Leather,200.0,6倍,ディープポイントブレード,1440.0,plain,0,900.0,61.0,1.6
 Maker 3,Leather,フェイクレザー（ペーパーシン）,Faux Leather (Paper Thin),215.0,2倍,ファインポイントブレード,1440.0,plain,0,900.0,55.0,
 Maker 3,Leather,フェイクスエード,Faux Suede,250.0,-,ファインポイントブレード,1440.0,plain,0,900.0,55.0,
 Maker 3,Leather,本革,Genuine Leather,270.0,2倍,ディープポイントブレード,1440.0,plain,0,900.0,55.0,
-Maker 3,Leather,ツーリングレザー（2〜3オンス/0.8mm）,Touring Leather (2-3 oz. / 0.8 mm),287.0,3倍,ディープポイントブレード,720.0,plain,0,900.0,53.0,
-Maker 3,Leather,シマーレザー（1mm）,Shimmer Leather (1 mm),325.0,3倍,ファインポイントブレード,900.0,shimmer,0,927.0,61.0,
+Maker 3,Leather,ツーリングレザー,Touring Leather,287.0,3倍,ディープポイントブレード,720.0,plain,0,900.0,53.0,0.8
+Maker 3,Leather,シマーレザー,Shimmer Leather,325.0,3倍,ファインポイントブレード,900.0,shimmer,0,927.0,61.0,1.0
 Maker 3,Leather,メタリックレザー,Metallic Leather,335.0,4倍,ディープポイントブレード,1440.0,metallic,0,945.0,65.0,
-Maker 3,Leather,ツーリングレザー（4 -5オンス/1.6mm）,Touring Leather (4-5 oz. / 1.6 mm),345.0,7倍,ディープポイントブレード,1440.0,plain,0,900.0,61.0,
-Maker 3,Leather,ツーリングレザー（6 -7 oz ./2.4mm）,Touring Leather (6-7 oz. / 2.4 mm),450.0,16倍,ナイフの刃,2160.0,plain,0,900.0,69.0,
-Maker 3,Board/Cardboard,バルサ（1/16インチ/1.6mm）,Balsa (1/16 inch/1.6mm),200.0,4倍,ナイフの刃,1360.0,plain,0,150.0,74.0,
+Maker 3,Leather,ツーリングレザー,Touring Leather,345.0,7倍,ディープポイントブレード,1440.0,plain,0,900.0,61.0,1.6
+Maker 3,Leather,ツーリングレザー,Touring Leather,450.0,16倍,ナイフの刃,2160.0,plain,0,900.0,69.0,2.4
+Maker 3,Board/Cardboard,バルサ,Balsa,200.0,4倍,ナイフの刃,1360.0,plain,0,150.0,74.0,1.6
 Maker 3,Board/Cardboard,シリアルボックス,Cereal Box,270.0,2倍,ディープポイントブレード,850.0,plain,0,850.0,65.0,
-Maker 3,Board/Cardboard,軽チップボード（0.37mm）,Light Chipboard (0.37mm),285.0,2倍,ファインポイントブレード,314.5,plain,0,850.0,55.5,
+Maker 3,Board/Cardboard,軽チップボード,Light Chipboard,285.0,2倍,ファインポイントブレード,314.5,plain,0,850.0,55.5,0.37
 Maker 3,Board/Cardboard,ポスターボード,Poster Board,287.0,2倍,ファインポイントブレード,850.0,plain,0,850.0,65.0,
-Maker 3,Board/Cardboard,バルサ（3/32インチ/2.4mm）,Balsa (3/32 inch/2.4mm),300.0,7倍,ナイフの刃,2040.0,plain,0,150.0,86.0,
+Maker 3,Board/Cardboard,バルサ,Balsa,300.0,7倍,ナイフの刃,2040.0,plain,0,150.0,86.0,2.4
 Maker 3,Board/Cardboard,フラットダンボール,Flat Cardboard,300.0,-,ファインポイントブレード,850.0,plain,0,850.0,65.0,
 Maker 3,Board/Cardboard,段ボール,Corrugated Cardboard,315.0,-,ファインポイントブレード,850.0,plain,0,850.0,55.0,
 Maker 3,Board/Cardboard,クラフトボード,Kraft Board,325.0,2倍,ファインポイントブレード,850.0,plain,0,900.0,65.0,
@@ -135,12 +135,12 @@ Maker 3,Board/Cardboard,段ボール紙,Corrugated Paper,329.0,-,ディープポ
 Maker 3,Board/Cardboard,ホイルポスターボード,Foil Poster Board,330.0,-,ファインポイントブレード,850.0,foil,0,892.5,75.0,
 Maker 3,Board/Cardboard,メタリックポスターボード,Metallic Poster Board,330.0,2倍,ファインポイントブレード,850.0,metallic,0,892.5,75.0,
 Maker 3,Board/Cardboard,ホイルクラフトボード（ホログラフィック）,Foil Kraft Board (Holographic),340.0,2倍,ファインポイントブレード,850.0,foil,0,945.0,75.0,
-Maker 3,Board/Cardboard,マットボード（1.5mm）,Matte Board (1.5mm),350.0,6倍,ディープポイントブレード,1275.0,matte,0,833.0,74.5,
-Maker 3,Board/Cardboard,バスウッド（1/32インチ/0.8mm）,Basswood (1/32 inch/0.8mm),381.0,18倍,ナイフの刃,680.0,plain,0,400.0,62.0,
-Maker 3,Board/Cardboard,チップボード（1.5mm）,Chipboard (1.5mm),500.0,12倍,ナイフの刃,1275.0,plain,0,850.0,72.5,
-Maker 3,Board/Cardboard,ヘビーチップボード（2.0mm）,Heavy Chipboard (2.0mm),650.0,24倍,ナイフの刃,1700.0,plain,0,850.0,80.0,
+Maker 3,Board/Cardboard,マットボード,Matte Board,350.0,6倍,ディープポイントブレード,1275.0,matte,0,833.0,74.5,1.5
+Maker 3,Board/Cardboard,バスウッド,Basswood,381.0,18倍,ナイフの刃,680.0,plain,0,400.0,62.0,0.8
+Maker 3,Board/Cardboard,チップボード,Chipboard,500.0,12倍,ナイフの刃,1275.0,plain,0,850.0,72.5,1.5
+Maker 3,Board/Cardboard,ヘビーチップボード,Heavy Chipboard,650.0,24倍,ナイフの刃,1700.0,plain,0,850.0,80.0,2.0
 Maker 3,Board/Cardboard,アート／イラストボード,Art/Illustration Board,750.0,17倍,ナイフの刃,850.0,plain,0,850.0,65.0,
-Maker 3,Board/Cardboard,バスウッド（1/16インチ/1.6mm）,Basswood (1/16 inch/1.6mm),750.0,14倍,ナイフの刃,1360.0,plain,0,400.0,74.0,
+Maker 3,Board/Cardboard,バスウッド,Basswood,750.0,14倍,ナイフの刃,1360.0,plain,0,400.0,74.0,1.6
 Maker 3,Fabric,シルク、接着,"Silk, bonded",175.0,-,ファインポイントブレード,150.0,plain,0,280.0,10.0,
 Maker 3,Fabric,ポリエステル、接着,"Polyester, bonded",285.0,-,ファインポイントブレード,150.0,plain,0,280.0,10.0,
 Maker 3,Fabric,ヘビーファブリック（デニムなど）、ボンディング,"Heavy fabrics (e.g., denim), bonded",340.0,3倍,ボンデッドファブリックブレード,150.0,plain,0,280.0,10.0,
@@ -263,7 +263,6 @@ Maker 3,Fabric,テリークロス,Terry Cloth,2550.0,-,ロータリーブレー�
 Maker 3,Fabric,デニム,Denim,2550.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
 Maker 3,Fabric,ヘビーファブリック（デニムなど）,"Heavy fabrics (e.g., denim)",2550.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
 Maker 3,Fabric,ワッフルクロス,Waffle cloth,2600.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
-Maker 3,Fabric,帆布,Canvas,2100.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
 Maker 3,Fabric,モレスキン,Moleskine,2800.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
 Maker 3,Fabric,ジュート,Jute,2843.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
 Maker 3,Fabric,ライトコットン、3層,"Light cotton, 3 layers",2950.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
@@ -295,11 +294,11 @@ Maker 3,Others,フェルト、硬い,"Felt, Stiff",250.0,2倍,ディープポイ
 Maker 3,Others,パーティーホイル,Party Foil,275.0,-,ファインポイントブレード,200.0,foil,0,157.5,50.0,
 Maker 3,Others,グリッターダクトテープ,Glitter Duct Tape,285.0,-,ファインポイントブレード,200.0,glitter,0,168.0,56.0,
 Maker 3,Plastic,マイラー,Mylar,292.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0,
-Maker 3,Plastic,ステンシルフィルム（0.4mm）,Stencil Film (0.4mm),300.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0,
+Maker 3,Plastic,ステンシルフィルム,Stencil Film,300.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0,0.4
 Maker 3,Plastic,透明性,Transparency,308.0,-,ファインポイントブレード,150.0,plain,0,1300.0,75.0,
 Maker 3,Plastic,カッティングマットプロテクター,Cutting Mat Protector,310.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0,
 Maker 3,Others,塗料チップ,Paint Chips,310.0,-,ファインポイントブレード,200.0,plain,0,150.0,40.0,
-Maker 3,Others,磁気シート（0.5mm）,Magnetic Sheet (0.5mm),320.0,4倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0,
+Maker 3,Others,磁気シート,Magnetic Sheet,320.0,4倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0,0.5
 Maker 3,Others,接着シート両面,Double-Sided Adhesive Sheet,325.0,2倍,ファインポイントブレード,200.0,plain,1,150.0,40.0,
 Maker 3,Others,ネオプレン,Neoprene,330.0,2倍,ディープポイントブレード,200.0,plain,0,150.0,40.0,
 Maker 3,Others,ジェルシート,Gel Sheet,335.0,4倍,ディープポイントブレード,200.0,plain,0,150.0,40.0,
@@ -310,7 +309,7 @@ Maker 3,Others,天然木ベニヤ,Natural Wood Veneer,345.0,4倍,ディープポ
 Maker 3,Others,シラカバ、永久接着剤,"Birch, Permanent Adhesive",350.0,-,ファインポイントブレード,200.0,plain,1,150.0,40.0,
 Maker 3,Others,フェルト、ウールボンディング,"Felt, Wool Bonding",350.0,2倍,ファインポイントブレード,200.0,plain,0,300.0,20.0,
 Maker 3,Others,フェルト、ウール生地,"Felt, Wool Fabric",350.0,6倍,ファインポイントブレード,200.0,plain,0,300.0,20.0,
-Maker 3,Others,磁気シート（1.0mm）,Magnetic Sheet (1.0mm),350.0,7倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0,
+Maker 3,Others,磁気シート,Magnetic Sheet,350.0,7倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0,1.0
 Explore 3,Iron-On,模様入りアイロン接着タイプ,Patterned Iron-On,80.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Explore 3,Iron-On,エブリデイアイロン接着タイプ（メッシュ）,Everyday Iron-On (Mesh),100.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Explore 3,Iron-On,エクスプレスアイロン接着タイプ,Express Iron-On,102.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
@@ -344,23 +343,23 @@ Explore 3,Printable Materials,印刷可能な防水ステッカーセット（�
 Explore 3,Printable Materials,タトゥーペーパー,Tattoo Paper,277.0,-,ファインポイントブレード,100.0,plain,0,900.0,25.0,
 Explore 3,Cardstock,カットアウェイカード+バッカー,Cutaway Cards + Backers,180.0,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0,
 Explore 3,Cardstock,カードストック（複雑なカット用）,Cardstock (for intricate cuts),200.0,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0,
-Explore 3,Cardstock,軽量カードストック（65lb/176gsm）,Lightweight Cardstock (65lb/176gsm),214.0,-,ファインポイントブレード,176.0,plain,0,800.0,30.0,
+Explore 3,Cardstock,軽量カードストック,Lightweight Cardstock,214.0,-,ファインポイントブレード,176.0,plain,0,800.0,30.0,0.176
 Explore 3,Cardstock,グリッターカードストック,Glitter Cardstock,270.0,2倍,ファインポイントブレード,216.0,glitter,0,920.0,48.0,
 Explore 3,Cardstock,インサートカード用カードストック,Cardstock for Insert Cards,275.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,
 Explore 3,Cardstock,クラフトカードストック,Kraft Cardstock,275.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,
-Explore 3,Cardstock,厚手カードストック（100lb/270gsm）,Heavyweight Cardstock (100lb/270gsm),295.0,2倍,ファインポイントブレード,270.0,plain,0,800.0,30.0,
+Explore 3,Cardstock,厚手カードストック,Heavyweight Cardstock,295.0,2倍,ファインポイントブレード,270.0,plain,0,800.0,30.0,0.27
 Explore 3,Cardstock,カードストック、接着剤裏地付き,Cardstock with Adhesive Backing,300.0,-,ファインポイントブレード,216.0,plain,1,800.0,30.0,
-Explore 3,Cardstock,中サイズのカードストック（80lb/216gsm）,Medium Cardstock (80lb/216gsm),320.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,
-Explore 3,Paper,和紙テープ（0.06mm）,Washi Tape (0.06mm),70.0,-,ファインポイントブレード,80.0,plain,0,750.0,10.0,
+Explore 3,Cardstock,中サイズのカードストック,Medium Cardstock,320.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,0.216
+Explore 3,Paper,和紙テープ,Washi Tape,70.0,-,ファインポイントブレード,80.0,plain,0,750.0,10.0,0.06
 Explore 3,Paper,ブッチャーペーパー,Butcher Paper,80.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Explore 3,Paper,和紙,Washi Paper,85.0,-,ファインポイントブレード,80.0,plain,0,750.0,10.0,
 Explore 3,Paper,パーチメント紙,Parchment Paper,100.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Explore 3,Paper,ラッピングペーパー,Wrapping Paper,100.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Explore 3,Paper,レーザーコピー用紙,Laser Copy Paper,126.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Explore 3,Paper,パールペーパー,Pearl Paper,138.0,2倍,ファインポイントブレード,80.0,shimmer,0,765.0,20.0,
-Explore 3,Paper,コピー用紙（20lb/75gsm）,Copy Paper (20lb/75gsm),143.0,-,ファインポイントブレード,75.0,plain,0,750.0,15.0,
-Explore 3,Paper,コピー用紙（24lb/90gsm）,Copy Paper (24lb/90gsm),143.0,-,ファインポイントブレード,90.0,plain,0,750.0,15.0,
-Explore 3,Paper,コピー用紙（32lb/120gsm）,Copy Paper (32lb/120gsm),143.0,-,ファインポイントブレード,120.0,plain,0,750.0,15.0,
+Explore 3,Paper,コピー用紙,Copy Paper,143.0,-,ファインポイントブレード,75.0,plain,0,750.0,15.0,0.075
+Explore 3,Paper,コピー用紙,Copy Paper,143.0,-,ファインポイントブレード,90.0,plain,0,750.0,15.0,0.09
+Explore 3,Paper,コピー用紙,Copy Paper,143.0,-,ファインポイントブレード,120.0,plain,0,750.0,15.0,0.12
 Explore 3,Paper,建設用紙,Construction Paper,155.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Explore 3,Paper,ワックス紙,Wax Paper,160.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Explore 3,Paper,スムースグリッターペーパー,Smooth Glitter Paper,175.0,2倍,ファインポイントブレード,80.0,glitter,0,840.0,31.0,
@@ -375,8 +374,8 @@ Explore 3,Paper,厚手の柄紙,Heavy Patterned Paper,275.0,-,ファインポイ
 Explore 3,Paper,スパークルペーパー,Sparkle Paper,285.0,2倍,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Explore 3,Paper,トゥルーブラッシュドペーパー,True Brushed Paper,295.0,2倍,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Explore 3,Paper,デラックスペーパーホイルエンボス加工,Deluxe Foil Embossed Paper,300.0,-,ファインポイントブレード,80.0,foil,0,787.5,25.0,
-Explore 3,Paper,ホイル紙（0.36mm）,Foil Paper (0.36mm),300.0,-,ファインポイントブレード,80.0,foil,0,787.5,25.0,
-Explore 3,Paper,ヘビーウォーターカラーペーパー（140lb/300gsm）,Heavy Watercolor Paper (140lb/300gsm),310.0,2倍,ファインポイントブレード,300.0,plain,0,750.0,15.0,
+Explore 3,Paper,ホイル紙,Foil Paper,300.0,-,ファインポイントブレード,80.0,foil,0,787.5,25.0,0.36
+Explore 3,Paper,ヘビーウォーターカラーペーパー,Heavy Watercolor Paper,310.0,2倍,ファインポイントブレード,300.0,plain,0,750.0,15.0,0.38
 Explore 3,Plastic,ホイルアセテート,Foil Acetate,321.0,2倍,ファインポイントブレード,150.0,foil,0,1365.0,85.0,
 Explore 3,Paper,シマーペーパー,Shimmer Paper,345.0,2倍,ファインポイントブレード,80.0,shimmer,0,772.5,21.0,
 Explore 3,Smart Materials,スマートビニール（取り外し可能）,Smart Vinyl (Removable),121.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
@@ -419,16 +418,16 @@ Explore 3,Vinyl,黒板ビニール,Chalkboard Vinyl,190.0,-,ファインポイ�
 Explore 3,Board/Cardboard,フラットダンボール,Flat cardboard,300.0,-,ファインポイントブレード,850.0,plain,0,850.0,65.0,
 Explore 3,Board/Cardboard,クラフトボード,Kraft board,320.0,2倍,ファインポイントブレード,850.0,plain,0,900.0,65.0,
 Explore 3,Board/Cardboard,段ボール,Corrugated cardboard,315.0,-,ファインポイントブレード,850.0,plain,0,850.0,55.0,
-Explore 3,Board/Cardboard,軽チップボード（0.37mm）,Light chipboard (0.37mm),327.0,2倍,ファインポイントブレード,314.5,plain,0,850.0,55.5,
+Explore 3,Board/Cardboard,軽チップボード,Light Chipboard,327.0,2倍,ファインポイントブレード,314.5,plain,0,850.0,55.5,0.37
 Explore 3,Board/Cardboard,メタリックポスターボード,Metallic poster board,330.0,2倍,ファインポイントブレード,850.0,metallic,0,892.5,75.0,
 Explore 3,Board/Cardboard,ホイルクラフトボード（ホログラフィック）,Foil kraft board (holographic),340.0,2倍,ファインポイントブレード,850.0,foil,0,945.0,75.0,
 Explore 3,Board/Cardboard,ホイルポスターボード,Foil poster board,340.0,-,ファインポイントブレード,850.0,foil,0,892.5,75.0,
-Explore 3,Board/Cardboard,マットボード（1.5mm）,Matte board (1.5mm),350.0,5倍,ディープポイントブレード,1275.0,matte,0,833.0,74.5,
+Explore 3,Board/Cardboard,マットボード,Matte Board,350.0,5倍,ディープポイントブレード,1275.0,matte,0,833.0,74.5,1.5
 Explore 3,Leather,フェイクレザー（ペーパーシン）,Faux Leather (Paper Thin),215.0,2倍,ファインポイントブレード,1440.0,plain,0,900.0,55.0,
 Explore 3,Leather,フェイクスエード,Faux Suede,250.0,-,ファインポイントブレード,1440.0,plain,0,900.0,55.0,
 Explore 3,Leather,メタリックレザー,Metallic Leather,255.0,4倍,ディープポイントブレード,1440.0,metallic,0,945.0,65.0,
 Explore 3,Leather,本革,Genuine Leather,255.0,2倍,ディープポイントブレード,1440.0,plain,0,900.0,55.0,
-Explore 3,Leather,シマーレザー（1mm）,Shimmer Leather (1mm),325.0,3倍,ファインポイントブレード,900.0,shimmer,0,927.0,61.0,
+Explore 3,Leather,シマーレザー,Shimmer Leather,325.0,3倍,ファインポイントブレード,900.0,shimmer,0,927.0,61.0,1.0
 Explore 3,Others,アルミ箔,Aluminum Foil,80.0,2倍,ディープポイントブレード,200.0,foil,0,2835.0,50.0,
 Explore 3,Plastic,ウィンドウクライング,Window Clinging,100.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0,
 Explore 3,Plastic,フレキシブルステンシルフィルム,Flexible Stencil Film,110.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0,
@@ -442,15 +441,15 @@ Explore 3,Others,食品・雑貨バッグ,Grocery Bags,200.0,-,ファインポ�
 Explore 3,Others,フュージブルファブリック,Fusible Fabric,220.0,-,ファインポイントブレード,200.0,plain,0,150.0,40.0,
 Explore 3,Others,パーティーホイル,Party Foil,275.0,-,ファインポイントブレード,200.0,foil,0,157.5,50.0,
 Explore 3,Plastic,マイラー,Mylar,292.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0,
-Explore 3,Plastic,ステンシルフィルム（0.4mm）,Stencil Film (0.4mm),300.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0,
-Explore 3,Others,磁気シート（0.5mm）,Magnetic Sheet (0.5mm),300.0,4倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0,
+Explore 3,Plastic,ステンシルフィルム,Stencil Film,300.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0,0.4
+Explore 3,Others,磁気シート,Magnetic Sheet,300.0,4倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0,0.5
 Explore 3,Plastic,透明性,Transparency,308.0,-,ファインポイントブレード,150.0,plain,0,1300.0,75.0,
 Explore 3,Plastic,カッティングマットプロテクター,Cutting Mat Protector,310.0,2倍,ファインポイントブレード,150.0,plain,0,1350.0,70.0,
 Explore 3,Others,塗料チップ,Paint Chips,310.0,-,ファインポイントブレード,200.0,plain,0,150.0,40.0,
 Explore 3,Others,天然木ベニヤ,Natural Wood Veneer,320.0,3倍,ディープポイントブレード,200.0,plain,0,350.0,85.0,
 Explore 3,Others,フェルト、ウール生地,Felt and Wool Fabric,328.0,6倍,ファインポイントブレード,200.0,plain,0,300.0,20.0,
 Explore 3,Others,フェルト、ウールボンディング,Felt and Wool Bonding,331.0,2倍,ファインポイントブレード,200.0,plain,0,300.0,20.0,
-Explore 3,Others,磁気シート（1.0mm）,Magnetic Sheet (1.0mm),350.0,8倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0,
+Explore 3,Others,磁気シート,Magnetic Sheet,350.0,8倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0,1.0
 Cricut Joy,Iron-On,エブリデイアイロン接着タイプ,Everyday Iron-On,95.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Cricut Joy,Iron-On,UVで色が変わるアイロン接着タイプ,UV-Color-Changing Iron-On,113.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Cricut Joy,Iron-On,リフレクティブアイロン接着タイプ,Reflective Iron-On,113.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
@@ -464,10 +463,10 @@ Cricut Joy,Iron-On,グリッターメッシュアイロン接着タイプ,Glitte
 Cricut Joy,Iron-On,ホログラフィックスパークルアイロン接着タイプ,Holographic Sparkle Iron-On,182.0,-,ファインポイントブレード,100.0,holographic,0,1102.5,53.0,
 Cricut Joy,Iron-On,ホログラフィックアイロン接着モザイク,Holographic Iron-On Mosaic,246.0,-,ファインポイントブレード,100.0,holographic,0,1102.5,53.0,
 Cricut Joy,Infusible Ink,インフュージブルインク転写シート,Infusible Ink Transfer Sheet,241.0,-,ファインポイントブレード,75.0,plain,0,800.0,20.0,
-Cricut Joy,Cardstock,厚手カードストック（100lb/270gsm）,Heavyweight cardstock (100lb/270gsm),223.0,3倍,ファインポイントブレード,270.0,plain,0,800.0,30.0,
+Cricut Joy,Cardstock,厚手カードストック,Heavyweight Cardstock,223.0,3倍,ファインポイントブレード,270.0,plain,0,800.0,30.0,0.27
 Cricut Joy,Cardstock,グリッターカードストック,Glitter Cardstock,245.0,2倍,ファインポイントブレード,216.0,glitter,0,920.0,48.0,
-Cricut Joy,Cardstock,軽量カードストック（65lb/176gsm）,Lightweight cardstock (65lb/176gsm),245.0,-,ファインポイントブレード,176.0,plain,0,800.0,30.0,
-Cricut Joy,Cardstock,中サイズのカードストック（80lb/216gsm）,Medium cardstock (80lb/216gsm),251.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,
+Cricut Joy,Cardstock,軽量カードストック,Lightweight Cardstock,245.0,-,ファインポイントブレード,176.0,plain,0,800.0,30.0,0.176
+Cricut Joy,Cardstock,中サイズのカードストック,Medium Cardstock,251.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,0.216
 Cricut Joy,Cardstock,インサートカード用カードストック,Insert cardstock,260.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,
 Cricut Joy,Cardstock,カットアウェイカード+バッカー,Cutaway cards with backers,315.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,
 Cricut Joy,Paper,レーザーコピー用紙,Laser Copy Paper,100.0,2倍,ファインポイントブレード,80.0,plain,0,750.0,15.0,
@@ -478,7 +477,7 @@ Cricut Joy,Paper,デラックスペーパーホイルエンボス加工,Deluxe F
 Cricut Joy,Paper,デラックスペーパー,Deluxe Paper,270.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Cricut Joy,Paper,スパークルペーパー,Sparkle Paper,271.0,2倍,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Cricut Joy,Paper,シマーペーパー,Shimmer Paper,306.0,2倍,ファインポイントブレード,80.0,shimmer,0,772.5,21.0,
-Cricut Joy,Paper,ホイル紙（0.36mm）,Foil Paper (0.36mm),318.0,-,ファインポイントブレード,80.0,foil,0,787.5,25.0,
+Cricut Joy,Paper,ホイル紙,Foil Paper,318.0,-,ファインポイントブレード,80.0,foil,0,787.5,25.0,0.36
 Cricut Joy,Paper,トゥルーブラッシュドペーパー,True Brushed Paper,328.0,2倍,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Cricut Joy,Plastic,ホイルアセテート,Foil Acetate,330.0,2倍,ファインポイントブレード,150.0,foil,0,1365.0,85.0,
 Cricut Joy,Smart Materials,スマートラベル（溶解可能）,Smart Labels (Dissolvable),80.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
@@ -552,8 +551,8 @@ Cricut Joy 2,Iron-On,グリッターアイロン接着タイプ,Glitter Iron-On,
 Cricut Joy 2,Iron-On,暗闇で光るアイロン接着タイプ,Glow in the Dark Iron-On,220.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Cricut Joy 2,Vinyl,暗闇で光るビニール,Glow in the Dark Vinyl,145.0,2倍,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
 Cricut Joy 2,Vinyl,熱や冷感活性化で色が変化するビニール,Heat/Cold Activated Color Changing Vinyl,120.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
-Cricut Joy 2,Cardstock,ヘビーカードストック - 100ポンド（270gsm）,Heavy Cardstock - 100 lb (270 gsm),280.0,2倍,ファインポイントブレード,270.0,plain,0,800.0,30.0,
-Cricut Joy 2,Paper,140 Ib（300 g ）の厚い水彩紙,Heavy Watercolor Paper - 140 lbs (300 gsm),220.0,2倍,ファインポイントブレード,300.0,plain,0,750.0,15.0,
+Cricut Joy 2,Cardstock,ヘビーカードストック - 100ポンド,Heavy Cardstock,280.0,2倍,ファインポイントブレード,270.0,plain,0,800.0,30.0,0.27
+Cricut Joy 2,Paper,140 Ibの厚い水彩紙,Heavy Watercolor Paper,220.0,2倍,ファインポイントブレード,300.0,plain,0,750.0,15.0,0.38
 Cricut Joy 2,Iron-On,ホログラフィックアイロン接着タイプ,Holographic Iron-On,120.0,-,ファインポイントブレード,100.0,holographic,0,1102.5,53.0,
 Cricut Joy 2,Vinyl,ホログラフィックビニール,Holographic Vinyl,100.0,-,ファインポイントブレード,120.0,holographic,0,1365.0,73.0,
 Cricut Joy 2,Infusible Ink,インフュージブルインク転写シート,Infusible Ink Transfer Sheet,210.0,-,ファインポイントブレード,75.0,plain,0,800.0,20.0,
@@ -561,7 +560,7 @@ Cricut Joy 2,Cardstock,インサートカード - カードストック,Insert C
 Cricut Joy 2,Iron-On,アイロン接着パッチ,Iron-On Patches,160.0,3倍,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Cricut Joy 2,Printable Materials,ラミネート印刷可能なステッカー用紙、ホワイト,"Laminated Printable Sticker Paper, White",250.0,2倍,ファインポイントブレード,100.0,plain,1,900.0,25.0,
 Cricut Joy 2,Paper,レーザーコピー用紙,Laser Copy Paper,110.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
-Cricut Joy 2,Cardstock,ミディアムカードストック - 80ポンド（216gsm）,Medium Cardstock - 80 lb (216 gsm),210.0,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0,
+Cricut Joy 2,Cardstock,ミディアムカードストック - 80ポンド,Medium Cardstock,210.0,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0,0.216
 Cricut Joy 2,Cardstock,ミディアムカードストック - 80ポンド（基本カット、シングルパス）,"Medium Cardstock - 80 lb (Basic Cuts, Single Pass)",270.0,-,ファインポイントブレード,300.79999999999995,plain,0,800.0,30.0,
 Cricut Joy 2,Iron-On,メタリックパフアイロン接着,Metallic Puff Iron-On,140.0,-,ファインポイントブレード,100.0,metallic,0,1102.5,55.0,
 Cricut Joy 2,Vinyl,Premium Vinyl - フロスト不透明,Premium Vinyl - Frosted Opaque,110.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
@@ -607,7 +606,7 @@ Cricut Joy 2,Iron-On,SportFlexアイロン接着タイプ,SportFlex Iron-On,100.
 Cricut Joy 2,Paper,昇華転写紙,Sublimation Paper,110.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Cricut Joy 2,Iron-On,UV活性化で色が変化するアイロン接着タイプ,UV Activated Color Changing Iron-On,100.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Cricut Joy 2,Iron-On,UVで色が変わる印刷可能なアイロン接着タイプキット,UV-Activated Color-Changing Printable Iron-On Kit,200.0,2倍,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
-Cricut Joy 2,Cardstock,お得なカードストック - 65 lb（176 g）,Value Cardstock - 65 lb (176gsm),130.0,2倍,ファインポイントブレード,176.0,plain,0,800.0,30.0,
+Cricut Joy 2,Cardstock,お得なカードストック - 65 lb,Value Cardstock,130.0,2倍,ファインポイントブレード,176.0,plain,0,800.0,30.0,0.176
 Cricut Joy 2,Cardstock,お得なカードストック - 65ポンド（基本カット、シングルパス）,"Value Cardstock - 65 lb (Basic Cuts, Single Pass)",200.0,-,ファインポイントブレード,244.4,plain,0,800.0,30.0,
 Cricut Joy 2,Iron-On,お得なグリッターアイロン接着,Value Glitter Iron-On,130.0,-,ファインポイントブレード,100.0,glitter,0,1176.0,63.0,
 Cricut Joy 2,Iron-On,お得なアイロン接着タイプ,Value Iron-On,100.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
@@ -628,8 +627,8 @@ Cricut Joy Xtra,Iron-On,カメレオンアイロン接着タイプ,Chameleon Iro
 Cricut Joy Xtra,Iron-On,カラーポップアイロン接着,Color Pop Iron-On,250.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Cricut Joy Xtra,Paper,建設用紙,Construction Paper,150.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Cricut Joy Xtra,Paper,コピーペーパー - 20ポンド（75gsm）,Copy Paper,90.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
-Cricut Joy Xtra,Paper,コピーペーパー - 24ポンド（90gsm）,Copy Paper - 24 lb (90 gsm),90.0,-,ファインポイントブレード,90.0,plain,0,750.0,15.0,
-Cricut Joy Xtra,Paper,コピーペーパー - 32ポンド（120gsm）,Copy Paper - 32 lb (120 gsm),90.0,-,ファインポイントブレード,120.0,plain,0,750.0,15.0,
+Cricut Joy Xtra,Paper,コピーペーパー - 24ポンド,Copy Paper,90.0,-,ファインポイントブレード,90.0,plain,0,750.0,15.0,0.09
+Cricut Joy Xtra,Paper,コピーペーパー - 32ポンド,Copy Paper,90.0,-,ファインポイントブレード,120.0,plain,0,750.0,15.0,0.12
 Cricut Joy Xtra,Board/Cardboard,段ボール,Corrugated Cardboard,320.0,-,ディープポイントブレード,850.0,plain,0,850.0,55.0,
 Cricut Joy Xtra,Others,クラフトフォーム,Craft Foam,80.0,10倍,ディープポイントブレード,200.0,plain,0,100.0,42.0,
 Cricut Joy Xtra,Cardstock,カットアウェイカード,Cutaway Card + Backer,165.0,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0,
@@ -652,8 +651,8 @@ Cricut Joy Xtra,Iron-On,グリッターアイロン接着タイプ,Glitter Iron-
 Cricut Joy Xtra,Iron-On,暗闇で光るアイロン接着タイプ,Glow in the Dark Iron-On,90.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Cricut Joy Xtra,Vinyl,暗闇で光るビニール,Glow in the Dark Vinyl,110.0,2倍,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
 Cricut Joy Xtra,Vinyl,熱や冷感活性化で色が変化するビニール,Heat/Cold Activated Color Changing Vinyl,130.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
-Cricut Joy Xtra,Cardstock,ヘビーカードストック - 100ポンド（270gsm）,Heavy Cardstock - 100 lb (270 gsm),270.0,2倍,ファインポイントブレード,270.0,plain,0,800.0,30.0,
-Cricut Joy Xtra,Paper,140 Ib（300 g ）の厚い水彩紙,Heavy Watercolor Paper - 140 lbs (300 gsm),220.0,2倍,ファインポイントブレード,300.0,plain,0,750.0,15.0,
+Cricut Joy Xtra,Cardstock,ヘビーカードストック - 100ポンド,Heavy Cardstock,270.0,2倍,ファインポイントブレード,270.0,plain,0,800.0,30.0,0.27
+Cricut Joy Xtra,Paper,140 Ibの厚い水彩紙,Heavy Watercolor Paper,220.0,2倍,ファインポイントブレード,300.0,plain,0,750.0,15.0,0.38
 Cricut Joy Xtra,Iron-On,ホログラフィックアイロン接着タイプ,Holographic Iron-On,90.0,-,ファインポイントブレード,100.0,holographic,0,1102.5,53.0,
 Cricut Joy Xtra,Vinyl,ホログラフィックビニール,Holographic Vinyl,90.0,-,ファインポイントブレード,120.0,holographic,0,1365.0,73.0,
 Cricut Joy Xtra,Infusible Ink,インフュージブルインク転写シート,Infusible Ink Transfer Sheet,230.0,-,ファインポイントブレード,75.0,plain,0,800.0,20.0,
@@ -663,12 +662,12 @@ Cricut Joy Xtra,Board/Cardboard,クラフトボード,Kraft Board,330.0,3倍,フ
 Cricut Joy Xtra,Cardstock,クラフトカードストック,Kraft Cardstock,300.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,
 Cricut Joy Xtra,Printable Materials,ラミネート印刷可能なステッカー用紙、ホワイト,"Laminated Printable Sticker Paper, White",250.0,2倍,ファインポイントブレード,100.0,plain,1,900.0,25.0,
 Cricut Joy Xtra,Paper,レーザーコピー用紙,Laser Copy Paper,90.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
-Cricut Joy Xtra,Cardstock,ライトカードストック - 65ポンド（176gsm）,Light Cardstock - 65 lb (176 gsm),140.0,2倍,ファインポイントブレード,176.0,plain,0,800.0,30.0,
-Cricut Joy Xtra,Board/Cardboard,軽チップボード（0.37mm）,Light Chipboard - 0.37 mm,320.0,2倍,ファインポイントブレード,314.5,plain,0,850.0,55.5,
-Cricut Joy Xtra,Others,磁気シート（0.5mm）,Magnetic Sheet - 0.5 mm,400.0,5倍,ファインポイントブレード,200.0,plain,0,3500.0,90.0,
-Cricut Joy Xtra,Others,磁気シート（1.0mm）,Magnetic Sheet - 1.0 mm,350.0,8倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0,
-Cricut Joy Xtra,Board/Cardboard,マットボード（1.5mm）,Matboard (1.5 mm),350.0,6倍,ディープポイントブレード,1275.0,plain,0,850.0,72.5,
-Cricut Joy Xtra,Cardstock,ミディアムカードストック - 80ポンド（216gsm）,Medium Cardstock - 80 lb (216 gsm),180.0,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0,
+Cricut Joy Xtra,Cardstock,ライトカードストック - 65ポンド,Light Cardstock,140.0,2倍,ファインポイントブレード,176.0,plain,0,800.0,30.0,0.176
+Cricut Joy Xtra,Board/Cardboard,軽チップボード,Light Chipboard,320.0,2倍,ファインポイントブレード,314.5,plain,0,850.0,55.5,0.37
+Cricut Joy Xtra,Others,磁気シート,Magnetic Sheet,400.0,5倍,ファインポイントブレード,200.0,plain,0,3500.0,90.0,0.5
+Cricut Joy Xtra,Others,磁気シート,Magnetic Sheet,350.0,8倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0,1.0
+Cricut Joy Xtra,Board/Cardboard,マットボード,Matboard,350.0,6倍,ディープポイントブレード,1275.0,plain,0,850.0,72.5,1.5
+Cricut Joy Xtra,Cardstock,ミディアムカードストック - 80ポンド,Medium Cardstock,180.0,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0,0.216
 Cricut Joy Xtra,Cardstock,ミディアムカードストック - 80ポンド（基本カット、シングルパス）,"Medium Cardstock - 80 lb (Basic Cuts, Single Pass)",270.0,-,ファインポイントブレード,300.79999999999995,plain,0,800.0,30.0,
 Cricut Joy Xtra,Fabric,ミディアムファブリック（コットンなど）、接着剤付き,"Medium Fabrics (like Cotton), Bonded",90.0,3倍,ファインポイントブレード,150.0,plain,0,280.0,10.0,
 Cricut Joy Xtra,Iron-On,メタリックパフアイロン接着,Metallic Puff Iron-On,120.0,-,ファインポイントブレード,100.0,metallic,0,1102.5,55.0,
@@ -696,7 +695,7 @@ Cricut Joy Xtra,Printable Materials,印刷可能な防水ステッカーセッ�
 Cricut Joy Xtra,Printable Materials,印刷可能な防水ステッカーセット - ホワイトホログラフィック,Printable Waterproof Sticker Set - White Holographic,200.0,2倍,ファインポイントブレード,100.0,holographic,1,945.0,33.0,
 Cricut Joy Xtra,Iron-On,パフアイロン接着,Puff Iron-On,100.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Cricut Joy Xtra,Iron-On,リフレクティブアイロン接着タイプ,Reflective Iron-On,100.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
-Cricut Joy Xtra,Others,ラバー（1.0mm）,Rubber (1.0 mm),180.0,2倍,ディープポイントブレード,200.0,plain,0,1200.0,50.0,
+Cricut Joy Xtra,Others,ラバー,Rubber,180.0,2倍,ディープポイントブレード,200.0,plain,0,1200.0,50.0,1.0
 Cricut Joy Xtra,Smart Materials,Smart Iron-On - グリッター,Smart Iron-On Glitter Matless Heat Transfer Vinyl,170.0,-,ファインポイントブレード,120.0,glitter,0,1456.0,81.0,
 Cricut Joy Xtra,Smart Materials,Smart Iron-On -ホログラフィック,Smart Iron-On Holographic Matless Heat Transfer Vinyl,180.0,-,ファインポイントブレード,120.0,holographic,0,1365.0,73.0,
 Cricut Joy Xtra,Smart Materials,Smart Iron-On,Smart Iron-On Matless Heat Transfer Vinyl,100.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
@@ -713,13 +712,13 @@ Cricut Joy Xtra,Paper,昇華転写紙,Sublimation Paper,100.0,-,ファインポ�
 Cricut Joy Xtra,Plastic,透明性,Transparency,230.0,-,ファインポイントブレード,150.0,plain,0,1300.0,75.0,
 Cricut Joy Xtra,Iron-On,UV活性化で色が変化するアイロン接着タイプ,UV Activated Color Changing Iron-On,120.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Cricut Joy Xtra,Iron-On,UVで色が変わる印刷可能なアイロン接着タイプキット,UV-Activated Color-Changing Printable Iron-On Kit,180.0,2倍,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
-Cricut Joy Xtra,Cardstock,お得なカードストック - 65 lb（176 g）,Value Cardstock - 65 lb (176gsm),160.0,2倍,ファインポイントブレード,176.0,plain,0,800.0,30.0,
+Cricut Joy Xtra,Cardstock,お得なカードストック - 65 lb,Value Cardstock,160.0,2倍,ファインポイントブレード,176.0,plain,0,800.0,30.0,0.176
 Cricut Joy Xtra,Cardstock,お得なカードストック - 65ポンド（基本カット、シングルパス）,"Value Cardstock - 65 lb (Basic Cuts, Single Pass)",240.0,-,ファインポイントブレード,244.4,plain,0,800.0,30.0,
 Cricut Joy Xtra,Iron-On,お得なグリッターアイロン接着,Value Glitter Iron-On,150.0,-,ファインポイントブレード,100.0,glitter,0,1176.0,63.0,
 Cricut Joy Xtra,Iron-On,お得なアイロン接着タイプ,Value Iron-On,100.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Cricut Joy Xtra,Vinyl,お得なビニール,Value Vinyl,100.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
 Cricut Joy Xtra,Paper,ヴェラム,Vellum,130.0,-,ファインポイントブレード,80.0,plain,0,750.0,12.0,
-Cricut Joy Xtra,Others,和紙テープ（0.06mm）,Washi Tape - 0.06 mm,50.0,-,ファインポイントブレード,200.0,plain,0,150.0,10.0,
+Cricut Joy Xtra,Others,和紙テープ,Washi Tape,50.0,-,ファインポイントブレード,200.0,plain,0,150.0,10.0,0.06
 Cricut Joy Xtra,Cardstock,水彩カード,Watercolor Cards,200.0,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0,
 Cricut Joy Xtra,Paper,ワックス紙,Wax Paper,160.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Cricut Joy Xtra,Paper,ラッピングペーパー,Wrapping Paper,100.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
@@ -738,12 +737,12 @@ Cricut Joy,Iron-On,Smart Iron-On - グリッター,Smart Iron-On Glitter Matless
 Cricut Joy,Iron-On,お得なグリッターアイロン接着,Value Glitter Iron-On,200.0,-,ファインポイントブレード,100.0,glitter,0,1176.0,63.0,
 Cricut Joy,Iron-On,カラーポップアイロン接着,Color Pop Iron-On,230.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Cricut Joy,Cardstock,インサートカード - カードストック,Insert Card - Cardstock,150.0,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0,
-Cricut Joy,Cardstock,ヘビーカードストック - 100ポンド（270gsm）,Heavy Cardstock - 100 lb (270 gsm),223.0,3倍,ファインポイントブレード,270.0,plain,0,800.0,30.0,
-Cricut Joy,Cardstock,ライトカードストック - 65ポンド（176gsm）,Light Cardstock - 65 lb (176 gsm),245.0,-,ファインポイントブレード,176.0,plain,0,800.0,30.0,
+Cricut Joy,Cardstock,ヘビーカードストック - 100ポンド,Heavy Cardstock,223.0,3倍,ファインポイントブレード,270.0,plain,0,800.0,30.0,0.27
+Cricut Joy,Cardstock,ライトカードストック - 65ポンド,Light Cardstock,245.0,-,ファインポイントブレード,176.0,plain,0,800.0,30.0,0.176
 Cricut Joy,Cardstock,デラックスペーパー、粘着バック,"Deluxe Paper, Adhesive Backed",253.0,-,ファインポイントブレード,216.0,plain,1,800.0,30.0,
 Cricut Joy,Cardstock,デラックスペーパー、エンボスホイル,Deluxe Paper Foil Embossed,257.0,-,ファインポイントブレード,216.0,foil,0,840.0,40.0,
-Cricut Joy,Cardstock,お得なカードストック - 65 lb（176 g）,Value Cardstock - 65 lb (176gsm),265.0,-,ファインポイントブレード,176.0,plain,0,800.0,30.0,
-Cricut Joy,Cardstock,ミディアムカードストック - 80ポンド（216gsm）,Medium Cardstock - 80 lb (216 gsm),275.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,
+Cricut Joy,Cardstock,お得なカードストック - 65 lb,Value Cardstock,265.0,-,ファインポイントブレード,176.0,plain,0,800.0,30.0,0.176
+Cricut Joy,Cardstock,ミディアムカードストック - 80ポンド,Medium Cardstock,275.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,0.216
 Cricut Joy,Cardstock,Smart Paper、ステッカーカードストック,Smart Paper Matless Sticker Cardstock,285.0,-,ファインポイントブレード,216.0,plain,1,800.0,30.0,
 Cricut Joy,Cardstock,カットアウェイカード,Cutaway Card + Backer,315.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,
 Cricut Joy,Plastic,ウィンドウクリング,Window Cling,120.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0,
@@ -777,10 +776,9 @@ Cricut Joy,Vinyl,暗闇で光るビニール,Glow in the Dark Vinyl,160.0,2倍,�
 Cricut Joy,Plastic,アセテート,Acetate,280.0,2倍,ファインポイントブレード,150.0,plain,0,1300.0,75.0,
 Cricut Joy,Paper,スマート水溶性ラベル,Smart Label Dissolvable Matless Writable Paper,80.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Cricut Joy,Paper,Smart Label書き込み可能ペーパー,Smart Label Matless Writable Paper,107.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
-Cricut Joy,Paper,ホイルペーパー - 0.36mm,Foil Paper - 0.36 mm,318.0,-,ファインポイントブレード,80.0,foil,0,787.5,25.0,
 Cricut Joy,Fabric,合成スエード,Faux Suede,220.0,-,ファインポイントブレード,150.0,plain,0,280.0,10.0,
 Explore 3,Board/Cardboard,ホログラフィックのホイルクラフトボード,Foil Kraft Board  - Holographic,340.0,2倍,ファインポイントブレード,850.0,foil,0,945.0,75.0,
-Explore 3,Board/Cardboard,マットボード（1.5mm）,Matboard (1.5 mm),350.0,5倍,ディープポイントブレード,1275.0,plain,0,850.0,72.5,
+Explore 3,Board/Cardboard,マットボード,Matboard,350.0,5倍,ディープポイントブレード,1275.0,plain,0,850.0,72.5,1.5
 Explore 3,Board/Cardboard,ポスターボード,Poster Board,287.0,2倍,ファインポイントブレード,850.0,plain,0,850.0,65.0,
 Explore 3,Iron-On,3Dアイロン接着,3D Iron-On,190.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Explore 3,Iron-On,カラーポップアイロン接着,Color Pop Iron-On,250.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
@@ -801,13 +799,12 @@ Explore 3,Cardstock,カードストック、接着剤付き,"Cardstock, Adhesive
 Explore 3,Cardstock,カットアウェイカード + バッカー,Cutaway Card + Backer,180.0,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0,
 Explore 3,Cardstock,デラックスペーパー、エンボスホイル,Deluxe Paper Foil Embossed,300.0,-,ファインポイントブレード,216.0,foil,0,840.0,40.0,
 Explore 3,Cardstock,デラックスペーパー、粘着バック,"Deluxe Paper, Adhesive Backed",270.0,-,ファインポイントブレード,216.0,plain,1,800.0,30.0,
-Explore 3,Cardstock,ヘビーカードストック - 100ポンド（270gsm）,Heavy Cardstock - 100 lb (270 gsm),295.0,2倍,ファインポイントブレード,270.0,plain,0,800.0,30.0,
+Explore 3,Cardstock,ヘビーカードストック - 100ポンド,Heavy Cardstock,295.0,2倍,ファインポイントブレード,270.0,plain,0,800.0,30.0,0.27
 Explore 3,Cardstock,カードを挿入-カードストック,Insert Card - Cardstock,275.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,
-Explore 3,Cardstock,ライトカードストック - 65ポンド（176gsm）,Light Cardstock - 65 lb (176 gsm),214.0,-,ファインポイントブレード,176.0,plain,0,800.0,30.0,
-Explore 3,Cardstock,ミディアムカードストック - 80ポンド（216gsm）,Medium Cardstock - 80 lb (216 gsm),320.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,
+Explore 3,Cardstock,ライトカードストック - 65ポンド,Light Cardstock,214.0,-,ファインポイントブレード,176.0,plain,0,800.0,30.0,0.176
 Explore 3,Cardstock,カードストック（複雑なカット用）,"Medium Cardstock - 80 lb (Intricate Cuts, 2x Pass)",200.0,2倍,ファインポイントブレード,300.79999999999995,plain,0,800.0,30.0,
 Explore 3,Cardstock,Smart Paper、ステッカーカードストック,Smart Paper Matless Sticker Cardstock,300.0,-,ファインポイントブレード,216.0,plain,1,800.0,30.0,
-Explore 3,Cardstock,お得なカードストック - 65 lb（176 g）,Value Cardstock - 65 lb (176gsm),240.0,-,ファインポイントブレード,176.0,plain,0,800.0,30.0,
+Explore 3,Cardstock,お得なカードストック - 65 lb,Value Cardstock,240.0,-,ファインポイントブレード,176.0,plain,0,800.0,30.0,0.176
 Explore 3,Vinyl,暗闇で光るビニール,Glow in the Dark Vinyl,160.0,2倍,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
 Explore 3,Vinyl,熱や冷感活性化で色が変化するビニール,Heat/Cold Activated Color Changing Vinyl,156.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
 Explore 3,Vinyl,ホログラフィックビニール,Holographic Vinyl,110.0,-,ファインポイントブレード,120.0,holographic,0,1365.0,73.0,
@@ -848,11 +845,8 @@ Explore 3,Others,フェルト、接着剤付きウール,"Felt, Wool Bonded",331
 Explore 3,Others,フェルト、ウール布,"Felt, Wool Fabric",328.0,6倍,ファインポイントブレード,200.0,plain,0,300.0,20.0,
 Explore 3,Plastic,アセテート,Acetate,280.0,2倍,ファインポイントブレード,150.0,plain,0,1300.0,75.0,
 Explore 3,Paper,コピーペーパー - 20ポンド（75gsm）,Copy Paper,143.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
-Explore 3,Paper,コピーペーパー - 24ポンド（90gsm）,Copy Paper - 24 lb (90 gsm),143.0,-,ファインポイントブレード,90.0,plain,0,750.0,15.0,
-Explore 3,Paper,コピーペーパー - 32ポンド（120gsm）,Copy Paper - 32 lb (120 gsm),143.0,-,ファインポイントブレード,120.0,plain,0,750.0,15.0,
 Explore 3,Paper,フロックペーパー,Flocked Paper,225.0,3倍,ファインポイントブレード,80.0,flock,0,787.5,29.0,
 Explore 3,Paper,買い物バッグ,Grocery Bag,200.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
-Explore 3,Paper,140 Ib（300 g ）の厚い水彩紙,Heavy Watercolor Paper - 140 lbs (300 gsm),310.0,2倍,ファインポイントブレード,300.0,plain,0,750.0,15.0,
 Explore 3,Paper,ライトパターンペーパー,Light Patterned Paper,240.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Explore 3,Paper,フォトペーパー,Photo Paper - 48 lb,223.0,2倍,ファインポイントブレード,180.48,plain,0,750.0,15.0,
 Explore 3,Paper,印刷可能なステッカーペーパー（クリア）,"Printable Sticker Paper, Clear (No Liner Printing)",230.0,-,ファインポイントブレード,80.0,plain,1,750.0,15.0,
@@ -870,9 +864,8 @@ Explore 3,Others,和紙シート,Washi Sheet,85.0,-,ファインポイントブ�
 Explore 3,Plastic,ウィンドウクリング,Window Cling,100.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0,
 Explore 3,Fabric,オイルクロス、接着剤付き,"Oil Cloth, Bonded",285.0,-,ファインポイントブレード,150.0,plain,0,280.0,10.0,
 Explore 3,Others,ナチュラルウッドベニヤ,naturalwood,320.0,3倍,ディープポイントブレード,200.0,plain,0,150.0,40.0,
-Maker 3,Board/Cardboard,チップボード（1.5mm）,Chipboard (1.5 mm),500.0,12倍,ナイフの刃,1275.0,plain,0,850.0,72.5,
 Maker 3,Board/Cardboard,ホログラフィックのホイルクラフトボード,Foil Kraft Board  - Holographic,340.0,2倍,ファインポイントブレード,850.0,foil,0,945.0,75.0,
-Maker 3,Board/Cardboard,マットボード（1.5mm）,Matboard (1.5 mm),350.0,6倍,ディープポイントブレード,1275.0,plain,0,850.0,72.5,
+Maker 3,Board/Cardboard,マットボード,Matboard,350.0,6倍,ディープポイントブレード,1275.0,plain,0,850.0,72.5,1.5
 Maker 3,Iron-On,3Dアイロン接着,3D Iron-On,190.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Maker 3,Iron-On,カラーポップアイロン接着,Color Pop Iron-On,250.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Maker 3,Iron-On,フロックアイロン接着,Flocked Iron-On,140.0,-,ファインポイントブレード,100.0,flock,0,1102.5,59.0,
@@ -892,13 +885,12 @@ Maker 3,Cardstock,カードストック、接着剤付き,"Cardstock, Adhesive-B
 Maker 3,Cardstock,カットアウェイカード + バッカー,Cutaway Card + Backer,200.0,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0,
 Maker 3,Cardstock,デラックスペーパー、エンボスホイル,Deluxe Paper Foil Embossed,300.0,-,ファインポイントブレード,216.0,foil,0,840.0,40.0,
 Maker 3,Cardstock,デラックスペーパー、粘着バック,"Deluxe Paper, Adhesive Backed",270.0,-,ファインポイントブレード,216.0,plain,1,800.0,30.0,
-Maker 3,Cardstock,ヘビーカードストック - 100ポンド（270gsm）,Heavy Cardstock - 100 lb (270 gsm),310.0,2倍,ファインポイントブレード,270.0,plain,0,800.0,30.0,
+Maker 3,Cardstock,ヘビーカードストック - 100ポンド,Heavy Cardstock,310.0,2倍,ファインポイントブレード,270.0,plain,0,800.0,30.0,0.27
 Maker 3,Cardstock,カードを挿入-カードストック,Insert Card - Cardstock,265.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,
-Maker 3,Cardstock,ライトカードストック - 65ポンド（176gsm）,Light Cardstock - 65 lb (176 gsm),214.0,-,ファインポイントブレード,176.0,plain,0,800.0,30.0,
-Maker 3,Cardstock,ミディアムカードストック - 80ポンド（216gsm）,Medium Cardstock - 80 lb (216 gsm),320.0,-,ファインポイントブレード,216.0,plain,0,800.0,30.0,
+Maker 3,Cardstock,ライトカードストック - 65ポンド,Light Cardstock,214.0,-,ファインポイントブレード,176.0,plain,0,800.0,30.0,0.176
 Maker 3,Cardstock,カードストック（複雑なカット用）,"Medium Cardstock - 80 lb (Intricate Cuts, 2x Pass)",200.0,2倍,ファインポイントブレード,300.79999999999995,plain,0,800.0,30.0,
 Maker 3,Cardstock,Smart Paper、ステッカーカードストック,Smart Paper Matless Sticker Cardstock,300.0,-,ファインポイントブレード,216.0,plain,1,800.0,30.0,
-Maker 3,Cardstock,お得なカードストック - 65 lb（176 g）,Value Cardstock - 65 lb (176gsm),240.0,-,ファインポイントブレード,176.0,plain,0,800.0,30.0,
+Maker 3,Cardstock,お得なカードストック - 65 lb,Value Cardstock,240.0,-,ファインポイントブレード,176.0,plain,0,800.0,30.0,0.176
 Maker 3,Vinyl,ドライイレースビニール,Dry Erase Vinyl,119.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
 Maker 3,Vinyl,自由自在の原紙フイルム,Flexible Stencil Film,110.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
 Maker 3,Vinyl,暗闇で光るビニール,Glow in the Dark Vinyl,165.0,2倍,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
@@ -947,11 +939,8 @@ Maker 3,Vinyl,屋外用ビニール、接着剤付き,"Outdoor Vinyl, Bonded",27
 Maker 3,Others,光沢のある側が下のホイルテープ,Foil Tape - Shiny Side Down,175.0,-,ファインポイントブレード,200.0,foil,0,157.5,50.0,
 Maker 3,Others,箔押しテープ（光沢のある面が上）,Foil Tape - Shiny Side Up,175.0,-,ファインポイントブレード,200.0,foil,0,157.5,50.0,
 Maker 3,Paper,コピーペーパー - 20ポンド（75gsm）,Copy Paper,126.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
-Maker 3,Paper,コピーペーパー - 24ポンド（90gsm）,Copy Paper - 24 lb (90 gsm),126.0,-,ファインポイントブレード,90.0,plain,0,750.0,15.0,
-Maker 3,Paper,コピーペーパー - 32ポンド（120gsm）,Copy Paper - 32 lb (120 gsm),126.0,-,ファインポイントブレード,120.0,plain,0,750.0,15.0,
 Maker 3,Paper,フロックペーパー,Flocked Paper,299.0,3倍,ファインポイントブレード,80.0,flock,0,787.5,29.0,
 Maker 3,Paper,買い物バッグ,Grocery Bag,200.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
-Maker 3,Paper,140 Ib（300 g ）の厚い水彩紙,Heavy Watercolor Paper - 140 lbs (300 gsm),345.0,-,ファインポイントブレード,300.0,plain,0,750.0,15.0,
 Maker 3,Paper,ライトパターンペーパー,Light Patterned Paper,152.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Maker 3,Paper,ペーパー、接着剤付き,"Paper, Adhesive-Backed",240.0,-,ファインポイントブレード,80.0,plain,1,750.0,15.0,
 Maker 3,Paper,フォトペーパー,Photo Paper - 48 lb,345.0,-,ファインポイントブレード,180.48,plain,0,750.0,15.0,
@@ -970,11 +959,9 @@ Maker 3,Others,ペイントチップ,Paint Chip,310.0,-,ファインポイント
 Maker 3,Others,印刷可能なマグネットシート,Printable Magnetic Sheet,330.0,-,ファインポイントブレード,200.0,plain,0,3500.0,90.0,
 Maker 3,Others,和紙シート,Washi Sheet,85.0,-,ファインポイントブレード,200.0,plain,0,150.0,10.0,
 Maker 3,Plastic,ウィンドウクリング,Window Cling,100.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0,
-Maker 3,Leather,４から５ozの中間の厚さのガーメントレザー,Medium Garment Leather - 4-5 oz. (1.6 mm),200.0,6倍,ディープポイントブレード,1440.0,plain,0,900.0,61.0,
-Maker 3,Leather,２から３ozの薄手のガーメントレザー（0.8から1.3mm）,Thin Garment Leather - 2-3 oz. (0.8-1.3 mm),180.0,3倍,ディープポイントブレード,1170.0,plain,0,900.0,58.0,
-Maker 3,Leather,ツーリングレザー - 2～3オンス（0.8mm）,Tooling Leather - 2-3 oz. (0.8 mm),287.0,3倍,ディープポイントブレード,720.0,plain,0,900.0,53.0,
-Maker 3,Leather,ツーリングレザー - 4〜5オンス（1.6mm）,Tooling Leather - 4-5 oz. (1.6 mm),345.0,7倍,ディープポイントブレード,1440.0,plain,0,900.0,61.0,
-Maker 3,Leather,ツーリングレザー - 6〜7オンス（2.4mm）,Tooling Leather - 6-7 oz. (2.4 mm),450.0,16倍,ナイフの刃,2160.0,plain,0,900.0,69.0,
+Maker 3,Leather,ツーリングレザー - 2～3オンス,Tooling Leather,287.0,3倍,ディープポイントブレード,720.0,plain,0,900.0,53.0,0.8
+Maker 3,Leather,ツーリングレザー - 4〜5オンス,Tooling Leather,345.0,7倍,ディープポイントブレード,1440.0,plain,0,900.0,61.0,1.6
+Maker 3,Leather,ツーリングレザー - 6〜7オンス,Tooling Leather,450.0,16倍,ナイフの刃,2160.0,plain,0,900.0,69.0,2.4
 Maker 3,Fabric,ベンガリン,Bengaline,1745.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
 Maker 3,Fabric,バーンアウトベルベット,Burn-Out Velvet,1410.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
 Maker 3,Fabric,チャリス,Challis,1200.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
@@ -1011,9 +998,5 @@ Maker 3,Fabric,シャンタンサンタン,Shantung Santeen,1743.0,-,ロータ�
 Maker 3,Fabric,タフタ,Tafetta,1405.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
 Maker 3,Fabric,ボイル,Voile,1450.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
 Maker 3,Fabric,ジベリン,Ziberline,1900.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
-Maker 3,Others,バルサ - 1／16インチ（1.6mm）,"Balsa - 1/16"" (1.6 mm)",200.0,4倍,ナイフの刃,200.0,plain,0,150.0,60.0,
-Maker 3,Others,バルサ - 3／32インチ（2.4mm）,"Balsa - 3/32"" (2.4 mm)",300.0,7倍,ナイフの刃,200.0,plain,0,150.0,60.0,
-Maker 3,Others,バスウッド - 1／16インチ（1.6mm）,"Basswood - 1/16"" (1.6 mm)",750.0,14倍,ナイフの刃,200.0,plain,0,400.0,97.0,
-Maker 3,Others,バスウッド - 1／32インチ（0.8mm）,"Basswood - 1/32"" (0.8 mm)",381.0,18倍,ナイフの刃,200.0,plain,0,400.0,97.0,
 Maker 3,Leather,本革,Genuine Leather,270.0,3倍,ディープポイントブレード,1440.0,plain,0,900.0,55.0,1.8
 Maker 3,Paper,建設用紙,Construction Paper,169.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,0.18
