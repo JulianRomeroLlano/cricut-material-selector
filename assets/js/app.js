@@ -60,7 +60,8 @@
   let searchQuery    = "";
   let searchTimer    = null;
   let viewMode       = "list"; // "list" | "grid"
-  let metricMode     = "thickness"; // "thickness" | "gsm"
+  let metricMode        = "thickness"; // "thickness" | "gsm"  (browse cards)
+  let predictMetricMode = "thickness"; // "thickness" | "gsm"  (predict form)
   let lastPrediction = null;   // context of the most recent AI prediction
 
   const $ = id => document.getElementById(id);
@@ -101,6 +102,7 @@
     bindLangToggle();
     bindViewToggle();
     bindMetricToggle();
+    bindPredictMetricToggle();
     bindHeroButtons();
     bindPredictForm();
 
@@ -145,8 +147,10 @@
     const lang = currentLang();
     $("langEN").classList.toggle("active", lang === "en");
     $("langJP").classList.toggle("active", lang === "ja");
-    // Metric toggle text is dynamic — override what data-i18n set
+    // Metric toggle texts are dynamic — override what data-i18n set
     $("metricToggle").textContent = t(metricMode === "thickness" ? "toggle_to_gsm" : "toggle_to_mm");
+    $("predictMetricToggle").textContent = t(predictMetricMode === "thickness" ? "toggle_to_gsm" : "toggle_to_mm");
+    $("pThicknessLabel").textContent = t(predictMetricMode === "gsm" ? "gsm_label" : "thickness_label");
   }
 
   /* ── Machine bar ────────────────────────────────────────────────────────────── */
@@ -455,6 +459,45 @@
     });
   }
 
+  /* ── Predict form metric toggle (thickness ↔ GSM) ──────────────────────────── */
+  function bindPredictMetricToggle() {
+    const btn   = $("predictMetricToggle");
+    const input = $("pThickness");
+    const unit  = $("pThicknessUnit");
+    const lbl   = $("pThicknessLabel");
+
+    function updatePredictMetric() {
+      const isGsm = predictMetricMode === "gsm";
+      btn.textContent = t(isGsm ? "toggle_to_mm" : "toggle_to_gsm");
+      btn.classList.toggle("active", isGsm);
+      lbl.textContent = t(isGsm ? "gsm_label" : "thickness_label");
+      unit.textContent = isGsm ? "gsm" : "mm";
+      // Convert current value when switching
+      const cur = parseFloat(input.value);
+      if (!isNaN(cur)) {
+        if (isGsm) {
+          // mm → gsm: gsm = mm / 0.001
+          input.min  = "1";
+          input.max  = "50000";
+          input.step = "1";
+          input.value = Math.round(cur / 0.001);
+        } else {
+          // gsm → mm: mm = gsm * 0.001
+          input.min  = "0.01";
+          input.max  = "60";
+          input.step = "0.01";
+          input.value = (cur * 0.001).toFixed(2);
+        }
+      }
+    }
+
+    updatePredictMetric();
+    btn.addEventListener("click", () => {
+      predictMetricMode = predictMetricMode === "thickness" ? "gsm" : "thickness";
+      updatePredictMetric();
+    });
+  }
+
   /* ── Hero buttons ───────────────────────────────────────────────────────────── */
   function bindHeroButtons() {
     $("heroBtnBrowse").addEventListener("click", () => {
@@ -471,8 +514,11 @@
   function bindPredictForm() {
     populatePredictForm();
     $("pCategory").addEventListener("change", () => {
-      const cat = $("pCategory").value;
-      $("pThickness").value = THICKNESS_DEFAULTS[cat] || 0.5;
+      const cat    = $("pCategory").value;
+      const defMm  = THICKNESS_DEFAULTS[cat] || 0.5;
+      $("pThickness").value = predictMetricMode === "gsm"
+        ? Math.round(defMm / 0.001)
+        : defMm;
       populateMaterialNameList();
     });
     $("pMaterialName").addEventListener("input", onMaterialNameInput);
@@ -503,9 +549,11 @@
       }
       populateMaterialNameList();
     }
-    /* auto-fill thickness */
+    /* auto-fill thickness (convert to current metric mode) */
     if (props.thickness_mm && props.thickness_mm > 0) {
-      $("pThickness").value = props.thickness_mm.toFixed(2);
+      $("pThickness").value = predictMetricMode === "gsm"
+        ? Math.round(props.thickness_mm / 0.001)
+        : props.thickness_mm.toFixed(2);
     }
   }
 
@@ -532,13 +580,14 @@
     const errEl = $("errThickness");
     errEl.classList.add("hidden");
 
-    const raw = $("pThickness").value;
-    const mm  = parseFloat(raw);
-    if (!raw || isNaN(mm)) {
+    const raw     = $("pThickness").value;
+    const rawVal  = parseFloat(raw);
+    if (!raw || isNaN(rawVal)) {
       errEl.textContent = t("err_thickness_required");
       errEl.classList.remove("hidden");
       return;
     }
+    const mm = predictMetricMode === "gsm" ? rawVal * 0.001 : rawVal;
     if (mm < 0.01 || mm > 60) {
       errEl.textContent = t("err_thickness_range");
       errEl.classList.remove("hidden");

@@ -401,6 +401,26 @@ select, input { font-family: inherit; }
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+.form-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.metric-toggle-sm {
+  padding: 3px 9px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+.metric-toggle-sm.active {
+  border-color: var(--green);
+  color: var(--green-dark);
+  background: var(--green-bg);
+}
 .form-select,
 .form-input {
   padding: 10px 12px;

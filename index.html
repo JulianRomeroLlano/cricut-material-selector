@@ -146,11 +146,14 @@
       </div>
 
       <div class="form-row">
-        <label class="form-label" for="pThickness" data-i18n="form_thickness">Thickness</label>
+        <div class="form-label-row">
+          <label class="form-label" for="pThickness" id="pThicknessLabel" data-i18n="form_thickness">Thickness</label>
+          <button class="metric-toggle metric-toggle-sm" id="predictMetricToggle"></button>
+        </div>
         <div class="input-group">
           <input class="form-input" type="number" id="pThickness"
                  min="0.01" max="60" step="0.01" value="0.08">
-          <span class="input-unit">mm</span>
+          <span class="input-unit" id="pThicknessUnit">mm</span>
         </div>
         <span class="field-error hidden" id="errThickness"></span>
       </div>
