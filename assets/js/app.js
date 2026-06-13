@@ -351,6 +351,36 @@
         render();
       });
     });
+
+    // Export button — only shown when the user has saved custom materials
+    const sidebar = $("catSidebar");
+    let exportEl = sidebar.querySelector(".sidebar-export");
+    const customs = loadCustomMaterials();
+    if (customs.length > 0) {
+      if (!exportEl) {
+        exportEl = document.createElement("div");
+        exportEl.className = "sidebar-export";
+        sidebar.appendChild(exportEl);
+      }
+      exportEl.innerHTML =
+        '<div class="sidebar-export-label">' + esc(t("sidebar_custom_count", customs.length)) + '</div>' +
+        '<button class="btn-sidebar-export" id="btnExportCustom">' + esc(t("sidebar_export_btn")) + '</button>';
+      sidebar.querySelector("#btnExportCustom").addEventListener("click", exportCustomMaterials);
+    } else if (exportEl) {
+      exportEl.remove();
+    }
+  }
+
+  function exportCustomMaterials() {
+    const customs = loadCustomMaterials();
+    if (!customs.length) return;
+    const blob = new Blob([JSON.stringify(customs, null, 2)], { type: "application/json" });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a");
+    a.href     = url;
+    a.download = "cricut_custom_materials.json";
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   /* ── View toggle ────────────────────────────────────────────────────────────── */

@@ -763,6 +763,29 @@ select, input { font-family: inherit; }
   flex: 1;
   min-width: 0;
 }
+.sidebar-export {
+  padding: 16px 16px 0;
+  border-top: 1px solid var(--border);
+  margin-top: 12px;
+}
+.sidebar-export-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.btn-sidebar-export {
+  width: 100%;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #9a6b00;
+  background: #fff4d6;
+  border: 1px solid #e8cc7a;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.btn-sidebar-export:hover { background: #fde89a; }
 
 /* ── View mode toggle ────────────────────────────────────────────────────────── */
 .view-toggle {
