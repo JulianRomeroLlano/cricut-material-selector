@@ -60,6 +60,7 @@
   let searchQuery    = "";
   let searchTimer    = null;
   let viewMode       = "list"; // "list" | "grid"
+  let metricMode     = "thickness"; // "thickness" | "gsm"
   let lastPrediction = null;   // context of the most recent AI prediction
 
   const $ = id => document.getElementById(id);
@@ -99,6 +100,7 @@
     bindToolbar();
     bindLangToggle();
     bindViewToggle();
+    bindMetricToggle();
     bindHeroButtons();
     bindPredictForm();
 
@@ -143,6 +145,8 @@
     const lang = currentLang();
     $("langEN").classList.toggle("active", lang === "en");
     $("langJP").classList.toggle("active", lang === "ja");
+    // Metric toggle text is dynamic — override what data-i18n set
+    $("metricToggle").textContent = t(metricMode === "thickness" ? "toggle_to_gsm" : "toggle_to_mm");
   }
 
   /* ── Machine bar ────────────────────────────────────────────────────────────── */
@@ -325,8 +329,13 @@
             '</div>' +
             (m.thickness_mm
               ? '<div class="mat-chip">' +
-                  '<span class="chip-label">' + esc(t("thickness_label")) + '</span>' +
-                  '<span class="chip-val">' + m.thickness_mm + ' mm</span>' +
+                  '<span class="chip-label">' + esc(metricMode === "gsm" ? t("gsm_label") : t("thickness_label")) + '</span>' +
+                  '<span class="chip-val">' + (metricMode === "gsm"
+                    ? (m.gsm != null ? m.gsm + ' gsm' : '—')
+                    : m.thickness_mm + ' mm') + '</span>' +
+                  '<span class="chip-secondary">' + (metricMode === "gsm"
+                    ? m.thickness_mm + ' mm'
+                    : (m.gsm != null ? m.gsm + ' gsm' : '')) + '</span>' +
                 '</div>'
               : '') +
           '</div>';
@@ -427,6 +436,21 @@
       viewMode = "grid";
       $("viewGrid").classList.add("active");
       $("viewList").classList.remove("active");
+      render();
+    });
+  }
+
+  /* ── Metric toggle (thickness ↔ GSM) ───────────────────────────────────────── */
+  function bindMetricToggle() {
+    const btn = $("metricToggle");
+    function updateBtn() {
+      btn.textContent = t(metricMode === "thickness" ? "toggle_to_gsm" : "toggle_to_mm");
+      btn.classList.toggle("active", metricMode === "gsm");
+    }
+    updateBtn();
+    btn.addEventListener("click", () => {
+      metricMode = metricMode === "thickness" ? "gsm" : "thickness";
+      updateBtn();
       render();
     });
   }

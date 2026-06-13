@@ -68,6 +68,13 @@ for _, row in df.iterrows():
     mc_disp  = MCUT_DISPLAY.get(mc_raw, mc_raw)
     name_en  = str(row["Material Name (EN)"]).strip()
     category = str(row["Category"]).strip()
+    gsm_raw = row.get("GSM") if "GSM" in row.index else None
+    gsm_val = None
+    if gsm_raw is not None and pd.notna(gsm_raw):
+        try:
+            gsm_val = int(float(gsm_raw))
+        except (ValueError, TypeError):
+            pass
     out.append({
         "machine":      str(row["Machine"]).strip(),
         "category":     category,
@@ -78,6 +85,7 @@ for _, row in df.iterrows():
         "blade_en":     blade_en,
         "blade_jp":     blade_jp,
         "thickness_mm": float(row["thickness_mm"]) if ("thickness_mm" in row.index and pd.notna(row["thickness_mm"])) else infer_thickness(name_en, category),
+        "gsm":          gsm_val,
     })
 
 with open(DST, "w", encoding="utf-8") as f:

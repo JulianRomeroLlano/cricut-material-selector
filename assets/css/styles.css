@@ -205,6 +205,21 @@ select, input { font-family: inherit; }
   color: var(--green-dark);
   background: var(--green-bg);
 }
+.metric-toggle {
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+.metric-toggle.active {
+  border-color: var(--green);
+  color: var(--green-dark);
+  background: var(--green-bg);
+}
 
 /* ── Result count ───────────────────────────────────────────────────────────── */
 .result-count {
@@ -317,6 +332,13 @@ select, input { font-family: inherit; }
   color: var(--green-dark);
   font-weight: 600;
   white-space: nowrap;
+}
+.chip-secondary {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-muted);
+  line-height: 1.2;
+  min-height: 12px;
 }
 .mat-specs { display: flex; align-items: center; font-size: 13px; color: var(--text-muted); }
 .spec-item { display: flex; align-items: center; }
