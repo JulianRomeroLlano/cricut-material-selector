@@ -367,13 +367,13 @@ def warm_start_embeddings(m):
     print(f"  Warm-started {n_init}/{N_NAMES} embeddings from preprocessor_v2.json")
 
 
-def train_loop(m, train_loader, eval_loader, label):
+def train_loop(m, train_loader, eval_loader, label, patience=PATIENCE):
     """Train with early stopping on eval_loader loss; returns best epoch."""
     optimizer = torch.optim.AdamW(m.parameters(), lr=LR, weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=MAX_EPOCHS)
     best_val, best_ep, no_imp, best_state = float("inf"), 0, 0, None
 
-    print(f"\n[{label}] Training up to {MAX_EPOCHS} epochs (patience={PATIENCE})…")
+    print(f"\n[{label}] Training up to {MAX_EPOCHS} epochs (patience={patience})…")
     for epoch in range(1, MAX_EPOCHS + 1):
         m.train()
         for nidx, ph, foh, pt, bt, mt in train_loader:
@@ -408,7 +408,7 @@ def train_loop(m, train_loader, eval_loader, label):
         if epoch % 200 == 0:
             print(f"  [{label}] ep {epoch:4d}  eval_loss={vl:.5f}")
 
-        if no_imp >= PATIENCE:
+        if no_imp >= patience:
             print(f"  [{label}] Early stop at epoch {epoch}  (best ep {best_ep}, loss {best_val:.5f})")
             break
 
@@ -492,7 +492,9 @@ full_ev_ld = DataLoader(MaterialDataset(all_records, augment=False),
 
 final_model = GlobalModel(N_NAMES, EMB_DIM, FEATURE_DIM).to(DEVICE)
 warm_start_embeddings(final_model)
-final_ep = train_loop(final_model, full_tr_ld, full_ev_ld, "final")
+# Larger patience for the final fit: the goal is memorization, and the loss
+# plateaus for long stretches before fitting the extreme-pressure outliers.
+final_ep = train_loop(final_model, full_tr_ld, full_ev_ld, "final", patience=600)
 print(f"Final fit complete — best epoch {final_ep}")
 
 model = final_model   # sections below export & evaluate the final model
