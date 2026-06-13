@@ -843,7 +843,6 @@ Explore 3,Vinyl,Smart Vinyl - 恒久,Smart Vinyl Matless Permanent Vinyl,123.0,-
 Explore 3,Vinyl,Smart Vinyl - 取り外し可能,Smart Vinyl Matless Removable Vinyl,108.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
 Explore 3,Vinyl,Smart Vinyl - マットメタリック,Smart Vinyl Matte Metallic Matless Permanent Vinyl,154.0,-,ファインポイントブレード,120.0,metallic,0,1365.0,75.0
 Explore 3,Vinyl,Smart Vinyl - シマー,Smart Vinyl Shimmer Matless Permanent Vinyl,169.0,-,ファインポイントブレード,120.0,shimmer,0,1339.0,71.0
-Explore 3,Vinyl,ステンシルフィルム,- 0.4mm Stencil Film - 0.4 mm,300.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
 Explore 3,Vinyl,お得なビニール,Value Vinyl,115.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
 Explore 3,Others,フェルト、接着剤付きウール,"Felt, Wool Bonded",331.0,2倍,ファインポイントブレード,200.0,plain,0,300.0,20.0
 Explore 3,Others,フェルト、ウール布,"Felt, Wool Fabric",328.0,6倍,ファインポイントブレード,200.0,plain,0,300.0,20.0
@@ -852,7 +851,6 @@ Explore 3,Paper,コピーペーパー - 20ポンド（75gsm）,Copy Paper,143.0,
 Explore 3,Paper,コピーペーパー - 24ポンド（90gsm）,Copy Paper - 24 lb (90 gsm),143.0,-,ファインポイントブレード,90.0,plain,0,750.0,15.0
 Explore 3,Paper,コピーペーパー - 32ポンド（120gsm）,Copy Paper - 32 lb (120 gsm),143.0,-,ファインポイントブレード,120.0,plain,0,750.0,15.0
 Explore 3,Paper,フロックペーパー,Flocked Paper,225.0,3倍,ファインポイントブレード,80.0,flock,0,787.5,29.0
-Explore 3,Paper,ホイルペーパー,- 0.36mm Foil Paper - 0.36 mm,300.0,-,ファインポイントブレード,80.0,foil,0,787.5,25.0
 Explore 3,Paper,買い物バッグ,Grocery Bag,200.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0
 Explore 3,Paper,140 Ib（300 g ）の厚い水彩紙,Heavy Watercolor Paper - 140 lbs (300 gsm),310.0,2倍,ファインポイントブレード,300.0,plain,0,750.0,15.0
 Explore 3,Paper,ライトパターンペーパー,Light Patterned Paper,240.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0
@@ -866,14 +864,10 @@ Explore 3,Paper,付箋,Sticky Note,175.0,-,ファインポイントブレード,
 Explore 3,Paper,昇華転写紙,Sublimation Paper,130.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0
 Explore 3,Cardstock,ウォーターカラーカード,Watercolor Cards,230.0,2倍,ファインポイントブレード,200.0,plain,0,800.0,30.0
 Explore 3,Others,ダクトテープシート,Duct Tape Sheet,122.0,-,ファインポイントブレード,200.0,plain,0,150.0,40.0
-Explore 3,Others,マグネットシート,- 0.5mm Magnetic Sheet - 0.5 mm,300.0,5倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0
-Explore 3,Others,マグネットシート,- 1.0mm Magnetic Sheet - 1.0 mm,350.0,8倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0
 Explore 3,Others,ペイントチップ,Paint Chip,310.0,-,ファインポイントブレード,200.0,plain,0,150.0,40.0
 Explore 3,Others,印刷可能なマグネットシート,Printable Magnetic Sheet,330.0,-,ファインポイントブレード,200.0,plain,0,3500.0,90.0
 Explore 3,Others,和紙シート,Washi Sheet,85.0,-,ファインポイントブレード,200.0,plain,0,150.0,10.0
-Explore 3,Others,和紙テープ,- 0.06mm Washi Tape - 0.06 mm,70.0,-,ファインポイントブレード,200.0,plain,0,150.0,10.0
 Explore 3,Plastic,ウィンドウクリング,Window Cling,100.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0
-Explore 3,Leather,シマーレザー,- 1mm Shimmer Leather - 1 mm,325.0,3倍,ファインポイントブレード,900.0,shimmer,0,927.0,61.0
 Explore 3,Fabric,オイルクロス、接着剤付き,"Oil Cloth, Bonded",285.0,-,ファインポイントブレード,150.0,plain,0,280.0,10.0
 Explore 3,Others,ナチュラルウッドベニヤ,naturalwood,320.0,3倍,ディープポイントブレード,200.0,plain,0,150.0,40.0
 Maker 3,Board/Cardboard,チップボード（1.5mm）,Chipboard (1.5 mm),500.0,12倍,ナイフの刃,1275.0,plain,0,850.0,72.5
@@ -943,7 +937,6 @@ Maker 3,Vinyl,Smart Vinyl - 恒久,Smart Vinyl Matless Permanent Vinyl,120.0,-,�
 Maker 3,Vinyl,Smart Vinyl - 取り外し可能,Smart Vinyl Matless Removable Vinyl,106.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
 Maker 3,Vinyl,Smart Vinyl - マットメタリック,Smart Vinyl Matte Metallic Matless Permanent Vinyl,134.0,-,ファインポイントブレード,120.0,metallic,0,1365.0,75.0
 Maker 3,Vinyl,Smart Vinyl - シマー,Smart Vinyl Shimmer Matless Permanent Vinyl,154.0,-,ファインポイントブレード,120.0,shimmer,0,1339.0,71.0
-Maker 3,Vinyl,ステンシルフィルム,- 0.4mmStencil Film - 0.4 mm,300.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
 Maker 3,Vinyl,お得なビニール,Value Vinyl,120.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0
 Maker 3,Others,フェルト、クラフト接着剤付き,"Felt, Craft Bonded",350.0,2倍,ファインポイントブレード,200.0,plain,0,300.0,20.0
 Maker 3,Others,フェルト、グリッター接着剤付き,"Felt, Glitter Bonded",350.0,2倍,ファインポイントブレード,200.0,glitter,0,336.0,36.0
@@ -957,7 +950,6 @@ Maker 3,Paper,コピーペーパー - 20ポンド（75gsm）,Copy Paper,126.0,-,
 Maker 3,Paper,コピーペーパー - 24ポンド（90gsm）,Copy Paper - 24 lb (90 gsm),126.0,-,ファインポイントブレード,90.0,plain,0,750.0,15.0
 Maker 3,Paper,コピーペーパー - 32ポンド（120gsm）,Copy Paper - 32 lb (120 gsm),126.0,-,ファインポイントブレード,120.0,plain,0,750.0,15.0
 Maker 3,Paper,フロックペーパー,Flocked Paper,299.0,3倍,ファインポイントブレード,80.0,flock,0,787.5,29.0
-Maker 3,Paper,ホイルペーパー,- 0.36mmFoil Paper - 0.36 mm,274.0,2倍,ファインポイントブレード,80.0,foil,0,787.5,25.0
 Maker 3,Paper,買い物バッグ,Grocery Bag,200.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0
 Maker 3,Paper,140 Ib（300 g ）の厚い水彩紙,Heavy Watercolor Paper - 140 lbs (300 gsm),345.0,-,ファインポイントブレード,300.0,plain,0,750.0,15.0
 Maker 3,Paper,ライトパターンペーパー,Light Patterned Paper,152.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0
@@ -974,16 +966,12 @@ Maker 3,Paper,昇華転写紙,Sublimation Paper,130.0,-,ファインポイント
 Maker 3,Cardstock,ウォーターカラーカード,Watercolor Cards,230.0,2倍,ファインポイントブレード,200.0,plain,0,800.0,30.0
 Maker 3,Others,粘着シート、両面,"Adhesive Sheet, Double-Sided",325.0,2倍,ファインポイントブレード,200.0,plain,1,150.0,40.0
 Maker 3,Others,ダクトテープシート,Duct Tape Sheet,122.0,-,ファインポイントブレード,200.0,plain,0,150.0,40.0
-Maker 3,Others,マグネットシート,- 0.5mmMagnetic Sheet - 0.5 mm,320.0,4倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0
-Maker 3,Others,マグネットシート,- 1.0mmMagnetic Sheet - 1.0 mm,350.0,7倍,ディープポイントブレード,200.0,plain,0,3500.0,90.0
 Maker 3,Others,ペイントチップ,Paint Chip,310.0,-,ファインポイントブレード,200.0,plain,0,150.0,40.0
 Maker 3,Others,印刷可能なマグネットシート,Printable Magnetic Sheet,330.0,-,ファインポイントブレード,200.0,plain,0,3500.0,90.0
 Maker 3,Others,和紙シート,Washi Sheet,85.0,-,ファインポイントブレード,200.0,plain,0,150.0,10.0
-Maker 3,Others,和紙テープ,- 0.06mmWashi Tape - 0.06 mm,70.0,-,ファインポイントブレード,200.0,plain,0,150.0,10.0
 Maker 3,Plastic,ウィンドウクリング,Window Cling,100.0,-,ファインポイントブレード,150.0,plain,0,1350.0,70.0
-Maker 3,Leather,４から５ozの中間の厚さのガーメントレザ－。,(1.6 mm)Medium Garment Leather - 4-5 oz. (1.6 mm),200.0,6倍,ディープポイントブレード,1440.0,plain,0,900.0,61.0
-Maker 3,Leather,シマーレザー,- 1mmShimmer Leather - 1 mm,325.0,3倍,ファインポイントブレード,900.0,shimmer,0,927.0,61.0
-Maker 3,Leather,２から３ozの薄手のガーメントレザー。(0.8から,1.3 mm)Thin Garment Leather - 2-3 oz. (0.8-1.3 mm),180.0,3倍,ディープポイントブレード,1170.0,plain,0,900.0,58.0
+Maker 3,Leather,４から５ozの中間の厚さのガーメントレザー,Medium Garment Leather - 4-5 oz. (1.6 mm),200.0,6倍,ディープポイントブレード,1440.0,plain,0,900.0,61.0
+Maker 3,Leather,２から３ozの薄手のガーメントレザー（0.8から1.3mm）,Thin Garment Leather - 2-3 oz. (0.8-1.3 mm),180.0,3倍,ディープポイントブレード,1170.0,plain,0,900.0,58.0
 Maker 3,Leather,ツーリングレザー - 2～3オンス（0.8mm）,Tooling Leather - 2-3 oz. (0.8 mm),287.0,3倍,ディープポイントブレード,720.0,plain,0,900.0,53.0
 Maker 3,Leather,ツーリングレザー - 4〜5オンス（1.6mm）,Tooling Leather - 4-5 oz. (1.6 mm),345.0,7倍,ディープポイントブレード,1440.0,plain,0,900.0,61.0
 Maker 3,Leather,ツーリングレザー - 6〜7オンス（2.4mm）,Tooling Leather - 6-7 oz. (2.4 mm),450.0,16倍,ナイフの刃,2160.0,plain,0,900.0,69.0
