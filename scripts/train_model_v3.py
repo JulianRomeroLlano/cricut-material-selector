@@ -151,6 +151,12 @@ def bucket_multicut(val):
 df = pd.read_csv(DATA_CSV, encoding="utf-8-sig")
 df = df[df["Cutting Pressure"].notna()].copy()
 df = df[df["Category"] != "Pens & Markers"].copy()
+# Smart materials are Cricut-only products that ship with factory-preset
+# cutting settings — they are never AI-predicted, so they are excluded from
+# training entirely. They stay in materials.json for the browser list.
+smart_mask = df["Material Name (EN)"].str.strip().str.startswith("Smart")
+print(f"Excluding {smart_mask.sum()} Smart material rows from training")
+df = df[~smart_mask].copy()
 df["Cutting Pressure"] = df["Cutting Pressure"].astype(float)
 df["Blade Type"] = df["Blade Type"].replace("ファインポイント", "ファインポイントブレード")
 
