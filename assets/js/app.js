@@ -42,17 +42,37 @@
     "Board/Cardboard":1.0,"Leather":1.6,"Fabric":0.50,"Plastic":0.10,"Others":2.0,
   };
 
+  const BLADE_EN_TO_JP = {
+    "Fine-Point Blade":    "ファインポイントブレード",
+    "Deep-Point Blade":    "ディープポイントブレード",
+    "Rotary Blade":        "ロータリーブレード",
+    "Bonded Fabric Blade": "ボンデッドファブリックブレード",
+    "Knife Blade":         "ナイフの刃",
+  };
+  const MC_LABELS = ["1×", "2×", "3×", "4–5×", "6–8×", "10+×"];
+
   /* ── State ──────────────────────────────────────────────────────────────────── */
-  let materials     = [];
-  let activeMachine = MACHINES[0];
-  let filterCat     = "";
-  let filterBlade   = "";
-  let sortMode      = "none"; // none | asc | desc
-  let searchQuery   = "";
-  let searchTimer   = null;
-  let viewMode      = "list"; // "list" | "grid"
+  let materials      = [];
+  let activeMachine  = MACHINES[0];
+  let filterCat      = "";
+  let filterBlade    = "";
+  let sortMode       = "none"; // none | asc | desc
+  let searchQuery    = "";
+  let searchTimer    = null;
+  let viewMode       = "list"; // "list" | "grid"
+  let lastPrediction = null;   // context of the most recent AI prediction
 
   const $ = id => document.getElementById(id);
+
+  /* ── Custom materials (user corrections, persisted in localStorage) ─────────── */
+  const CUSTOM_KEY = "cricut_custom_materials";
+  function loadCustomMaterials() {
+    try { return JSON.parse(localStorage.getItem(CUSTOM_KEY)) || []; }
+    catch { return []; }
+  }
+  function saveCustomMaterials(arr) {
+    try { localStorage.setItem(CUSTOM_KEY, JSON.stringify(arr)); } catch {}
+  }
 
   /* ── Init ───────────────────────────────────────────────────────────────────── */
   async function init() {
@@ -72,6 +92,7 @@
       $("matList").innerHTML = emptyHtml(t("err_model_load"), "");
       return;
     }
+    materials = materials.concat(loadCustomMaterials());
     buildSidebar();
     render();
 
@@ -263,6 +284,7 @@
                 ? '<span class="mat-name-alt">' + esc(secondary) + '</span>'
                 : '') +
             '</div>' +
+            (m.custom ? '<span class="mat-badge badge-custom">' + esc(t("custom_badge")) + '</span>' : '') +
             '<span class="mat-badge">' + esc(catDisp) + '</span>' +
           '</div>' +
           '<div class="mat-chips">' +
@@ -367,17 +389,19 @@
     $("pCategory").addEventListener("change", () => {
       const cat = $("pCategory").value;
       $("pThickness").value = THICKNESS_DEFAULTS[cat] || 0.5;
+      populateMaterialNameList();
     });
     $("pMaterialName").addEventListener("input", onMaterialNameInput);
     $("pMaterialName").addEventListener("change", onMaterialNameInput);
     $("btnPredict").addEventListener("click", runPredict);
   }
 
-  /* Populate <datalist> once preprocessor is loaded */
+  /* Populate <datalist> with known names of the selected type only */
   function populateMaterialNameList() {
-    const names = getKnownNames ? getKnownNames() : [];
-    const dl    = $("materialNameList");
-    if (!dl || !names.length) return;
+    const dl = $("materialNameList");
+    if (!dl) return;
+    const cat   = $("pCategory").value;
+    const names = getKnownNames ? getKnownNames(cat) : [];
     dl.innerHTML = names.map(n => '<option value="' + esc(n) + '">').join("");
   }
 
@@ -388,11 +412,12 @@
     const props = getMaterialProps(name);
     if (!props) return;
     /* auto-fill category */
-    if (props.category) {
+    if (props.category && props.category !== $("pCategory").value) {
       const cSel = $("pCategory");
       for (let i = 0; i < cSel.options.length; i++) {
         if (cSel.options[i].value === props.category) { cSel.selectedIndex = i; break; }
       }
+      populateMaterialNameList();
     }
     /* auto-fill thickness */
     if (props.thickness_mm && props.thickness_mm > 0) {
@@ -447,6 +472,15 @@
 
     try {
       const result = await predict({ machine, materialName, category, thicknessMm: mm });
+      lastPrediction = {
+        machine:     machine,
+        name:        materialName,
+        category:    result.resolvedCategory || category,
+        thicknessMm: mm,
+        pressure:    result.pressure,
+        bladeEn:     result.bladeEn,
+        multicut:    result.multicut,
+      };
       showResult(result, machine, materialName || category);
     } catch {
       $("predictResult").innerHTML =
@@ -481,9 +515,127 @@
             resultSpec(t("multicut_label"), r.multicut, false) +
           '</div>' +
           '<p class="result-disclaimer">' + t("disclaimer") + '</p>' +
+          '<div class="result-footer">' +
+            '<button class="btn-correct" id="btnAddMaterial">' + esc(t("btn_add_material")) + '</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div id="correctWrap"></div>';
+    $("predictResult").classList.remove("hidden");
+    $("btnAddMaterial").addEventListener("click", toggleCorrectForm);
+  }
+
+  /* ── "Add a new material" correction form ──────────────────────────────────── */
+  function toggleCorrectForm() {
+    const wrap = $("correctWrap");
+    if (wrap.innerHTML) { wrap.innerHTML = ""; return; }
+    if (!lastPrediction) return;
+    const p = lastPrediction;
+
+    wrap.innerHTML =
+      '<div class="correct-form">' +
+        '<div class="correct-title">' + esc(t("correct_title")) + '</div>' +
+        '<div class="correct-grid">' +
+          '<div class="form-row">' +
+            '<label class="form-label" for="cfName">' + esc(t("form_material_name")) + '</label>' +
+            '<input class="form-input" type="text" id="cfName" value="' + esc(p.name) + '">' +
+          '</div>' +
+          '<div class="form-row">' +
+            '<label class="form-label" for="cfCategory">' + esc(t("form_category")) + '</label>' +
+            '<select class="form-select" id="cfCategory">' +
+              CATEGORIES.map(c =>
+                '<option value="' + esc(c) + '"' + (c === p.category ? ' selected' : '') + '>' +
+                esc(tCat(c)) + '</option>').join("") +
+            '</select>' +
+          '</div>' +
+          '<div class="form-row">' +
+            '<label class="form-label" for="cfThickness">' + esc(t("form_thickness")) + '</label>' +
+            '<div class="input-group">' +
+              '<input class="form-input" type="number" id="cfThickness" min="0.01" max="60" step="0.01" value="' + p.thicknessMm + '">' +
+              '<span class="input-unit">mm</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="form-row">' +
+            '<label class="form-label" for="cfPressure">' + esc(t("pressure_label")) + '</label>' +
+            '<input class="form-input" type="number" id="cfPressure" min="1" max="1500" step="1" value="' + p.pressure + '">' +
+          '</div>' +
+          '<div class="form-row">' +
+            '<label class="form-label" for="cfBlade">' + esc(t("blade_label")) + '</label>' +
+            '<select class="form-select" id="cfBlade">' +
+              BLADES_EN.map(b =>
+                '<option value="' + esc(b) + '"' + (b === p.bladeEn ? ' selected' : '') + '>' +
+                esc(tBlade(b)) + '</option>').join("") +
+            '</select>' +
+          '</div>' +
+          '<div class="form-row">' +
+            '<label class="form-label" for="cfMC">' + esc(t("multicut_label")) + '</label>' +
+            '<select class="form-select" id="cfMC">' +
+              MC_LABELS.map(m =>
+                '<option value="' + esc(m) + '"' + (m === p.multicut ? ' selected' : '') + '>' +
+                esc(m) + '</option>').join("") +
+            '</select>' +
+          '</div>' +
+        '</div>' +
+        '<span class="field-error hidden" id="cfError"></span>' +
+        '<div class="correct-actions">' +
+          '<button class="btn-secondary" id="cfCancel">' + esc(t("btn_cancel")) + '</button>' +
+          '<button class="btn-cta btn-cta-compact" id="cfSave">' + esc(t("btn_save_material")) + '</button>' +
         '</div>' +
       '</div>';
-    $("predictResult").classList.remove("hidden");
+
+    $("cfCancel").addEventListener("click", () => { wrap.innerHTML = ""; });
+    $("cfSave").addEventListener("click", saveCorrectedMaterial);
+  }
+
+  function saveCorrectedMaterial() {
+    const errEl = $("cfError");
+    errEl.classList.add("hidden");
+
+    const name      = $("cfName").value.trim();
+    const category  = $("cfCategory").value;
+    const thickness = parseFloat($("cfThickness").value);
+    const pressure  = parseInt($("cfPressure").value, 10);
+    const bladeEn   = $("cfBlade").value;
+    const multicut  = $("cfMC").value;
+
+    const fail = msg => { errEl.textContent = msg; errEl.classList.remove("hidden"); };
+    if (!name) return fail(t("err_name_required"));
+    if (isNaN(thickness) || thickness < 0.01 || thickness > 60) return fail(t("err_thickness_range"));
+    if (isNaN(pressure) || pressure < 1) return fail(t("err_thickness_required"));
+
+    /* Only materials NOT already in the list may be added:
+       same name + type + thickness (machine-independent) is a duplicate. */
+    const dup = materials.some(m =>
+      m.category === category &&
+      Math.abs((m.thickness_mm || 0) - thickness) < 0.005 &&
+      (m.name_en.toLowerCase() === name.toLowerCase() ||
+       (m.name_jp && m.name_jp.toLowerCase() === name.toLowerCase()))
+    );
+    if (dup) return fail(t("err_duplicate_material"));
+
+    const entry = {
+      machine:      lastPrediction.machine,
+      category:     category,
+      name_en:      name,
+      name_jp:      name,
+      pressure:     pressure,
+      multicut:     multicut,
+      blade_en:     bladeEn,
+      blade_jp:     BLADE_EN_TO_JP[bladeEn] || bladeEn,
+      thickness_mm: Math.round(thickness * 100) / 100,
+      custom:       true,
+    };
+
+    const customs = loadCustomMaterials();
+    customs.push(entry);
+    saveCustomMaterials(customs);
+    materials.push(entry);
+
+    buildSidebar();
+    render();
+
+    $("correctWrap").innerHTML =
+      '<div class="correct-saved" role="status">✓ ' + esc(t("msg_material_saved")) + '</div>';
   }
 
   function resultSpec(label, value, small) {

@@ -229,9 +229,14 @@
     return lookup || null;
   }
 
-  function getKnownNames() {
+  function getKnownNames(category) {
     if (!_pp || !_pp.name_vocab) return [];
-    return Object.keys(_pp.name_vocab);
+    const names = Object.keys(_pp.name_vocab);
+    if (!category || !_pp.material_lookup) return names;
+    return names.filter(n => {
+      const lk = _pp.material_lookup[n];
+      return lk && lk.category === category;
+    });
   }
 
   window.CricutPredict = { predict, loadPreprocessor, getMaterialProps, getKnownNames };
