@@ -120,7 +120,7 @@ def prompt_edit(row: dict) -> dict:
                     # preserve numeric types where applicable
                     if k in ("Cutting Pressure",):
                         row[k] = int(new_val)
-                    elif k in ("GSM", "Density (kg/m3)", "Shore Hardness A"):
+                    elif k in ("GSM", "Density (kg/m3)", "Shore Hardness A", "thickness_mm"):
                         row[k] = float(new_val)
                     elif k == "Has Adhesive":
                         row[k] = int(new_val)
@@ -169,6 +169,7 @@ def process_material(entry: dict, df: pd.DataFrame) -> dict | None:
         "Has Adhesive":       phys["Has Adhesive"],
         "Density (kg/m3)":    phys["Density (kg/m3)"],
         "Shore Hardness A":   phys["Shore Hardness A"],
+        "thickness_mm":       thickness,   # explicit — prevents infer_thickness guessing wrong default
     }
 
     # Show proposed row

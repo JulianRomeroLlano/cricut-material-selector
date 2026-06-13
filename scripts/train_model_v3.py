@@ -168,7 +168,11 @@ print(f"Loaded {len(df)} rows  (incl. {len(explore5)} Explore 5 duplicates of Ex
 
 # ─── derive physics columns ──────────────────────────────────────────────────
 df["base_name"]  = df["Material Name (EN)"].apply(normalize_name)
-df["thickness"]  = df.apply(lambda r: infer_thickness(r["Material Name (EN)"], r["Category"]), axis=1)
+df["thickness"]  = df.apply(
+    lambda r: float(r["thickness_mm"]) if ("thickness_mm" in r.index and pd.notna(r["thickness_mm"]))
+              else infer_thickness(r["Material Name (EN)"], r["Category"]),
+    axis=1
+)
 df["mc_bucket"]  = df["Multi-Cut"].apply(bucket_multicut)
 df["is_bonded"]  = (
     df["Material Name (EN)"].str.contains("Bonded", case=False, na=False)

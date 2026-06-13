@@ -77,7 +77,7 @@ for _, row in df.iterrows():
         "multicut":     mc_disp,
         "blade_en":     blade_en,
         "blade_jp":     blade_jp,
-        "thickness_mm": infer_thickness(name_en, category),
+        "thickness_mm": float(row["thickness_mm"]) if ("thickness_mm" in row.index and pd.notna(row["thickness_mm"])) else infer_thickness(name_en, category),
     })
 
 with open(DST, "w", encoding="utf-8") as f:

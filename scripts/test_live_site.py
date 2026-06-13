@@ -81,11 +81,15 @@ def load_csv():
             pressure = float(r["Cutting Pressure"] or 0)
             if pressure <= 0:
                 continue
+            # Use explicit thickness_mm column when present (avoids infer_thickness
+            # giving the wrong default for same-name thickness variants).
+            th_explicit = r.get("thickness_mm", "").strip()
+            thickness = float(th_explicit) if th_explicit else 0  # 0 = let site resolve via material_lookup
             rows.append({
                 "machine":   machine,
                 "name":      r["Material Name (EN)"].strip(),
                 "category":  r["Category"].strip(),
-                "thickness": 0,  # let site resolve via material_lookup
+                "thickness": thickness,
                 "pressure":  pressure,
                 "blade":     BLADE_JP_TO_EN.get(r["Blade Type"].strip(), r["Blade Type"].strip()),
                 "mc_label":  mc_label(mc_n),
