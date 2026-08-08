@@ -380,27 +380,24 @@ select, input { font-family: inherit; }
 }
 .predict-hero p { font-size: 13px; color: var(--text-muted); }
 .predict-form {
-  position: relative;
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 20px;
+  padding: 0 20px 20px;
   margin-bottom: 16px;
   box-shadow: var(--shadow-sm);
 }
+.predict-tab-row {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 -20px 16px;
+  padding: 10px 20px 12px;
+  border-bottom: 1px solid var(--border);
+}
 .predict-beta-tab {
-  position: absolute;
-  bottom: 100%;
-  margin-bottom: -1px;
-  right: 0;
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-bottom: none;
-  border-radius: var(--radius) var(--radius) 0 0;
-  padding: 7px 16px 8px;
   font-size: 15px;
   font-weight: 600;
   letter-spacing: -0.01em;
