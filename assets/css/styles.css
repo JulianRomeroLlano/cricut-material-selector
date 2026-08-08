@@ -370,7 +370,14 @@ select, input { font-family: inherit; }
   margin: 0 auto;
   padding: 24px 16px 64px;
 }
-.predict-hero { margin-bottom: 24px; }
+.predict-hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.predict-hero-text { flex: 1; min-width: 0; }
 .predict-hero h2 {
   font-size: 20px;
   font-weight: 600;
@@ -379,6 +386,15 @@ select, input { font-family: inherit; }
   margin-bottom: 4px;
 }
 .predict-hero p { font-size: 13px; color: var(--text-muted); }
+.predict-beta-badge {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: rgba(90, 170, 230, 0.55);
+  white-space: nowrap;
+  padding-bottom: 1px;
+}
 .predict-form {
   background: var(--white);
   border: 1px solid var(--border);
