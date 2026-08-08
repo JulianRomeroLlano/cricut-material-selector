@@ -392,14 +392,14 @@ select, input { font-family: inherit; }
   position: absolute;
   bottom: 100%;
   margin-bottom: -1px;
-  right: 20px;
+  right: 0;
   display: inline-flex;
   align-items: center;
   gap: 5px;
   background: var(--white);
   border: 1px solid var(--border);
   border-bottom: none;
-  border-radius: 10px 10px 0 0;
+  border-radius: var(--radius) var(--radius) 0 0;
   padding: 7px 16px 8px;
   font-size: 15px;
   font-weight: 600;
