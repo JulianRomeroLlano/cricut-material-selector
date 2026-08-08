@@ -370,14 +370,7 @@ select, input { font-family: inherit; }
   margin: 0 auto;
   padding: 24px 16px 64px;
 }
-.predict-hero {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-.predict-hero-text { flex: 1; min-width: 0; }
+.predict-hero { margin-bottom: 24px; }
 .predict-hero h2 {
   font-size: 20px;
   font-weight: 600;
@@ -386,22 +379,33 @@ select, input { font-family: inherit; }
   margin-bottom: 4px;
 }
 .predict-hero p { font-size: 13px; color: var(--text-muted); }
-.predict-beta-badge {
-  flex-shrink: 0;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: rgba(90, 170, 230, 0.55);
-  white-space: nowrap;
-  padding-bottom: 1px;
-}
 .predict-form {
+  position: relative;
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px;
   margin-bottom: 16px;
   box-shadow: var(--shadow-sm);
+}
+.predict-beta-tab {
+  position: absolute;
+  bottom: 100%;
+  margin-bottom: -1px;
+  right: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+  padding: 7px 16px 8px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: rgba(90, 170, 230, 0.65);
+  white-space: nowrap;
 }
 .form-row {
   display: flex;
