@@ -391,13 +391,14 @@ select, input { font-family: inherit; }
   display: flex;
   justify-content: flex-end;
   margin: 0 -20px 16px;
-  padding: 10px 20px 12px;
-  border-bottom: 1px solid var(--border);
 }
 .predict-beta-tab {
   display: inline-flex;
   align-items: center;
   gap: 5px;
+  padding: 10px 20px 12px;
+  border-left: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   font-size: 15px;
   font-weight: 600;
   letter-spacing: -0.01em;
