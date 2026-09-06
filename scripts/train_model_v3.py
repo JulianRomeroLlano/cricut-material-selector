@@ -21,8 +21,24 @@ Outputs:
   assets/model/preprocessor_v3.json
 
 Run: source venv/bin/activate && python scripts/train_model_v3.py
+
+v3.7 additions:
+  • Dataset balancing (--balance, default on): every material name is replicated
+    until all names have exactly the same number of rows (= the largest group).
+    Only the augmented training loaders are balanced; eval loaders stay as-is.
+  • LR schedule: linear warmup (per batch) → cosine decay from --lr-peak down to
+    lr_peak × --lr-min-ratio (default 1e-3) over the planned epochs.
+  • Resume: --resume [auto|path.pt|path.onnx] continues from a checkpoint with a
+    1-epoch warmup (skips the split phase — the checkpoint already saw all data).
+    'auto' prefers assets/model/checkpoints/global_v3_best.pt and otherwise
+    reconstructs the model from the deployed ONNX + preprocessor_v3.json.
+  • Best state is saved to assets/model/checkpoints/global_v3_best.pt.
+
+Example — 20-epoch balanced continuation from the best checkpoint:
+  python scripts/train_model_v3.py --resume auto --epochs 20
 """
-import os, re, json, copy, math, random
+import os, re, json, copy, math, random, argparse
+from collections import defaultdict
 import numpy as np
 import pandas as pd
 import torch
@@ -45,6 +61,8 @@ torch.manual_seed(SEED); np.random.seed(SEED); random.seed(SEED)
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark     = False
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+import sys
+sys.stdout.reconfigure(line_buffering=True)   # epoch lines reach a redirected log immediately
 print(f"Device: {DEVICE}")
 
 class NpEncoder(json.JSONEncoder):
@@ -65,6 +83,40 @@ MAX_EPOCHS  = 3000
 PATIENCE    = 300
 EVAL_EVERY  = 10
 BATCH_SIZE  = 256
+LR_MIN_RATIO = 1e-3      # cosine floor = lr_peak × LR_MIN_RATIO
+
+CKPT_DIR   = os.path.join(MODEL_DIR, "checkpoints")
+CKPT_BEST  = os.path.join(CKPT_DIR, "global_v3_best.pt")
+CKPT_BASE  = os.path.join(CKPT_DIR, "global_v3.6_baseline.pt")   # frozen copy of the pre-resume model
+
+ap = argparse.ArgumentParser(description="Train / continue the v3 global model")
+ap.add_argument("--resume", nargs="?", const="auto", default=None,
+                help="continue from a checkpoint: 'auto', a .pt file or an .onnx file")
+ap.add_argument("--epochs", type=int, default=None,
+                help="planned epochs (default: MAX_EPOCHS; cosine decay spans this)")
+ap.add_argument("--patience", type=int, default=None, help="early-stop patience in epochs")
+ap.add_argument("--lr-peak", type=float, default=LR, help="peak learning rate")
+ap.add_argument("--lr-min-ratio", type=float, default=LR_MIN_RATIO,
+                help="cosine floor as a fraction of lr-peak")
+ap.add_argument("--warmup-epochs", type=float, default=None,
+                help="linear warmup length in epochs (default: 1 when resuming, else 0)")
+ap.add_argument("--balance", dest="balance", action="store_true", default=True,
+                help="replicate rows so every material name has the same count (default)")
+ap.add_argument("--no-balance", dest="balance", action="store_false")
+ap.add_argument("--eval-every", type=int, default=None,
+                help="evaluate every N epochs (default: 1 when resuming, else EVAL_EVERY)")
+ARGS = ap.parse_args()
+
+RESUME        = ARGS.resume
+RUN_EPOCHS    = ARGS.epochs if ARGS.epochs else MAX_EPOCHS
+LR_PEAK       = ARGS.lr_peak
+LR_MIN_RATIO  = ARGS.lr_min_ratio
+WARMUP_EPOCHS = ARGS.warmup_epochs if ARGS.warmup_epochs is not None else (1.0 if RESUME else 0.0)
+RUN_EVAL_EVERY = ARGS.eval_every if ARGS.eval_every else (1 if RESUME else EVAL_EVERY)
+BALANCE       = ARGS.balance
+print(f"Run config: resume={RESUME}  epochs={RUN_EPOCHS}  lr_peak={LR_PEAK:g}  "
+      f"lr_min={LR_PEAK*LR_MIN_RATIO:g}  warmup={WARMUP_EPOCHS}ep  balance={BALANCE}  "
+      f"eval_every={RUN_EVAL_EVERY}")
 
 N_BLADE  = 5
 N_MCUT   = 6
@@ -301,7 +353,29 @@ class MaterialDataset(Dataset):
             torch.tensor(r["mc_bucket"], dtype=torch.long),
         )
 
-tr_ds = MaterialDataset(tr_records, augment=True)
+def balance_records(records, key="name_idx"):
+    """Replicate rows so every group (default: material name) has exactly the
+    same number of rows as the largest group. Rows are cycled deterministically
+    within each group; online augmentation supplies the variability."""
+    groups = defaultdict(list)
+    for r in records:
+        groups[r[key]].append(r)
+    target = max(len(g) for g in groups.values())
+    out = []
+    for g in groups.values():
+        out.extend(g[i % len(g)] for i in range(target))
+    return out, target
+
+def make_train_records(records, label):
+    if not BALANCE:
+        return records
+    bal, target = balance_records(records)
+    n_groups = len({r["name_idx"] for r in records})
+    print(f"  [{label}] balanced: {len(records)} rows → {len(bal)} rows "
+          f"({n_groups} names × {target} each)")
+    return bal
+
+tr_ds = MaterialDataset(make_train_records(tr_records, "split"), augment=True)
 va_ds = MaterialDataset(va_records, augment=False)
 tr_ld = DataLoader(tr_ds, batch_size=BATCH_SIZE, shuffle=True,  num_workers=0)
 va_ld = DataLoader(va_ds, batch_size=512,        shuffle=False, num_workers=0)
@@ -371,14 +445,134 @@ def warm_start_embeddings(m):
     print(f"  Warm-started {n_init}/{N_NAMES} embeddings from preprocessor_v2.json")
 
 
-def train_loop(m, train_loader, eval_loader, label, patience=PATIENCE):
-    """Train with early stopping on eval_loader loss; returns best epoch."""
-    optimizer = torch.optim.AdamW(m.parameters(), lr=LR, weight_decay=1e-4)
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=MAX_EPOCHS)
+def make_scheduler(optimizer, steps_per_epoch, epochs, warmup_epochs, min_ratio):
+    """Per-batch LR schedule: linear warmup from ~0 to peak over `warmup_epochs`,
+    then cosine decay to peak × min_ratio at the end of the planned run."""
+    total = max(1, epochs * steps_per_epoch)
+    warm  = int(round(warmup_epochs * steps_per_epoch))
+    def factor(step):
+        if step < warm:
+            return (step + 1) / warm
+        prog = min(1.0, (step - warm) / max(1, total - warm))
+        return min_ratio + (1.0 - min_ratio) * 0.5 * (1.0 + math.cos(math.pi * prog))
+    return torch.optim.lr_scheduler.LambdaLR(optimizer, factor)
+
+
+def eval_loss(m, loader):
+    m.eval()
+    vl = 0.0
+    with torch.no_grad():
+        for nidx, ph, foh, pt, bt, mt in loader:
+            nidx, ph, foh = nidx.to(DEVICE), ph.to(DEVICE), foh.to(DEVICE)
+            pt, bt, mt    = pt.to(DEVICE), bt.to(DEVICE), mt.to(DEVICE)
+            pp_, pb_, pm_ = m(nidx, ph, foh)
+            vl += loss_fn(pp_, pb_, pm_, pt, bt, mt).item()
+    return vl / len(loader)
+
+
+def save_checkpoint(m, path, epoch, loss, note=""):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    torch.save({
+        "state_dict": {k: v.detach().cpu() for k, v in m.state_dict().items()},
+        "name_vocab": all_base_names,
+        "epoch": epoch, "eval_loss": loss, "note": note,
+        "norm": NORM, "feature_dim": FEATURE_DIM, "emb_dim": EMB_DIM,
+    }, path)
+    print(f"  Checkpoint saved → {os.path.relpath(path, ROOT)}  (epoch {epoch}, loss {loss:.5f})")
+
+
+def _load_embeddings_by_name(m, name_to_vec, category_avg=None):
+    """Copy embeddings by material name; new names fall back to the category
+    average embedding (if given) or keep their random init."""
+    n_hit, n_cat = 0, 0
+    with torch.no_grad():
+        for name, idx in name_to_idx.items():
+            if name in name_to_vec:
+                m.embedding.weight[idx] = torch.tensor(name_to_vec[name], dtype=torch.float32)
+                n_hit += 1
+            elif category_avg is not None:
+                cat = df[df["base_name"] == name]["Category"].iloc[0]
+                if cat in category_avg:
+                    m.embedding.weight[idx] = torch.tensor(category_avg[cat], dtype=torch.float32)
+                    n_cat += 1
+    print(f"  Embeddings: {n_hit}/{N_NAMES} restored by name, {n_cat} from category average, "
+          f"{N_NAMES - n_hit - n_cat} random")
+
+
+def load_checkpoint(m, spec):
+    """Restore weights into `m` from 'auto', a .pt file or an .onnx file (the
+    ONNX path also needs preprocessor_v3.json for the name embeddings)."""
+    if spec == "auto":
+        spec = CKPT_BEST if os.path.exists(CKPT_BEST) else OUT_ONNX
+    print(f"\nResuming from {os.path.relpath(spec, ROOT)}")
+
+    if spec.endswith(".pt"):
+        ck = torch.load(spec, map_location="cpu", weights_only=True)
+        sd = ck["state_dict"]
+        vocab = ck.get("name_vocab")
+        if vocab == all_base_names:
+            m.load_state_dict(sd)
+            print(f"  Full state restored (epoch {ck.get('epoch')}, loss {ck.get('eval_loss')})")
+        else:
+            # vocab changed: restore backbone/heads, then embeddings by name
+            backbone_sd = {k: v for k, v in sd.items() if not k.startswith("embedding.")}
+            m.load_state_dict(backbone_sd, strict=False)
+            emb = sd["embedding.weight"]
+            _load_embeddings_by_name(m, {n: emb[i].tolist() for i, n in enumerate(vocab or [])})
+        return spec
+
+    # ONNX (backbone + heads) + preprocessor JSON (embeddings)
+    import onnx
+    from onnx import numpy_helper
+    g = onnx.load(spec).graph
+    sd = {init.name: torch.from_numpy(numpy_helper.to_array(init).copy()) for init in g.initializer}
+    missing, unexpected = m.load_state_dict(sd, strict=False)
+    missing = [k for k in missing if not k.startswith("embedding.")]
+    assert not missing and not unexpected, (missing, unexpected)
+    pp_path = OUT_JSON if os.path.exists(OUT_JSON) else os.path.join(MODEL_DIR, "preprocessor.json")
+    pp = json.load(open(pp_path, encoding="utf-8"))
+    _load_embeddings_by_name(m, pp.get("name_embeddings", {}), pp.get("category_avg_embeddings"))
+    for k in ("pressure_log_mean", "pressure_log_std"):
+        if abs(pp[k] - NORM["p_log_mean" if "mean" in k else "p_log_std"]) > 1e-6:
+            print(f"  WARNING: {k} differs from checkpoint ({pp[k]:.6f} vs current); "
+                  f"pressure targets are re-normalised with current stats")
+
+    # sanity: reconstructed export must reproduce the ONNX model
+    import onnxruntime as ort_rt
+    sess = ort_rt.InferenceSession(spec)
+    x = np.random.RandomState(0).randn(64, FEATURE_DIM).astype(np.float32)
+    ref = sess.run(None, {"features": x})
+    exp = ExportModel(m).to(DEVICE).eval()
+    with torch.no_grad():
+        out = [o.cpu().numpy() for o in exp(torch.from_numpy(x).to(DEVICE))]
+    diff = max(float(np.abs(a - b).max()) for a, b in zip(ref, out))
+    print(f"  ONNX reconstruction check: max |Δ| = {diff:.2e}  {'✓' if diff < 1e-4 else '✗'}")
+    assert diff < 1e-4, "reconstructed model does not match ONNX"
+    return spec
+
+
+def train_loop(m, train_loader, eval_loader, label, patience=PATIENCE,
+               epochs=None, eval_every=None, warmup_epochs=0.0,
+               lr_peak=None, include_start=False):
+    """Train with warmup + cosine LR and early stopping on eval_loader loss;
+    returns best epoch. With include_start=True the untouched starting weights
+    compete as 'epoch 0' so a continuation can never end worse than it began."""
+    epochs     = epochs or RUN_EPOCHS
+    eval_every = eval_every or RUN_EVAL_EVERY
+    lr_peak    = lr_peak or LR_PEAK
+    optimizer = torch.optim.AdamW(m.parameters(), lr=lr_peak, weight_decay=1e-4)
+    scheduler = make_scheduler(optimizer, len(train_loader), epochs, warmup_epochs, LR_MIN_RATIO)
     best_val, best_ep, no_imp, best_state = float("inf"), 0, 0, None
 
-    print(f"\n[{label}] Training up to {MAX_EPOCHS} epochs (patience={patience})…")
-    for epoch in range(1, MAX_EPOCHS + 1):
+    if include_start:
+        best_val   = eval_loss(m, eval_loader)
+        best_state = copy.deepcopy(m.state_dict())
+        print(f"  [{label}] ep    0  eval_loss={best_val:.5f}  (starting checkpoint)")
+
+    print(f"\n[{label}] Training up to {epochs} epochs (patience={patience}, "
+          f"{len(train_loader)} batches/epoch, lr {lr_peak:g}→{lr_peak*LR_MIN_RATIO:g}, "
+          f"warmup {warmup_epochs} ep)…")
+    for epoch in range(1, epochs + 1):
         m.train()
         for nidx, ph, foh, pt, bt, mt in train_loader:
             nidx, ph, foh = nidx.to(DEVICE), ph.to(DEVICE), foh.to(DEVICE)
@@ -388,29 +582,23 @@ def train_loop(m, train_loader, eval_loader, label, patience=PATIENCE):
             loss_fn(pp_, pb_, pm_, pt, bt, mt).backward()
             nn.utils.clip_grad_norm_(m.parameters(), 1.0)
             optimizer.step()
-        scheduler.step()
+            scheduler.step()
 
-        if epoch % EVAL_EVERY != 0:
+        if epoch % eval_every != 0:
             continue
 
-        m.eval()
-        vl = 0.0
-        with torch.no_grad():
-            for nidx, ph, foh, pt, bt, mt in eval_loader:
-                nidx, ph, foh = nidx.to(DEVICE), ph.to(DEVICE), foh.to(DEVICE)
-                pt, bt, mt    = pt.to(DEVICE), bt.to(DEVICE), mt.to(DEVICE)
-                pp_, pb_, pm_ = m(nidx, ph, foh)
-                vl += loss_fn(pp_, pb_, pm_, pt, bt, mt).item()
-        vl /= len(eval_loader)
+        vl = eval_loss(m, eval_loader)
+        cur_lr = optimizer.param_groups[0]["lr"]
 
         if vl < best_val:
             best_val, best_ep, no_imp = vl, epoch, 0
             best_state = copy.deepcopy(m.state_dict())
         else:
-            no_imp += EVAL_EVERY
+            no_imp += eval_every
 
-        if epoch % 200 == 0:
-            print(f"  [{label}] ep {epoch:4d}  eval_loss={vl:.5f}")
+        if epochs <= 100 or epoch % 200 == 0:
+            print(f"  [{label}] ep {epoch:4d}  eval_loss={vl:.5f}  lr={cur_lr:.2e}"
+                  f"{'  *' if best_ep == epoch else ''}")
 
         if no_imp >= patience:
             print(f"  [{label}] Early stop at epoch {epoch}  (best ep {best_ep}, loss {best_val:.5f})")
@@ -418,24 +606,34 @@ def train_loop(m, train_loader, eval_loader, label, patience=PATIENCE):
 
     m.load_state_dict(best_state)
     m.eval()
-    return best_ep
+    print(f"  [{label}] best epoch {best_ep}  eval_loss={best_val:.5f}")
+    return best_ep, best_val
 
 
 model = GlobalModel(N_NAMES, EMB_DIM, FEATURE_DIM).to(DEVICE)
-warm_start_embeddings(model)
+if not RESUME:
+    warm_start_embeddings(model)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # 6. Training
 # ═══════════════════════════════════════════════════════════════════════════════
 
-best_ep = train_loop(model, tr_ld, va_ld, "split")
-print(f"Validation run complete — best epoch {best_ep}")
+if RESUME:
+    # A resumed checkpoint was fitted on ALL rows, so a group-split validation
+    # would be leaky and meaningless — skip straight to the continuation fit.
+    print("\n[split] skipped — resuming from a checkpoint that already saw all data")
+    best_ep = None
+else:
+    best_ep, _ = train_loop(model, tr_ld, va_ld, "split", patience=ARGS.patience or PATIENCE,
+                            warmup_epochs=WARMUP_EPOCHS)
+    print(f"Validation run complete — best epoch {best_ep}")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # 7. Final Validation Metrics (per machine family + overall)
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def eval_subset(records_sub):
+    model.eval()   # dropout off — a freshly loaded checkpoint is still in train mode
     ds = MaterialDataset(records_sub, augment=False)
     ld = DataLoader(ds, batch_size=512, shuffle=False, num_workers=0)
     p_preds, b_preds, mc_preds = [], [], []
@@ -460,23 +658,24 @@ def eval_subset(records_sub):
     return {"n": len(records_sub), "mae": mae, "mape": mape,
             "blade_acc": bacc, "blade_f1": bf1, "mc_acc": mcac}
 
-print("\n── Validation metrics by family ─────────────────────────────────────────")
-# Exclude Explore 5 from val report (identical to Explore 3 with same family encoding)
-va_df_no5 = df[va_mask & (df["Machine"] != "Explore 5")]
-results_by_family = {}
-for fam_idx, fam_name in FAMILY_NAMES.items():
-    sub_df   = va_df_no5[va_df_no5["family"] == fam_idx]
-    if sub_df.empty: continue
-    sub_recs = _make_records(sub_df)
-    r = eval_subset(sub_recs)
-    results_by_family[fam_name] = r
-    print(f"  {fam_name:<10}  N={r['n']:4d}  MAE={r['mae']:6.1f}  MAPE={r['mape']:5.1f}%  "
-          f"Blade={r['blade_acc']:.3f}  MC={r['mc_acc']:.3f}")
+results_by_family, r_all = {}, None
+if not RESUME:
+    print("\n── Validation metrics by family ─────────────────────────────────────────")
+    # Exclude Explore 5 from val report (identical to Explore 3 with same family encoding)
+    va_df_no5 = df[va_mask & (df["Machine"] != "Explore 5")]
+    for fam_idx, fam_name in FAMILY_NAMES.items():
+        sub_df   = va_df_no5[va_df_no5["family"] == fam_idx]
+        if sub_df.empty: continue
+        sub_recs = _make_records(sub_df)
+        r = eval_subset(sub_recs)
+        results_by_family[fam_name] = r
+        print(f"  {fam_name:<10}  N={r['n']:4d}  MAE={r['mae']:6.1f}  MAPE={r['mape']:5.1f}%  "
+              f"Blade={r['blade_acc']:.3f}  MC={r['mc_acc']:.3f}")
 
-all_va_recs = _make_records(va_df_no5)
-r_all = eval_subset(all_va_recs)
-print(f"  {'ALL':<10}  N={r_all['n']:4d}  MAE={r_all['mae']:6.1f}  MAPE={r_all['mape']:5.1f}%  "
-      f"Blade={r_all['blade_acc']:.3f}  MC={r_all['mc_acc']:.3f}")
+    all_va_recs = _make_records(va_df_no5)
+    r_all = eval_subset(all_va_recs)
+    print(f"  {'ALL':<10}  N={r_all['n']:4d}  MAE={r_all['mae']:6.1f}  MAPE={r_all['mape']:5.1f}%  "
+          f"Blade={r_all['blade_acc']:.3f}  MC={r_all['mc_acc']:.3f}")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # 7.5 Final Fit — retrain on 100% of the data
@@ -489,25 +688,49 @@ print(f"  {'ALL':<10}  N={r_all['n']:4d}  MAE={r_all['mae']:6.1f}  MAPE={r_all['
 
 print("\n── Final fit on all data ───────────────────────────────────────────────")
 all_records = tr_records + va_records
-full_tr_ld = DataLoader(MaterialDataset(all_records, augment=True),
+full_tr_ld = DataLoader(MaterialDataset(make_train_records(all_records, "final"), augment=True),
                         batch_size=BATCH_SIZE, shuffle=True, num_workers=0)
 full_ev_ld = DataLoader(MaterialDataset(all_records, augment=False),
                         batch_size=512, shuffle=False, num_workers=0)
 
+df_no5 = df[df["Machine"] != "Explore 5"]
 final_model = GlobalModel(N_NAMES, EMB_DIM, FEATURE_DIM).to(DEVICE)
-warm_start_embeddings(final_model)
+r_mem_before = None
+if RESUME:
+    src = load_checkpoint(final_model, RESUME)
+    if src.endswith(".onnx") and not os.path.exists(CKPT_BASE):
+        # freeze the pre-continuation model as a .pt so it is never lost when
+        # the ONNX below is overwritten
+        model = final_model
+        save_checkpoint(final_model, CKPT_BASE, 0, eval_loss(final_model, full_ev_ld),
+                        note=f"reconstructed from {os.path.basename(src)} before continuation")
+    model = final_model
+    r_mem_before = eval_subset(_make_records(df_no5))
+    print(f"  Memorization BEFORE (all {r_mem_before['n']} rows): MAE={r_mem_before['mae']:.1f}  "
+          f"MAPE={r_mem_before['mape']:.1f}%  Blade={r_mem_before['blade_acc']:.3f}  "
+          f"MC={r_mem_before['mc_acc']:.3f}")
+else:
+    warm_start_embeddings(final_model)
 # Larger patience for the final fit: the goal is memorization, and the loss
 # plateaus for long stretches before fitting the extreme-pressure outliers.
-final_ep = train_loop(final_model, full_tr_ld, full_ev_ld, "final", patience=600)
+final_ep, final_loss = train_loop(final_model, full_tr_ld, full_ev_ld, "final",
+                                  patience=ARGS.patience or 600,
+                                  warmup_epochs=WARMUP_EPOCHS, include_start=bool(RESUME))
 print(f"Final fit complete — best epoch {final_ep}")
+save_checkpoint(final_model, CKPT_BEST, final_ep, final_loss,
+                note=f"resume={RESUME} epochs={RUN_EPOCHS} lr_peak={LR_PEAK} balance={BALANCE}")
 
 model = final_model   # sections below export & evaluate the final model
 
 # Memorization check: the final model over every original row (no Explore 5 dup)
-df_no5 = df[df["Machine"] != "Explore 5"]
 r_mem = eval_subset(_make_records(df_no5))
 print(f"  Memorization (all {r_mem['n']} rows): MAE={r_mem['mae']:.1f}  "
       f"MAPE={r_mem['mape']:.1f}%  Blade={r_mem['blade_acc']:.3f}  MC={r_mem['mc_acc']:.3f}")
+if r_mem_before:
+    print(f"  Δ vs checkpoint: MAE {r_mem_before['mae']:.1f}→{r_mem['mae']:.1f}  "
+          f"MAPE {r_mem_before['mape']:.1f}%→{r_mem['mape']:.1f}%  "
+          f"Blade {r_mem_before['blade_acc']:.3f}→{r_mem['blade_acc']:.3f}  "
+          f"MC {r_mem_before['mc_acc']:.3f}→{r_mem['mc_acc']:.3f}")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # 8. ONNX Export (backbone only — 26-dim input)
@@ -625,15 +848,22 @@ print(f"  Material lookup: {len(material_lookup)} entries")
 # ═══════════════════════════════════════════════════════════════════════════════
 
 print("\n" + "═"*70)
-print("RESULTS SUMMARY  (validation set, original 5 machines, no Explore 5 dup)")
-print("═"*70)
-print(f"  {'Family':<10} {'N':>5}  {'P_MAE':>7} {'P_MAPE':>8} {'Blade':>7} {'MC':>7}")
-print(f"  {'-'*10} {'-'*5}  {'-'*7} {'-'*8} {'-'*7} {'-'*7}")
-for fname, r in results_by_family.items():
-    print(f"  {fname:<10} {r['n']:>5}  {r['mae']:>7.1f} {r['mape']:>7.1f}% "
-          f"{r['blade_acc']:>7.3f} {r['mc_acc']:>7.3f}")
-print(f"  {'ALL':<10} {r_all['n']:>5}  {r_all['mae']:>7.1f} {r_all['mape']:>7.1f}% "
-      f"{r_all['blade_acc']:>7.3f} {r_all['mc_acc']:>7.3f}")
+if r_all is not None:
+    print("RESULTS SUMMARY  (validation set, original 5 machines, no Explore 5 dup)")
+    print("═"*70)
+    print(f"  {'Family':<10} {'N':>5}  {'P_MAE':>7} {'P_MAPE':>8} {'Blade':>7} {'MC':>7}")
+    print(f"  {'-'*10} {'-'*5}  {'-'*7} {'-'*8} {'-'*7} {'-'*7}")
+    for fname, r in results_by_family.items():
+        print(f"  {fname:<10} {r['n']:>5}  {r['mae']:>7.1f} {r['mape']:>7.1f}% "
+              f"{r['blade_acc']:>7.3f} {r['mc_acc']:>7.3f}")
+    print(f"  {'ALL':<10} {r_all['n']:>5}  {r_all['mae']:>7.1f} {r_all['mape']:>7.1f}% "
+          f"{r_all['blade_acc']:>7.3f} {r_all['mc_acc']:>7.3f}")
+else:
+    print(f"RESULTS SUMMARY  (continuation from checkpoint, {RUN_EPOCHS} epochs, "
+          f"best epoch {final_ep})")
+    print("═"*70)
+    print(f"  Memorization over {r_mem['n']} rows: MAE={r_mem['mae']:.1f}  MAPE={r_mem['mape']:.1f}%  "
+          f"Blade={r_mem['blade_acc']:.3f}  MC={r_mem['mc_acc']:.3f}")
 print("═"*70)
 print("\nAll done. Next steps:")
 print("  1. cp assets/model/preprocessor_v3.json assets/model/preprocessor.json")
