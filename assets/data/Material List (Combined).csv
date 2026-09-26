@@ -57,7 +57,7 @@ Maker 3,Paper,冷凍用紙,Freezer Paper,128.0,-,ファインポイントブレ�
 Maker 3,Paper,パールペーパー,Pearl Paper,138.0,2倍,ファインポイントブレード,80.0,shimmer,0,765.0,20.0,
 Maker 3,Paper,ライトパターンペーパー,Light Pattern Paper,152.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Maker 3,Paper,ワックス紙,Wax Paper,160.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
-Maker 3,Paper,建設用紙,Construction Paper,168.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,0.08
+Maker 3,Paper,色画用紙,Construction Paper,168.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,0.08
 Maker 3,Paper,ノートブック用紙,Notebook Paper,191.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Maker 3,Paper,キャリブレーションペーパー,Calibration Paper,192.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Maker 3,Paper,スムースグリッターペーパー,Smooth Glitter Paper,175.0,2倍,ファインポイントブレード,80.0,glitter,0,840.0,31.0,
@@ -74,7 +74,7 @@ Maker 3,Paper,トゥルーブラッシュドペーパー,True Brushed Paper,330.
 Maker 3,Paper,シマーペーパー,Shimmer Paper,345.0,2倍,ファインポイントブレード,80.0,shimmer,0,772.5,21.0,
 Maker 3,Paper,ヘビーウォーターカラーペーパー,Heavy Watercolor Paper,345.0,-,ファインポイントブレード,300.0,plain,0,750.0,15.0,0.38
 Maker 3,Paper,写真用紙,Photo Paper,345.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
-Maker 3,Plastic,アセテート,Acetate,280.0,2倍,ファインポイントブレード,150.0,plain,0,1300.0,75.0,
+Maker 3,Plastic,アセテート,Acetate,280.0,2倍,ファインポイントブレード,150.0,plain,0,1300.0,75.0,0.1
 Maker 3,Smart Materials,スマートビニール（取り外し可能）,Smart Vinyl (Removable),106.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
 Maker 3,Smart Materials,スマートビニール（パーマネント）,Smart Vinyl (Permanent),120.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
 Maker 3,Smart Materials,スマートビニール（マットメタリック）,Smart Vinyl (Matte Metallic),134.0,-,ファインポイントブレード,120.0,metallic,0,1365.0,75.0,
@@ -359,7 +359,7 @@ Explore 3,Paper,パールペーパー,Pearl Paper,138.0,2倍,ファインポイ�
 Explore 3,Paper,コピー用紙,Copy Paper,143.0,-,ファインポイントブレード,85.0,plain,0,750.0,15.0,0.075
 Explore 3,Paper,コピー用紙,Copy Paper,143.0,-,ファインポイントブレード,85.0,plain,0,750.0,15.0,0.09
 Explore 3,Paper,コピー用紙,Copy Paper,143.0,-,ファインポイントブレード,85.0,plain,0,750.0,15.0,0.12
-Explore 3,Paper,建設用紙,Construction Paper,155.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,0.08
+Explore 3,Paper,色画用紙,Construction Paper,155.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,0.08
 Explore 3,Paper,ワックス紙,Wax Paper,160.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Explore 3,Paper,スムースグリッターペーパー,Smooth Glitter Paper,175.0,2倍,ファインポイントブレード,80.0,glitter,0,840.0,31.0,
 Explore 3,Paper,ノートブック用紙,Notebook Paper,191.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
@@ -529,13 +529,13 @@ Cricut Joy,Pens & Markers,メタリックマーカー,Metallic Marker,,,,100.0,m
 Cricut Joy,Pens & Markers,水性ペン,Water-based Pen,,,,100.0,plain,0,500.0,40.0,
 Cricut Joy,Pens & Markers,極細ペン,Extra Fine Point Pen,,,,100.0,plain,0,500.0,40.0,
 Cricut Joy 2,Iron-On,3Dアイロン接着,3D Iron-On,100.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
-Cricut Joy 2,Plastic,アセテート,Acetate,250.0,2倍,ファインポイントブレード,150.0,plain,0,1300.0,75.0,
+Cricut Joy 2,Plastic,アセテート,Acetate,250.0,2倍,ファインポイントブレード,150.0,plain,0,1300.0,75.0,0.1
 Cricut Joy 2,Vinyl,接着箔,Adhesive Foil,90.0,-,ファインポイントブレード,120.0,foil,1,1365.0,75.0,
 Cricut Joy 2,Paper,キャリブレーションペーパー,Calibration Paper,150.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Cricut Joy 2,Vinyl,黒板ビニール,Chalkboard Vinyl,180.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
 Cricut Joy 2,Iron-On,カメレオンアイロン接着タイプ,Chameleon Iron-On,100.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Cricut Joy 2,Iron-On,カラーポップアイロン接着,Color Pop Iron-On,175.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
-Cricut Joy 2,Paper,建設用紙,Construction Paper,168.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,0.08
+Cricut Joy 2,Paper,色画用紙,Construction Paper,168.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,0.08
 Cricut Joy 2,Paper,コピーペーパー - 20ポンド（75gsm）,Copy Paper,95.0,-,ファインポイントブレード,85.0,plain,0,750.0,15.0,0.08
 Cricut Joy 2,Cardstock,カットアウェイカード,Cutaway Card + Backer,150.0,2倍,ファインポイントブレード,216.0,plain,0,800.0,30.0,
 Cricut Joy 2,Vinyl,ドライイレースビニール,Dry Erase Vinyl,120.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
@@ -613,7 +613,7 @@ Cricut Joy 2,Vinyl,お得なビニール,Value Vinyl,100.0,-,ファインポイ�
 Cricut Joy 2,Paper,ヴェラム,Vellum,150.0,-,ファインポイントブレード,80.0,plain,0,750.0,12.0,
 Cricut Joy 2,Cardstock,水彩カード,Watercolor Cards,180.0,2倍,ファインポイントブレード,208.0,plain,0,800.0,30.0,
 Cricut Joy Xtra,Iron-On,3Dアイロン接着,3D Iron-On,100.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
-Cricut Joy Xtra,Plastic,アセテート,Acetate,290.0,2倍,ファインポイントブレード,150.0,plain,0,1300.0,75.0,
+Cricut Joy Xtra,Plastic,アセテート,Acetate,290.0,2倍,ファインポイントブレード,150.0,plain,0,1300.0,75.0,0.1
 Cricut Joy Xtra,Vinyl,接着箔,Adhesive Foil,90.0,-,ファインポイントブレード,120.0,foil,1,1365.0,75.0,
 Cricut Joy Xtra,Vinyl,粘着箔、マット,"Adhesive Foil, Matte",90.0,-,ファインポイントブレード,120.0,foil,1,1365.0,75.0,
 Cricut Joy Xtra,Others,アルミ箔,Aluminum Foil,70.0,2倍,ファインポイントブレード,200.0,foil,0,2835.0,50.0,
@@ -624,7 +624,7 @@ Cricut Joy Xtra,Cardstock,カードストック、接着剤付き,"Cardstock, Ad
 Cricut Joy Xtra,Vinyl,黒板ビニール,Chalkboard Vinyl,160.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
 Cricut Joy Xtra,Iron-On,カメレオンアイロン接着タイプ,Chameleon Iron-On,130.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
 Cricut Joy Xtra,Iron-On,カラーポップアイロン接着,Color Pop Iron-On,250.0,-,ファインポイントブレード,100.0,plain,0,1050.0,45.0,
-Cricut Joy Xtra,Paper,建設用紙,Construction Paper,150.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,0.08
+Cricut Joy Xtra,Paper,色画用紙,Construction Paper,150.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,0.08
 Cricut Joy Xtra,Paper,コピーペーパー - 20ポンド（75gsm）,Copy Paper,90.0,-,ファインポイントブレード,85.0,plain,0,750.0,15.0,0.08
 Cricut Joy Xtra,Paper,コピーペーパー - 24ポンド,Copy Paper,90.0,-,ファインポイントブレード,85.0,plain,0,750.0,15.0,0.09
 Cricut Joy Xtra,Paper,コピーペーパー - 32ポンド,Copy Paper,90.0,-,ファインポイントブレード,85.0,plain,0,750.0,15.0,0.12
@@ -771,7 +771,7 @@ Cricut Joy,Vinyl,Smart Vinyl - マットメタリック,Smart Vinyl Matte Metall
 Cricut Joy,Vinyl,Premium Vinyl - パール,Premium Vinyl - Pearl,158.0,-,ファインポイントブレード,120.0,shimmer,0,1326.0,70.0,
 Cricut Joy,Vinyl,Premium Vinyl - フロストグリッター,Premium Vinyl - Frosted Glitter,158.0,-,ファインポイントブレード,120.0,glitter,0,1456.0,81.0,
 Cricut Joy,Vinyl,暗闇で光るビニール,Glow in the Dark Vinyl,160.0,2倍,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
-Cricut Joy,Plastic,アセテート,Acetate,280.0,2倍,ファインポイントブレード,150.0,plain,0,1300.0,75.0,
+Cricut Joy,Plastic,アセテート,Acetate,280.0,2倍,ファインポイントブレード,150.0,plain,0,1300.0,75.0,0.1
 Cricut Joy,Paper,スマート水溶性ラベル,Smart Label Dissolvable Matless Writable Paper,80.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Cricut Joy,Paper,Smart Label書き込み可能ペーパー,Smart Label Matless Writable Paper,107.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
 Cricut Joy,Leather,合成スエード,Faux Suede,220.0,-,ファインポイントブレード,1440.0,plain,0,900.0,55.0,
@@ -841,7 +841,7 @@ Explore 3,Vinyl,Smart Vinyl - シマー,Smart Vinyl Shimmer Matless Permanent Vi
 Explore 3,Vinyl,お得なビニール,Value Vinyl,115.0,-,ファインポイントブレード,120.0,plain,0,1300.0,65.0,
 Explore 3,Fabric,フェルト、接着剤付きウール,"Felt, Wool Bonded",331.0,2倍,ファインポイントブレード,150.0,plain,0,300.0,20.0,
 Explore 3,Others,フェルト、ウール布,"Felt, Wool Fabric",328.0,6倍,ファインポイントブレード,200.0,plain,0,300.0,20.0,
-Explore 3,Plastic,アセテート,Acetate,280.0,2倍,ファインポイントブレード,150.0,plain,0,1300.0,75.0,
+Explore 3,Plastic,アセテート,Acetate,280.0,2倍,ファインポイントブレード,150.0,plain,0,1300.0,75.0,0.1
 Explore 3,Paper,コピーペーパー - 20ポンド（75gsm）,Copy Paper,143.0,-,ファインポイントブレード,85.0,plain,0,750.0,15.0,0.08
 Explore 3,Paper,フロックペーパー,Flocked Paper,225.0,3倍,ファインポイントブレード,80.0,flock,0,787.5,29.0,
 Explore 3,Paper,買い物バッグ,Grocery Bag,200.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,
@@ -997,4 +997,8 @@ Maker 3,Fabric,タフタ,Tafetta,1405.0,-,ロータリーブレード,150.0,plai
 Maker 3,Fabric,ボイル,Voile,1450.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
 Maker 3,Fabric,ジベリン,Ziberline,1900.0,-,ロータリーブレード,150.0,plain,0,280.0,10.0,
 Maker 3,Leather,本革,Genuine Leather,270.0,3倍,ディープポイントブレード,1440.0,plain,0,900.0,55.0,1.8
-Maker 3,Paper,建設用紙,Construction Paper,169.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,0.18
+Maker 3,Paper,色画用紙,Construction Paper,169.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,0.18
+Cricut Joy,Plastic,アセテート,Acetate,310.0,4倍,ファインポイントブレード,150.0,plain,0,1300.0,75.0,0.2
+Cricut Joy 2,Plastic,アセテート,Acetate,310.0,4倍,ファインポイントブレード,150.0,plain,0,1300.0,75.0,0.2
+Cricut Joy,Paper,色画用紙,Construction Paper,166.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,0.22
+Cricut Joy 2,Paper,色画用紙,Construction Paper,166.0,-,ファインポイントブレード,80.0,plain,0,750.0,15.0,0.22
